@@ -233,3 +233,51 @@
 @media (max-width: 900px) {
   .calc__layout { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   ABOUT PAGE — accreditations + office
+   ============================================================ */
+.accreds__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+.accred { padding: 26px; }
+.accred__tag {
+  display: inline-block;
+  font-size: 11.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 11px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--blue);
+}
+.accred__name { font-family: var(--font-head); font-weight: 800; font-size: 22px; margin-top: 14px; color: var(--navy); }
+.accred__desc { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: var(--gray-600); }
+
+.office__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 18px;
+  align-items: stretch;
+}
+.office__info { padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+.office__rating {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 18px; border-bottom: 1px solid var(--line);
+}
+.office__rating > b {
+  font-family: var(--font-head); font-weight: 800; font-size: 40px; color: var(--navy);
+}
+.office__stars { display: block; color: #f4b73f; font-size: 16px; letter-spacing: 2px; }
+.office__rating-sub { display: block; font-size: 13px; color: var(--muted); margin-top: 3px; }
+.office__rows { display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.office__row { display: flex; gap: 12px; font-size: 14.5px; line-height: 1.5; color: var(--gray-700); }
+.office__row b { display: block; font-family: var(--font-head); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.office__row a { color: var(--blue); font-weight: 600; }
+.office__row a:hover { color: var(--navy); }
+.office__map { overflow: hidden; padding: 0; min-height: 360px; }
+.office__map iframe { display: block; width: 100%; height: 100%; min-height: 360px; border: 0; }
+
+@media (max-width: 900px) {
+  .office__grid { grid-template-columns: 1fr; }
+  .office__map iframe { min-height: 280px; }
+}

@@ -131,8 +131,25 @@ function PageStories() {
         variant="organic"
       />
       <Stories />
-      <Team />
       <Blog />
+      <FinalCTA />
+    </>
+  );
+}
+
+function PageAbout() {
+  return (
+    <>
+      <PageHero
+        eyebrow="О нас"
+        title="Кто мы и почему нам доверяют"
+        sub="Аккредитованное ICEF агентство из Бишкека. 1500+ студентов поступили в США, Италию и ещё 5 стран. Рейтинг 4.8 из 5 по 214 отзывам на 2GIS."
+        variant="minimal"
+      />
+      <AboutUs />
+      <Team />
+      <Accreditations />
+      <OfficeBlock />
       <FinalCTA />
     </>
   );
@@ -169,6 +186,7 @@ const PAGES = {
   programs: PagePrograms,
   admission: PageAdmission,
   stories: PageStories,
+  about: PageAbout,
 };
 
 function App() {

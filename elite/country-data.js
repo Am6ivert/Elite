@@ -4,7 +4,7 @@
    Gallery photos: images/countries/<slug>/1.jpg … 4.jpg
    (tile 1 falls back to the main photo if missing).
    ============================================================ */
-window.EA_COUNTRY_DETAILS = {
+var EA_COUNTRY_DETAILS_DEFAULT = {
   "Италия": {
     iso: "it", slug: "italy", photo: "images/countries/italy.jpg",
     tagline: "Страна, где учёба соседствует с морем, Альпами и лучшей кухней мира",
@@ -103,3 +103,8 @@ window.EA_COUNTRY_DETAILS = {
     gallery: ["Куала-Лумпур", "Кампусы", "Острова и природа", "Студенческая жизнь"],
   },
 };
+
+/* Admin-edited content wins over the defaults above */
+window.EA_COUNTRY_DETAILS = window.eaContent
+  ? window.eaContent("countryDetails", EA_COUNTRY_DETAILS_DEFAULT)
+  : EA_COUNTRY_DETAILS_DEFAULT;

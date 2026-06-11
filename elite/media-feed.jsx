@@ -2,7 +2,7 @@
    MEDIA FEED — video testimonials horizontal scroll
    ============================================================ */
 
-const VIDEOS = [
+const VIDEOS_DEFAULT = [
   { name: "Элана",     country: "🇮🇹 Италия", src: "videos/elana.mp4",     poster: "thumbs/elana.jpg",     tag: "Отзыв"    },
   { name: "Нурсултан", country: "🇮🇹 Италия", src: "videos/nursultan.mp4", poster: "thumbs/nursultan.jpg", tag: "Отзыв"    },
   { name: "Анель",     country: "🇮🇹 Италия", src: "videos/anel.mp4",      poster: "thumbs/anel.jpg",      tag: "Отзыв"    },
@@ -14,6 +14,10 @@ const VIDEOS = [
   { name: "Амир",      country: "🇺🇸 США",     src: "videos/amir.mp4",      poster: "thumbs/amir.jpg",      tag: "Отзыв"    },
   { name: "Исламбек",  country: "🇺🇸 США",     src: "videos/islambek.mp4",  poster: "thumbs/islambek.jpg",  tag: "Интервью" },
 ];
+
+/* Admin-edited content wins over the defaults above */
+const VIDEOS = window.eaContent ? window.eaContent("videos", VIDEOS_DEFAULT) : VIDEOS_DEFAULT;
+window.EA_VIDEOS = VIDEOS;
 
 function VideoCard({ item }) {
   const ref = React.useRef(null);

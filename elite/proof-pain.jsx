@@ -75,7 +75,7 @@ function PainSolution() {
   );
 }
 
-const COUNTRIES = [
+const COUNTRIES_DEFAULT = [
   {
     flag: "🇮🇹", name: "Италия", landmark: "Рим · Флоренция · Венеция",
     desc: "Культура · Гастрономия · Дольче Вита", price: "от €2 000/год", hot: true,
@@ -126,6 +126,10 @@ const COUNTRIES = [
     accent: "#5cba7a",
   },
 ];
+
+/* Admin-edited content wins over the defaults above */
+const COUNTRIES = window.eaContent ? window.eaContent("countryCards", COUNTRIES_DEFAULT) : COUNTRIES_DEFAULT;
+window.EA_COUNTRY_CARDS = COUNTRIES;
 
 function Countries() {
   return (

@@ -3,7 +3,7 @@
    ============================================================ */
 const { useState, useRef } = React;
 
-const STORY_CARDS = [
+const STORY_CARDS_DEFAULT = [
   {
     name: "Элана",
     from: "🇮🇹 Италия",
@@ -30,7 +30,7 @@ const STORY_CARDS = [
   },
 ];
 
-const STORY_GRID = [
+const STORY_GRID_DEFAULT = [
   { n: "Элана",     u: "Università degli Studi",  s: "Грант",     t: "Италия" },
   { n: "Нурсултан", u: "Università di Bologna",   s: "Грант",     t: "Италия" },
   { n: "Анель",     u: "Università di Roma",      s: "Грант",     t: "Италия" },
@@ -42,7 +42,13 @@ const STORY_GRID = [
   { n: "Исламбек",  u: "La Salle University",     s: "$88 000",   t: "США"    },
   { n: "Кенжекан",  u: "Università di Padova",    s: "Грант",     t: "Италия" },
 ];
-const STORY_FILTERS = ["Все", "Италия", "США"];
+
+/* Admin-edited content wins over the defaults above */
+const STORY_CARDS = window.eaContent ? window.eaContent("storyCards", STORY_CARDS_DEFAULT) : STORY_CARDS_DEFAULT;
+const STORY_GRID  = window.eaContent ? window.eaContent("storyGrid",  STORY_GRID_DEFAULT)  : STORY_GRID_DEFAULT;
+window.EA_STORY_CARDS = STORY_CARDS;
+window.EA_STORY_GRID = STORY_GRID;
+const STORY_FILTERS = ["Все", ...new Set(STORY_GRID.map((g) => g.t))];
 
 function StorySlide({ s }) {
   const videoRef = useRef(null);
@@ -175,7 +181,7 @@ function Visas() {
   );
 }
 
-const POSTS = [
+const POSTS_DEFAULT = [
   { cat: "Duolingo", t: "Как сдать Duolingo на 120+ баллов", time: "5 мин", date: "12 мая 2026" },
   { cat: "Виза", t: "DS-160: пошаговое заполнение без ошибок", time: "8 мин", date: "28 апр 2026" },
   { cat: "Стипендии", t: "Как получить $80 000 стипендию в США", time: "6 мин", date: "15 апр 2026" },
@@ -183,7 +189,11 @@ const POSTS = [
   { cat: "Италия", t: "Бесплатное обучение в Италии: реально ли", time: "5 мин", date: "20 мар 2026" },
   { cat: "Жизнь", t: "Первый месяц в США: чек-лист новичка", time: "9 мин", date: "8 мар 2026" },
 ];
-const POST_CATS = ["США","Италия","Duolingo","Виза","Стипендии","Жизнь"];
+
+/* Admin-edited content wins over the defaults above */
+const POSTS = window.eaContent ? window.eaContent("posts", POSTS_DEFAULT) : POSTS_DEFAULT;
+window.EA_POSTS = POSTS;
+const POST_CATS = [...new Set(POSTS.map((p) => p.cat))];
 
 function Blog() {
   const [cat, setCat] = useState("Все");
@@ -218,6 +228,13 @@ function Blog() {
   );
 }
 
+const TEAM_DEFAULT = {
+  text: "Основатель Elite Academy лично прошёл через визовое интервью в посольстве США. Именно поэтому он лично проводит финальный урок с каждым студентом перед визой — и знает, какие вопросы задают на самом деле.",
+  badges: ["ICEF Accredited", "Shorelight Partner", "Apply Wave"],
+};
+const TEAM = window.eaContent ? window.eaContent("team", TEAM_DEFAULT) : TEAM_DEFAULT;
+window.EA_TEAM = TEAM;
+
 function Team() {
   return (
     <section className="section section--tight team" id="team">
@@ -228,9 +245,9 @@ function Team() {
         <div className="team__content" data-reveal data-delay="1">
           <span className="eyebrow">Команда и доверие</span>
           <h2>Мы сами прошли этот путь</h2>
-          <p className="team__text">Основатель Elite Academy лично прошёл через визовое интервью в посольстве США. Именно поэтому он лично проводит финальный урок с каждым студентом перед визой — и знает, какие вопросы задают на самом деле.</p>
+          <p className="team__text">{TEAM.text}</p>
           <div className="team__badges">
-            {["ICEF Accredited","Shorelight Partner","Apply Wave"].map((b) => (
+            {TEAM.badges.map((b) => (
               <div className="team__badge" key={b}>
                 <span className="team__badge-ic">✓</span>{b}
               </div>

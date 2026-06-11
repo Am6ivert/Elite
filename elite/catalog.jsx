@@ -295,7 +295,9 @@ function enrich(u) {
   };
 }
 
-const UNIS = UNIS_RAW.map(enrich);
+/* Admin-edited content (content.js) wins over the hardcoded list */
+const UNIS_SRC = window.eaContent ? window.eaContent("unis", UNIS_RAW) : UNIS_RAW;
+const UNIS = UNIS_SRC.map(enrich);
 
 /* ---------- Filter constants ---------- */
 const ALL_COUNTRIES = ["Италия","США","Северный Кипр","Малайзия","Германия","Польша","Австрия"];
@@ -627,5 +629,6 @@ function Universities() {
 window.Universities = Universities;
 /* Shared with university.html profile page (uni-page.jsx) */
 window.EA_UNIS = UNIS;
+window.EA_UNIS_RAW = UNIS_SRC;
 window.EA_PALETTE = COUNTRY_PALETTE;
 window.EA_COUNTRY_ISO = COUNTRY_ISO;

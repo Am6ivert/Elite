@@ -45,17 +45,22 @@ const MEGA = {
     cta: "Гайд по поступлению →",
     ctaHref: "admission.html",
   },
-  "Карьера": {
-    page: "stories.html",
+  "О нас": {
+    page: "about.html",
     cols: [
-      { h: "Истории", items: ["Истории студентов", "Видео-отзывы", "Кейсы стипендий"] },
-      { h: "После учёбы", items: ["Работа в США (OPT)", "Иммиграция", "Green Card"] },
-      { h: "Блог", items: ["Все статьи", "Команда"] },
+      { h: "Компания", items: [["О компании", "about.html"], ["Команда", "about.html#team"], ["Аккредитации", "about.html#accreds"], ["Офис и контакты", "about.html#office"]] },
+      { h: "Студенты", items: [["Истории студентов", "stories.html"], ["Видео-отзывы", "stories.html"], ["Кейсы стипендий", "stories.html"]] },
+      { h: "Блог", items: [["Все статьи", "stories.html#blog"]] },
     ],
-    cta: "Все истории →",
-    ctaHref: "stories.html",
+    cta: "Познакомиться с нами →",
+    ctaHref: "about.html",
   },
 };
+
+/* Mega item can be "Label" (links to section page) or ["Label", "href"] */
+function megaItem(it, fallbackHref) {
+  return Array.isArray(it) ? it : [it, fallbackHref];
+}
 
 /* Detect current page from body[data-page] */
 function getCurrentPage() {
@@ -66,7 +71,8 @@ const PAGE_TO_KEY = {
   universities: "Университеты",
   programs: "Программы",
   admission: "Поступление",
-  stories: "Карьера",
+  stories: "О нас",
+  about: "О нас",
 };
 
 function Logo({ light }) {
@@ -152,9 +158,10 @@ function Navbar() {
               {MEGA[open].cols.map((c, i) => (
                 <div className="mega__col" key={i}>
                   <div className="mega__h">{c.h}</div>
-                  {c.items.map((it) => (
-                    <a key={it} href={MEGA[open].page} className="mega__link">{it}</a>
-                  ))}
+                  {c.items.map((it) => {
+                    const [label, href] = megaItem(it, MEGA[open].page);
+                    return <a key={label} href={href} className="mega__link">{label}</a>;
+                  })}
                 </div>
               ))}
               <div className="mega__feature">
@@ -233,7 +240,10 @@ function DrawerGroup({ title, cols, page, isActive }) {
       </button>
       <div className="dg__body">
         <a href={page} style={{ fontWeight: 700, color: "var(--blue)" }}>→ Открыть раздел</a>
-        {items.map((it) => <a key={it} href={page}>{it}</a>)}
+        {items.map((it) => {
+          const [label, href] = megaItem(it, page);
+          return <a key={label} href={href}>{label}</a>;
+        })}
       </div>
     </div>
   );

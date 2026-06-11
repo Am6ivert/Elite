@@ -105,7 +105,14 @@ function Footer() {
           <a href="tel:+996555720712" className="footer__contact">📞 +996 555 720 712</a>
           <a href="mailto:eliteacademykg@gmail.com" className="footer__contact">✉️ eliteacademykg@gmail.com</a>
           <div className="footer__contact">🕐 ПН–ПТ 10:00–19:00 · СБ 12:00–19:00</div>
-          <div className="ph footer__map" data-label="Google Maps — карта офиса"></div>
+          <iframe
+            className="footer__map"
+            title="Офис Elite Academy на карте"
+            src={`https://www.google.com/maps?q=${encodeURIComponent("БЦ Бинокль, Ахунбаева 169, Бишкек")}&output=embed&hl=ru`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            style={{ border: 0, width: "100%" }}
+          ></iframe>
         </div>
       </div>
       <div className="footer__bottom wrap">

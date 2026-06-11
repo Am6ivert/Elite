@@ -4,7 +4,7 @@
    loads as a regular script before uni-page.jsx.
    Fields are optional — page renders only what exists.
    ============================================================ */
-window.EA_UNI_DETAILS = {
+var EA_UNI_DETAILS_DEFAULT = {
   /* ========== ИТАЛИЯ ========== */
   "PoliMi":   { founded: 1863, students: "≈47 000", site: "polimi.it",
     about: "Крупнейший технический университет Италии и её главная инженерно-архитектурная школа. Стабильно входит в мировой топ-20 по дизайну, архитектуре и инженерии." },
@@ -278,3 +278,8 @@ window.EA_UNI_DETAILS = {
   "MDW":       { founded: 1817, site: "mdw.ac.at",
     about: "Венский университет музыки и исполнительских искусств — стабильно №1 в мировых рейтингах музыкальных вузов. Музыка, дирижирование, кино и актёрское мастерство." },
 };
+
+/* Admin-edited content wins over the defaults above */
+window.EA_UNI_DETAILS = window.eaContent
+  ? window.eaContent("uniDetails", EA_UNI_DETAILS_DEFAULT)
+  : EA_UNI_DETAILS_DEFAULT;
