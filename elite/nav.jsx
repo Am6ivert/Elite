@@ -76,18 +76,17 @@ const PAGE_TO_KEY = {
 };
 
 function Logo({ light }) {
+  const col = light ? "#fff" : "var(--navy)";
   return (
     <a href="index.html" className="logo" aria-label="Elite Academy KG">
       <span className="logo__mark" aria-hidden="true">
-        <svg className="logo__img-mark" viewBox="0 0 38 58" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <path d="M0,0 H38 V17 H11 V21 H38 V39 H0 Z"/>
-          <polygon points="1,57 11,43 13,45"/>
-          <polygon points="1,57 7,41 10,42"/>
-          <polygon points="1,57 3,38 6,41"/>
-          <rect x="13" y="45" width="25" height="13"/>
-        </svg>
+        <img
+          className="logo__img-mark"
+          src={light ? "images/logo-icon-white.png" : "images/logo-icon-dark.png"}
+          alt=""
+        />
       </span>
-      <span className="logo__txt" style={{ color: light ? "#fff" : "var(--navy)" }}>
+      <span className="logo__txt" style={{ color: col }}>
         Elite <b>Academy</b>
         <i>образование за рубежом</i>
       </span>
@@ -188,13 +187,21 @@ function Navbar() {
             <div className="wrap">
               <div className="search-big">
                 <svg width="20" height="20" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6.2" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
-                <input autoFocus placeholder="Найди университет, страну, программу или статью…" />
+                <input autoFocus placeholder="Найди университет, страну, программу или статью…"
+                  onKeyDown={e => { if (e.key === "Enter" && e.target.value.trim()) window.location.href = "universities.html?search=" + encodeURIComponent(e.target.value.trim()); }}
+                />
                 <kbd>Enter</kbd>
               </div>
               <div className="search-sugs">
                 <span>Популярно:</span>
-                {["США", "Bellevue College", "Duolingo тест", "Стипендии", "Виза F-1"].map((s) => (
-                  <a key={s} href="#" className="chip">{s}</a>
+                {[
+                  ["США",           "universities.html?country=%D0%A1%D0%A8%D0%90"],
+                  ["Bellevue College","university.html?u=Bellevue"],
+                  ["Duolingo тест", "programs.html#exams"],
+                  ["Стипендии",     "universities.html?bool_meritBased=1"],
+                  ["Виза F-1",      "admission.html#visas"],
+                ].map(([s, href]) => (
+                  <a key={s} href={href} className="chip">{s}</a>
                 ))}
               </div>
             </div>
@@ -212,7 +219,9 @@ function Navbar() {
           </div>
           <div className="search-big search-big--sm">
             <svg width="18" height="18" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6.2" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
-            <input placeholder="Поиск…" />
+            <input placeholder="Поиск…"
+              onKeyDown={e => { if (e.key === "Enter" && e.target.value.trim()) { setDrawer(false); window.location.href = "universities.html?search=" + encodeURIComponent(e.target.value.trim()); } }}
+            />
           </div>
           <nav className="drawer__nav">
             {Object.keys(MEGA).map((k) => (

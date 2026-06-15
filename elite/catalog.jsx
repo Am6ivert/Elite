@@ -8,6 +8,7 @@ const _Q  = new URLSearchParams(window.location.search);
 const _INIT_COUNTRY = _Q.get("country") || "";
 const _INIT_LEVEL   = _Q.get("level")   || "";
 const _INIT_FIELD   = _Q.get("field")   || "";
+const _INIT_SEARCH  = _Q.get("search")  || "";
 
 /* ---------- Raw university data ---------- */
 const UNIS_RAW = [
@@ -365,7 +366,7 @@ function FilterSection({ label, children }) {
    MAIN COMPONENT
    ============================================================ */
 function Universities() {
-  const [q,           setQ]       = useState("");
+  const [q,           setQ]       = useState(_INIT_SEARCH);
   const [maxPrice,    setPrice]   = useState(60000);
   const [selCountries,setCntrs]   = useState(_INIT_COUNTRY ? [_INIT_COUNTRY] : []);
   const [selLevel,    setLevel]   = useState(_INIT_LEVEL);
@@ -382,7 +383,7 @@ function Universities() {
 
   // Auto-scroll when arriving from HomeSearch with pre-set filters
   useEffect(() => {
-    if (_INIT_COUNTRY || _INIT_LEVEL || _INIT_FIELD) {
+    if (_INIT_COUNTRY || _INIT_LEVEL || _INIT_FIELD || _INIT_SEARCH) {
       setTimeout(() => {
         const el = document.getElementById("universities");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -604,7 +605,16 @@ function Universities() {
                     <div className="uni__body">
                       <div className="uni__head-row">
                         {u.logo
-                          ? <img src={u.logo} className="uni__logo-img" alt={u.short} />
+                          ? <img src={u.logo} className="uni__logo-img" alt={u.short}
+                              onError={e => {
+                                const ph = document.createElement("div");
+                                ph.className = "uni__logo-ph";
+                                ph.title = u.name;
+                                ph.textContent = initials || u.short.slice(0,2).toUpperCase();
+                                ph.style.cssText = `background:${lp.bg};color:${lp.color}`;
+                                e.currentTarget.parentNode.replaceChild(ph, e.currentTarget);
+                              }}
+                            />
                           : <div className="uni__logo-ph" title={u.name}
                                  style={{ background: lp.bg, color: lp.color }}>
                               {initials || u.short.slice(0,2).toUpperCase()}
