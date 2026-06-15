@@ -197,3 +197,63 @@ body { background: var(--gray-100); }
   .alist__scroll { max-height: 32vh; }
   .aform__grid { grid-template-columns: 1fr; }
 }
+
+/* ---------- Media editor ---------- */
+.mtabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.mtab {
+  padding: 7px 18px;
+  border: 1.5px solid var(--gray-300); border-radius: var(--r-sm);
+  background: var(--white); cursor: pointer;
+  font-family: var(--font-head); font-weight: 700; font-size: 13px;
+  color: var(--gray-700); transition: all .15s var(--ease);
+}
+.mtab:hover:not(.is-on) { border-color: var(--blue); color: var(--blue); }
+.mtab.is-on { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+.mselector { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+.mchip {
+  padding: 6px 14px;
+  border: 1.5px solid var(--gray-300); border-radius: 20px;
+  background: var(--white); cursor: pointer;
+  font-size: 13px; color: var(--gray-700);
+  transition: all .15s var(--ease);
+}
+.mchip:hover:not(.is-on) { border-color: var(--blue); }
+.mchip.is-on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+.mgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 14px; }
+
+.mslot {
+  border: 1.5px solid var(--gray-200); border-radius: var(--r-md);
+  overflow: hidden; display: flex; flex-direction: column;
+  background: var(--white);
+}
+.mslot__label {
+  padding: 10px 12px 2px;
+  font-family: var(--font-head); font-size: 13px; font-weight: 700; color: var(--navy);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mslot__code {
+  padding: 0 12px 8px;
+  font-size: 10px; color: var(--muted); font-family: ui-monospace, monospace;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mslot__thumb { width: 100%; height: 120px; background: var(--gray-100); overflow: hidden; flex-shrink: 0; }
+.mslot__img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mslot__empty {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--muted);
+}
+.mslot__row {
+  display: flex; gap: 6px; align-items: center;
+  padding: 10px 12px; flex-wrap: wrap; min-height: 50px;
+}
+.mslot__pick {
+  cursor: pointer; font-size: 12px;
+  max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mslot__status { padding: 0 12px 8px; font-size: 12px; font-weight: 600; }
+.mslot__ok  { color: #16a34a; }
+.mslot__err { color: #c0392b; word-break: break-word; }
+.mslot__hint { padding: 0 12px 10px; font-size: 11px; color: var(--muted); word-break: break-all; }

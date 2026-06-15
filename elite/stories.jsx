@@ -250,7 +250,10 @@ function Blog() {
         <div className="blog__grid stagger" key={cat}>
           {list.map((p, i) => (
             <a href="#" className="post card card--lift" key={p.t}>
-              <div className="ph post__cover" data-label="превью статьи"></div>
+              {p.cover
+                ? <img src={p.cover} alt={p.t} className="post__cover" loading="lazy" />
+                : <div className="ph post__cover" data-label="превью статьи"></div>
+              }
               <div className="post__body">
                 <div className="post__meta"><span className="chip tag-blue">{p.cat}</span><span>{p.date} · {p.time}</span></div>
                 <h3 className="post__t">{p.t}</h3>
@@ -267,6 +270,7 @@ function Blog() {
 const TEAM_DEFAULT = {
   text: "Наши сотрудники сами учились за рубежом — и понимают каждый страх, каждую бумагу и каждый нюанс изнутри. Основатель Elite Academy лично прошёл визовое интервью в посольстве США и сам поступил в американский университет. Именно поэтому он лично проводит финальный урок перед каждым визовым интервью — и знает, какие вопросы задают на самом деле.",
   badges: ["ICEF Accredited", "Shorelight Partner", "Apply Wave"],
+  photo: "",
 };
 const TEAM = window.eaContent ? window.eaContent("team", TEAM_DEFAULT) : TEAM_DEFAULT;
 window.EA_TEAM = TEAM;
@@ -276,7 +280,14 @@ function Team() {
     <section className="section section--tight team" id="team">
       <div className="wrap team__grid">
         <div className="team__photo-wrap" data-reveal>
-          <div className="ph team__photo" data-label="фото команды Elite Academy"></div>
+          <img src={TEAM.photo || "images/team.jpg"} alt="Команда Elite Academy" className="team__photo"
+            onError={e => {
+              const d = document.createElement("div");
+              d.className = "ph team__photo";
+              d.dataset.label = "фото команды Elite Academy";
+              e.currentTarget.parentNode.replaceChild(d, e.currentTarget);
+            }}
+          />
         </div>
         <div className="team__content" data-reveal data-delay="1">
           <span className="eyebrow">Состав Elite</span>

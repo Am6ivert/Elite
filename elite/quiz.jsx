@@ -16,6 +16,65 @@ const QUIZ_STEPS = [
     opts: [["","Этим летом"],["","Осень 2026"],["","2027"],["","Просто изучаю"]] },
 ];
 
+/* ---------- Matching pool (used by QuizResult) ---------- */
+const QUIZ_POOL = [
+  { name:"Bellevue College",            loc:"Сиэтл, США",               country:"США",           levels:["Бакалавр","Колледж"],       price:11000, merit:true },
+  { name:"Roosevelt University",        loc:"Чикаго, США",              country:"США",           levels:["Бакалавр","Магистр"],       price:18700, merit:true, need:true },
+  { name:"La Salle University",         loc:"Филадельфия, США",         country:"США",           levels:["Бакалавр","Магистр"],       price:21000, merit:true, need:true },
+  { name:"DePaul University",           loc:"Чикаго, США",              country:"США",           levels:["Бакалавр","Магистр"],       price:23000, merit:true },
+  { name:"Webster University",          loc:"Сент-Луис, США",           country:"США",           levels:["Бакалавр","Магистр"],       price:18500, merit:true },
+  { name:"Radford University",          loc:"Рэдфорд, США",             country:"США",           levels:["Бакалавр","Магистр"],       price:14000, merit:true },
+  { name:"Concord University",          loc:"Атенс, США",               country:"США",           levels:["Бакалавр"],                 price:10000 },
+  { name:"University of Bologna",       loc:"Болонья, Италия",          country:"Италия",        levels:["Бакалавр","Магистр"],       price:2750,  merit:true, need:true },
+  { name:"Sapienza Università di Roma", loc:"Рим, Италия",              country:"Италия",        levels:["Бакалавр","Магистр"],       price:2200,  merit:true, need:true },
+  { name:"Politecnico di Milano",       loc:"Милан, Италия",            country:"Италия",        levels:["Бакалавр","Магистр"],       price:4290,  merit:true },
+  { name:"University of Padua",         loc:"Падуя, Италия",            country:"Италия",        levels:["Бакалавр","Магистр"],       price:2640,  merit:true, need:true },
+  { name:"Roma Tre University",         loc:"Рим, Италия",              country:"Италия",        levels:["Бакалавр","Магистр"],       price:1980,  need:true },
+  { name:"Gisma Business School",       loc:"Берлин, Германия",         country:"Германия",      levels:["Бакалавр","Магистр","МВА"], price:8800,  merit:true },
+  { name:"University of Vienna",        loc:"Вена, Австрия",            country:"Австрия",       levels:["Бакалавр","Магистр","PhD"], price:880 },
+  { name:"TU Wien",                     loc:"Вена, Австрия",            country:"Австрия",       levels:["Бакалавр","Магистр","PhD"], price:880 },
+  { name:"Eastern Mediterranean Univ.", loc:"Фамагуста, Северный Кипр", country:"Северный Кипр", levels:["Бакалавр","Магистр","PhD"], price:4500,  merit:true },
+  { name:"Cyprus International Univ.",  loc:"Никосия, Северный Кипр",   country:"Северный Кипр", levels:["Бакалавр","Магистр"],       price:3200,  merit:true },
+  { name:"Monash University Malaysia",  loc:"Куала-Лумпур, Малайзия",   country:"Малайзия",      levels:["Бакалавр","Магистр","PhD"], price:9900,  merit:true },
+  { name:"Taylor's University",         loc:"Субанг-Джая, Малайзия",    country:"Малайзия",      levels:["Бакалавр","Магистр"],       price:7200,  merit:true },
+  { name:"Heriot-Watt Malaysia",        loc:"Путраджая, Малайзия",      country:"Малайзия",      levels:["Бакалавр","Магистр"],       price:8000,  merit:true },
+  { name:"Vistula University",          loc:"Варшава, Польша",          country:"Польша",        levels:["Бакалавр","Магистр"],       price:3300 },
+  { name:"PJATK",                       loc:"Варшава, Польша",          country:"Польша",        levels:["Бакалавр","Магистр"],       price:3000 },
+];
+
+const _CTRY = { "США":"США","Италия":"Италия","Германия":"Германия" };
+const _LVL  = { "Бакалавриат":"Бакалавр","Магистратура":"Магистр","МВА":"МВА" };
+const _BUDG = { "До $5 000":[0,5000],"$5k – $15k":[5000,15000],"$15k – $30k":[15000,30000] };
+const _CNT  = { "США":35,"Италия":33,"Германия":2,"Австрия":9,"Малайзия":22,"Польша":4,"Северный Кипр":3 };
+
+function _scoreUni(u, ans) {
+  let s = 50;
+  const wc = _CTRY[ans.country];
+  if (wc) {
+    if (u.country === wc) s += 30;
+    else return 0;
+  } else if (ans.country === "Другая страна") {
+    if (u.price <= 5000) s += 10;
+  }
+  const wl = _LVL[ans.program];
+  if (wl && u.levels.includes(wl)) s += 15;
+  const br = _BUDG[ans.budget];
+  if (br) {
+    if (u.price >= br[0] && u.price <= br[1]) s += 12;
+    else if (u.price < br[0]) s += 6;
+  }
+  if (ans.budget === "Ищу гранты" && (u.merit || u.need)) s += 12;
+  return Math.min(97, s);
+}
+
+function _matchQuiz(ans) {
+  const scored = QUIZ_POOL
+    .map(u => ({ ...u, fit: _scoreUni(u, ans) }))
+    .filter(u => u.fit > 0)
+    .sort((a, b) => b.fit - a.fit);
+  return scored.length >= 3 ? scored.slice(0, 3) : QUIZ_POOL.slice(0, 3).map(u => ({ ...u, fit: 72 }));
+}
+
 function Quiz() {
   const [step, setStep] = useState(0);          // 0..5(result)
   const [ans, setAns] = useState({});
@@ -109,11 +168,8 @@ function Quiz() {
 }
 
 function QuizResult({ ans, done, setDone, restart }) {
-  const matches = [
-    { name: "Bellevue College", loc: "Сиэтл, США", fit: "97%" },
-    { name: "Roosevelt University", loc: "Чикаго, США", fit: "92%" },
-    { name: "Drake University", loc: "Де-Мойн, США", fit: "88%" },
-  ];
+  const matches = _matchQuiz(ans);
+  const totalCount = _CNT[_CTRY[ans.country]] || 23;
   if (done) {
     return (
       <div className="quiz__panel slide-r quiz__success">
@@ -130,7 +186,7 @@ function QuizResult({ ans, done, setDone, restart }) {
         <div className="quiz__result-emoji">🎉</div>
         <div>
           <h3 className="quiz__q quiz__q--sm">Хорошие новости!</h3>
-          <p className="quiz__result-lead">По твоему профилю подходят <b>23 университета</b>{ans.country ? " в направлении " + ans.country : ""}.</p>
+          <p className="quiz__result-lead">По твоему профилю подходят <b>{totalCount} университетов</b>{ans.country && _CTRY[ans.country] ? " в направлении " + ans.country : ""}.</p>
         </div>
       </div>
 
@@ -144,7 +200,7 @@ function QuizResult({ ans, done, setDone, restart }) {
               <div className="quiz__match-name">{m.name}</div>
               <div className="quiz__match-loc">{m.loc}</div>
             </div>
-            <span className="chip tag-green">Совпадение {m.fit}</span>
+            <span className="chip tag-green">Совпадение {m.fit}%</span>
           </div>
         ))}
         <div className="quiz__matches-blur">+ ещё 20 университетов</div>

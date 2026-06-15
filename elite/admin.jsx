@@ -84,6 +84,93 @@ async function ghPublish(token, branch, fileText) {
   return (await p.json()).commit;
 }
 
+/* ---------- Media upload helpers ---------- */
+async function ghUploadMedia(token, branch, path, base64) {
+  const api = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${path}`;
+  const headers = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json", "Content-Type": "application/json" };
+  let sha = null;
+  const g = await fetch(`${api}?ref=${encodeURIComponent(branch)}`, { headers });
+  if (g.status === 200) sha = (await g.json()).sha;
+  else if (g.status === 401) throw new Error("Неверный ключ доступа");
+  else if (g.status !== 404) throw new Error("GitHub: ошибка " + g.status);
+  const body = { message: "Медиа: " + path.split("/").pop(), content: base64, branch };
+  if (sha) body.sha = sha;
+  const p = await fetch(api, { method: "PUT", headers, body: JSON.stringify(body) });
+  if (!p.ok) {
+    const j = await p.json().catch(() => ({}));
+    throw new Error("GitHub " + p.status + ": " + (j.message || "ошибка загрузки"));
+  }
+  return await p.json();
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(",")[1]);
+    r.onerror = () => reject(new Error("Ошибка чтения файла"));
+    r.readAsDataURL(file);
+  });
+}
+
+function UploadSlot({ label, path, token, branch, accept = "image/jpeg,image/png,image/webp", hint, onSuccess }) {
+  const [file, setFile] = React.useState(null);
+  const [preview, setPreview] = React.useState(null);
+  const [st, setSt] = React.useState(null);
+  const [err, setErr] = React.useState(null);
+  const [imgOk, setImgOk] = React.useState(true);
+
+  function onFile(e) {
+    const f = e.target.files[0];
+    if (!f) return;
+    setFile(f); setSt(null); setErr(null);
+    const r = new FileReader();
+    r.onload = () => setPreview(r.result);
+    r.readAsDataURL(f);
+    e.target.value = "";
+  }
+
+  async function upload() {
+    if (!file || !preview) return;
+    setSt("busy"); setErr(null);
+    try {
+      await ghUploadMedia(token, branch, path, preview.split(",")[1]);
+      setSt("ok"); setFile(null); setPreview(null); setImgOk(true);
+      if (onSuccess) onSuccess(path);
+    } catch (e2) {
+      setSt("err"); setErr(e2.message);
+    }
+  }
+
+  return (
+    <div className="mslot">
+      <div className="mslot__label">{label}</div>
+      <div className="mslot__code">{path}</div>
+      <div className="mslot__thumb">
+        {preview
+          ? <img src={preview} className="mslot__img" alt="" />
+          : imgOk
+            ? <img src={path} className="mslot__img" alt="" onError={() => setImgOk(false)} />
+            : <div className="mslot__empty">нет файла</div>
+        }
+      </div>
+      <div className="mslot__row">
+        <label className="abtn mslot__pick">
+          {file ? (file.name.length > 18 ? file.name.slice(0, 16) + "…" : file.name) : "Выбрать файл"}
+          <input type="file" accept={accept} onChange={onFile} style={{ display: "none" }} />
+        </label>
+        {file && (
+          <button className="abtn abtn--primary" onClick={upload} disabled={st === "busy"}>
+            {st === "busy" ? "Идёт…" : "↑ Загрузить"}
+          </button>
+        )}
+      </div>
+      {st === "ok" && <div className="mslot__status mslot__ok">✓ Загружено</div>}
+      {st === "err" && <div className="mslot__status mslot__err">{err}</div>}
+      {hint && <div className="mslot__hint">{hint}</div>}
+    </div>
+  );
+}
+
 /* ---------- tiny form helpers ---------- */
 function F({ l, children, wide }) {
   return <label className={"af" + (wide ? " af--wide" : "")}><span>{l}</span>{children}</label>;
@@ -203,7 +290,7 @@ function Login({ onOk }) {
 /* ============================================================
    UNIVERSITIES EDITOR
    ============================================================ */
-function UnisEditor({ list, setList }) {
+function UnisEditor({ list, setList, token, branch }) {
   const [q, setQ] = useState("");
   const [sel, setSel] = useState(null);
   const shown = useMemo(() => {
@@ -224,6 +311,8 @@ function UnisEditor({ list, setList }) {
     setSel(0); setQ("");
   };
   const u = sel != null ? list[sel] : null;
+  const uSlug = u ? u.short.toLowerCase().replace(/[^a-z0-9]+/g, "") : "";
+  const logoPath = (u && u.logo) || (uSlug ? `images/logos/catalog/${uSlug}.png` : "");
 
   return (
     <div className="asplit">
@@ -274,7 +363,42 @@ function UnisEditor({ list, setList }) {
             <TIn l="Студентов" v={u.students} on={(v) => upd(sel, "students", v)} ph="≈47 000" />
             <TIn l="Официальный сайт" v={u.site} on={(v) => upd(sel, "site", v)} ph="polimi.it" />
           </div>
-          <div className="ahint">Фото вуза: положи файлы в <code>images/unis/{u.short.toLowerCase().replace(/[^a-z0-9]+/g, "")}/1.jpg … 4.jpg</code></div>
+          <div className="aform__divider">Медиа</div>
+          {token ? (
+            <div>
+              <div className="ahint" style={{ marginBottom: 12 }}>Логотип — PNG на прозрачном фоне, 300 × 300 px:</div>
+              <div className="mgrid" style={{ marginBottom: 20 }}>
+                <UploadSlot
+                  label="Логотип"
+                  path={logoPath}
+                  token={token} branch={branch}
+                  accept="image/png,image/webp,image/jpeg"
+                />
+              </div>
+              <div className="ahint" style={{ marginBottom: 12 }}>Галерея кампуса — 4 фото для страницы вуза, 1200 × 800 px:</div>
+              <div className="mgrid" style={{ marginBottom: 16 }}>
+                {[1, 2, 3, 4].map((n) => (
+                  <UploadSlot
+                    key={n}
+                    label={"Фото " + n}
+                    path={"images/unis/" + uSlug + "/" + n + ".jpg"}
+                    token={token} branch={branch}
+                  />
+                ))}
+              </div>
+              <div className="ahint">
+                Видео-тур: загружай напрямую в GitHub →{" "}
+                <code>videos/unis/{uSlug}/tour.mp4</code>
+              </div>
+            </div>
+          ) : (
+            <div className="ahint">
+              Лого: <code>{logoPath}</code><br />
+              Фото: <code>images/unis/{uSlug}/1.jpg … 4.jpg</code><br />
+              Видео: <code>videos/unis/{uSlug}/tour.mp4</code><br />
+              Добавь GitHub token в разделе «⚙️ Публикация» чтобы загружать файлы отсюда.
+            </div>
+          )}
         </div>
       ) : (
         <div className="aform aform--empty">← Выбери вуз из списка или добавь новый</div>
@@ -421,6 +545,7 @@ const SECTIONS = [
   ["videos", "🎬 Видео-отзывы"],
   ["posts", "📰 Блог"],
   ["about", "ℹ️ О нас"],
+  ["media", "📸 Медиа"],
   ["publish", "⚙️ Публикация"],
 ];
 
@@ -445,6 +570,7 @@ function AboutEditor({ about, setAbout, team, setTeam, office, setOffice }) {
       <div className="aform__grid">
         <div className="aform__divider">Блок «О нас» (также на главной)</div>
         <Area l="Текст о компании" v={about.text} on={(v) => updA("text", v)} rows={4} />
+        <TIn l="Фото «О нас» (путь к файлу)" v={about.photo || ""} on={(v) => updA("photo", v)} ph="images/team.jpg" wide />
         <TIn l="Цифра на фото" v={about.fcN} on={(v) => updA("fcN", v)} ph="1500+" />
         <TIn l="Подпись к цифре" v={about.fcL} on={(v) => updA("fcL", v)} />
         {(about.stats || []).map((s, i) => (
@@ -463,6 +589,7 @@ function AboutEditor({ about, setAbout, team, setTeam, office, setOffice }) {
         <Area l="Текст о команде" v={team.text} on={(v) => updT("text", v)} rows={4} />
         <Area l="Бейджи (по одному в строке)" v={(team.badges || []).join("\n")}
               on={(v) => updT("badges", v.split("\n").filter(Boolean))} rows={3} />
+        <TIn l="Фото команды (путь к файлу)" v={team.photo || ""} on={(v) => updT("photo", v)} ph="images/team.jpg" wide />
 
         <div className="aform__divider">Офис и контакты</div>
         <TIn l="Рейтинг" v={office.rating} on={(v) => updO("rating", v)} ph="4.8" />
@@ -513,6 +640,203 @@ function PublishSettings({ token, setToken, branch, setBranch, onExport }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   MEDIA EDITOR — upload photos for all sections via GitHub API
+   ============================================================ */
+function MediaEditor({ token, branch, state, setPosts, setSection }) {
+  const [tab, setTab] = React.useState("team");
+  const [cSel, setCSel] = React.useState(0);
+  const [uQ, setUQ] = React.useState("");
+  const [uSel, setUSel] = React.useState(null);
+
+  const TABS = [
+    ["team",      "Команда"],
+    ["countries", "Страны"],
+    ["unis",      "Вузы"],
+    ["students",  "Студенты"],
+    ["blog",      "Блог"],
+  ];
+
+  const uSlug = (u) => u.short.toLowerCase().replace(/[^a-z0-9]+/g, "");
+  const filteredUnis = React.useMemo(() => {
+    const q = uQ.toLowerCase();
+    return state.unis
+      .map((u, i) => ({ u, i }))
+      .filter(({ u }) => !q || u.name.toLowerCase().includes(q) || u.short.toLowerCase().includes(q));
+  }, [state.unis, uQ]);
+  const selUni = uSel != null ? state.unis[uSel] : null;
+
+  const cList = state.countries;
+  const selC = cList[cSel] || null;
+  const cSlug = selC
+    ? (selC.det && selC.det.slug) || selC.card.name.toLowerCase().replace(/[ёе]/g, "e").replace(/[^a-z0-9]+/g, "")
+    : "";
+
+  if (!token) {
+    return (
+      <div className="aform" style={{ maxWidth: 600 }}>
+        <div className="aform__head"><h3>📸 Медиа</h3></div>
+        <p style={{ padding: "16px 0", color: "var(--muted)", fontSize: 14 }}>
+          Для загрузки файлов нужен GitHub token.{" "}
+          <button className="abtn" style={{ marginLeft: 8 }} onClick={() => setSection("publish")}>
+            Открыть настройки публикации →
+          </button>
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="aform" style={{ maxWidth: 1000 }}>
+      <div className="aform__head"><h3>📸 Медиа — загрузка фото</h3></div>
+
+      <div className="mtabs">
+        {TABS.map(([k, l]) => (
+          <button key={k} className={"mtab" + (tab === k ? " is-on" : "")} onClick={() => setTab(k)}>{l}</button>
+        ))}
+      </div>
+
+      {/* Команда */}
+      {tab === "team" && (
+        <div>
+          <div className="ahint" style={{ marginBottom: 16 }}>
+            Фото команды используется в hero-секции главной страницы и на страницах «О нас» и «Истории».
+            Рекомендуемый размер: 1400 × 900 px, JPG.
+          </div>
+          <div className="mgrid">
+            <UploadSlot label="Фото команды" path="images/team.jpg" token={token} branch={branch} />
+          </div>
+        </div>
+      )}
+
+      {/* Страны */}
+      {tab === "countries" && (
+        <div>
+          <div className="mselector">
+            {cList.map((c, i) => (
+              <button key={i} className={"mchip" + (cSel === i ? " is-on" : "")} onClick={() => setCSel(i)}>
+                {c.card.flag} {c.card.name}
+              </button>
+            ))}
+          </div>
+          {selC && (
+            <div>
+              <div className="ahint" style={{ marginBottom: 16 }}>
+                Папка: <code>images/countries/{cSlug}/</code> · 4 фото галереи (1.jpg … 4.jpg) · Размер: 1200 × 800 px.
+              </div>
+              <div className="mgrid">
+                {[1, 2, 3, 4].map((n) => (
+                  <UploadSlot
+                    key={n}
+                    label={"Фото " + n}
+                    path={"images/countries/" + cSlug + "/" + n + ".jpg"}
+                    token={token} branch={branch}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Вузы */}
+      {tab === "unis" && (
+        <div className="asplit">
+          <div className="alist">
+            <div className="alist__top">
+              <input className="alist__search" placeholder="Поиск вуза…" value={uQ} onChange={(e) => setUQ(e.target.value)} />
+            </div>
+            <div className="alist__scroll">
+              {filteredUnis.map(({ u, i }) => (
+                <button key={i} className={"alist__row" + (uSel === i ? " is-on" : "")} onClick={() => setUSel(i)}>
+                  <span className="alist__flag">{FLAGS[u.country] || "🌍"}</span>
+                  <span className="alist__name">{u.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            {selUni ? (
+              <div>
+                <div className="aform__divider" style={{ marginTop: 0 }}>
+                  Фото кампуса — {selUni.name}
+                </div>
+                <div className="ahint" style={{ marginBottom: 12 }}>
+                  Папка: <code>images/unis/{uSlug(selUni)}/</code> · 4 фото (1.jpg … 4.jpg) · Размер: 1200 × 800 px.
+                </div>
+                <div className="mgrid">
+                  {[1, 2, 3, 4].map((n) => (
+                    <UploadSlot
+                      key={n}
+                      label={"Фото " + n}
+                      path={"images/unis/" + uSlug(selUni) + "/" + n + ".jpg"}
+                      token={token} branch={branch}
+                    />
+                  ))}
+                </div>
+                <div className="ahint" style={{ marginTop: 14 }}>
+                  Видео-тур: загружай напрямую в репозиторий GitHub →{" "}
+                  <code>videos/unis/{uSlug(selUni)}/tour.mp4</code>
+                </div>
+              </div>
+            ) : (
+              <div className="aform--empty">← Выбери вуз из списка</div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Студенты */}
+      {tab === "students" && (
+        <div>
+          <div className="ahint" style={{ marginBottom: 16 }}>
+            Превью-фото для карточек видео-отзывов студентов. Размер: 400 × 400 px (квадрат), JPG.<br />
+            Видео добавляй через раздел «Видео-отзывы», пути прописывай там же.
+          </div>
+          <div className="mgrid">
+            {state.storyGrid.map((g, i) => (
+              <UploadSlot
+                key={i}
+                label={g.n}
+                path={g.poster || ("thumbs/" + g.n.toLowerCase() + ".jpg")}
+                token={token} branch={branch}
+                hint={g.video ? "Видео: " + g.video : undefined}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Блог */}
+      {tab === "blog" && (
+        <div>
+          <div className="ahint" style={{ marginBottom: 16 }}>
+            Обложки статей блога. Размер: 800 × 480 px, JPG.<br />
+            После загрузки нажми <b>«💾 Сохранить»</b> вверху — путь к обложке запишется в данные статьи.
+          </div>
+          <div className="mgrid">
+            {state.posts.map((p, i) => {
+              const coverPath = p.cover || ("images/blog/" + (i + 1) + ".jpg");
+              return (
+                <UploadSlot
+                  key={i}
+                  label={p.t || "Статья " + (i + 1)}
+                  path={coverPath}
+                  token={token} branch={branch}
+                  onSuccess={(path) => {
+                    const updated = state.posts.map((pp, j) => j === i ? { ...pp, cover: path } : pp);
+                    setPosts(updated);
+                  }}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -631,7 +955,7 @@ function AdminApp() {
         </nav>
 
         <main className="amain">
-          {section === "unis" && <UnisEditor list={state.unis} setList={set("unis")} />}
+          {section === "unis" && <UnisEditor list={state.unis} setList={set("unis")} token={ghToken} branch={ghBranch} />}
           {section === "countries" && <CountriesEditor list={state.countries} setList={setCountries} />}
           {section === "stories" && (
             <>
@@ -644,8 +968,8 @@ function AdminApp() {
               <div className="amain__note" style={{ marginTop: 26 }}>Сетка студентов (фильтруется по стране):</div>
               <SimpleList
                 list={state.storyGrid} setList={set("storyGrid")} titleKey="n" addLabel="+ Студент"
-                addTemplate={{ n: "Имя", u: "Университет", s: "Грант", t: "Италия" }}
-                schema={[["n", "Имя"], ["u", "Университет"], ["s", "Сумма / грант"], ["t", "Страна (для фильтра)", "select", COUNTRY_OPTS]]}
+                addTemplate={{ n: "Имя", u: "Университет", s: "Грант", t: "Италия", video: "", poster: "" }}
+                schema={[["n", "Имя"], ["u", "Университет"], ["s", "Сумма / грант"], ["t", "Страна (для фильтра)", "select", COUNTRY_OPTS], ["video", "Путь к видео (videos/…)"], ["poster", "Путь к превью (thumbs/…)"]]}
               />
             </>
           )}
@@ -659,8 +983,8 @@ function AdminApp() {
           {section === "posts" && (
             <SimpleList
               list={state.posts} setList={set("posts")} titleKey="t" addLabel="+ Статья"
-              addTemplate={{ cat: "США", t: "Заголовок статьи", time: "5 мин", date: "" }}
-              schema={[["t", "Заголовок"], ["cat", "Категория"], ["time", "Время чтения"], ["date", "Дата (текстом)"]]}
+              addTemplate={{ cat: "США", t: "Заголовок статьи", time: "5 мин", date: "", cover: "" }}
+              schema={[["t", "Заголовок"], ["cat", "Категория"], ["time", "Время чтения"], ["date", "Дата (текстом)"], ["cover", "Обложка (путь к файлу)"]]}
             />
           )}
           {section === "about" && (
@@ -677,6 +1001,9 @@ function AdminApp() {
                 schema={[["name", "Название"], ["tag", "Метка"], ["desc", "Описание", "area"]]}
               />
             </>
+          )}
+          {section === "media" && (
+            <MediaEditor token={ghToken} branch={ghBranch} state={state} setPosts={set("posts")} setSection={setSection} />
           )}
           {section === "publish" && (
             <PublishSettings token={ghToken} setToken={setGhToken} branch={ghBranch} setBranch={setGhBranch} onExport={exportFile} />
