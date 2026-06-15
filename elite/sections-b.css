@@ -237,6 +237,7 @@
 .tstep__t { font-family: var(--font-head); font-weight: 800; font-size: 20px; color: #fff; }
 .tstep__d { font-size: 15.5px; color: rgba(255,255,255,.7); margin-top: 8px; }
 .how__cta { text-align: center; margin-top: 44px; }
+.how__motto { font-size: 17px; color: rgba(255,255,255,.6); margin-top: 14px; max-width: 560px; line-height: 1.55; }
 
 /* ---------- Stories ---------- */
 .story-carousel { margin-bottom: 48px; }

@@ -160,6 +160,7 @@ function HowWeWork() {
         <div className="section-head" data-reveal>
           <span className="eyebrow eyebrow--light">Как мы работаем</span>
           <h2>Твой путь из Бишкека<br/>в зарубежный университет — 6 шагов</h2>
+          <p className="how__motto">Мы рядом на каждом этапе — от первой консультации до первого дня в кампусе.</p>
         </div>
 
         <div className="timeline">

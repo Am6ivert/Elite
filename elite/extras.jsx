@@ -127,17 +127,18 @@ function ExitIntent() {
         <button className="exit__x" aria-label="Закрыть" onClick={() => setOpen(false)}>✕</button>
         {!sent ? (
           <>
-            <div className="exit__kicker">Прежде чем уходить —</div>
-            <h3 className="exit__h">Забери PDF: чек-лист поступления за границу</h3>
+            <div className="exit__kicker">Объявление —</div>
+            <h3 className="exit__h">Конкурс от Elite Academy</h3>
+            <div className="exit__contest-img">
+              <img src="images/contest.jpg" alt="Конкурс Elite Academy"
+                   onError={(e) => { e.target.style.display = "none"; }} />
+            </div>
             <p className="exit__p">
-              Документы для студенческой визы, дедлайны на 2026, шаблоны эссе и список вопросов
-              на интервью. <b>14 страниц</b> — то, что мы выдаём студентам на старте.
+              Фото конкурса появится здесь. Загрузи изображение в <b>images/contest.jpg</b>
             </p>
-            <form className="exit__form" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
-              <input required type="email" placeholder="Твой email" />
-              <button type="submit" className="btn btn--gold">Получить чек-лист</button>
-            </form>
-            <div className="exit__micro">Один файл. Без рассылки. Без звонков.</div>
+            <a href="#cta" className="btn btn--gold" onClick={() => setOpen(false)}>
+              Узнать подробнее →
+            </a>
           </>
         ) : (
           <div className="exit__ok">

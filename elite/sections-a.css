@@ -94,8 +94,15 @@
   .hs-btn { border-radius: var(--r-md) !important; width: 100%; margin: 4px; }
 }
 
+/* ---------- University logo marquee ---------- */
+.unibar { background: var(--navy); padding: 18px 0; border-top: 1px solid rgba(255,255,255,.06); overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.unibar__track { display: flex; gap: 28px; width: max-content; animation: marquee 36s linear infinite; }
+.unibar__item { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.unibar__logo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; opacity: .75; filter: brightness(1.15); transition: opacity .2s; }
+.unibar__logo:hover { opacity: 1; }
+
 /* ---------- Trust bar ---------- */
-.trustbar { background: var(--navy); padding: 22px 0; border-top: 1px solid rgba(255,255,255,.06); }
+.trustbar { background: var(--navy); padding: 16px 0; }
 .trustbar__inner { display: flex; align-items: center; gap: 28px; }
 .trustbar__label { flex: 0 0 auto; font-family: var(--font-head); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.45); }
 .trustbar__track { flex: 1; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }

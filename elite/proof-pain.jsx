@@ -8,9 +8,44 @@ const PARTNERS = [
   "Roosevelt University","Kalamazoo College","Drake University","National Louis University","Westcliff University",
 ];
 
+const UNI_LOGOS = [
+  { src: "images/logos/catalog/polimi.png",   alt: "PoliMi" },
+  { src: "images/logos/catalog/bocconi.png",  alt: "Bocconi" },
+  { src: "images/logos/catalog/sapienza.png", alt: "Sapienza" },
+  { src: "images/logos/catalog/luiss.png",    alt: "LUISS" },
+  { src: "images/logos/catalog/roosevelt.png",alt: "Roosevelt" },
+  { src: "images/logos/catalog/bellevue.png", alt: "Bellevue" },
+  { src: "images/logos/catalog/lasalle.png",  alt: "La Salle" },
+  { src: "images/logos/catalog/temple.png",   alt: "Temple" },
+  { src: "images/logos/catalog/depaul.png",   alt: "DePaul" },
+  { src: "images/logos/catalog/monash.png",   alt: "Monash" },
+  { src: "images/logos/catalog/sunway.png",   alt: "Sunway" },
+  { src: "images/logos/catalog/taylors.png",  alt: "Taylor's" },
+  { src: "images/logos/catalog/wu.png",       alt: "WU Wien" },
+  { src: "images/logos/catalog/tuwien.png",   alt: "TU Wien" },
+  { src: "images/logos/catalog/emu.png",      alt: "EMU" },
+  { src: "images/logos/catalog/vistula.png",  alt: "Vistula" },
+  { src: "images/logos/catalog/gisma.png",    alt: "GISMA" },
+  { src: "images/logos/catalog/unito.png",    alt: "UniTO" },
+  { src: "images/logos/catalog/asu.png",      alt: "ASU" },
+  { src: "images/logos/catalog/drexel.png",   alt: "Drexel" },
+];
+
 function TrustBar() {
+  const logos = [...UNI_LOGOS, ...UNI_LOGOS];
   return (
     <section className="trustbar">
+      {/* University logo marquee */}
+      <div className="unibar">
+        <div className="unibar__track">
+          {logos.map((l, i) => (
+            <div className="unibar__item" key={i}>
+              <img src={l.src} alt={l.alt} className="unibar__logo" />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Partner names marquee */}
       <div className="wrap trustbar__inner">
         <span className="trustbar__label">Нам доверяют</span>
         <div className="trustbar__track">
