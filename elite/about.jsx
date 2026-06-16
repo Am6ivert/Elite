@@ -3,9 +3,9 @@
    ============================================================ */
 
 const ABOUT_DEFAULT = {
-  text: "Наша миссия — сделать качественное образование за рубежом доступным каждому. Ускоряем и облегчаем процесс поступления, создаём сильное поколение через образование и культурный обмен. Будем рядом на всех этапах твоего пути.",
-  fcN: "1500+",
-  fcL: "студентов уже учатся за рубежом",
+  text: "Наша миссия — сделать качественное образование за рубежом доступным каждому. Elite Academy — официально аккредитованное агентство ICEF, одной из крупнейших международных сетей образовательных агентств. Мы рядом на каждом этапе — от выбора университета до первого дня в кампусе.",
+  fcN: "ICEF",
+  fcL: "Accredited Agency",
   stats: [
     { n: "1500+", l: "студентов\nотправлено" },
     { n: "7",     l: "стран\nнаправлений" },
@@ -13,11 +13,11 @@ const ABOUT_DEFAULT = {
     { n: "5 лет", l: "на рынке\nобразования" },
   ],
   badges: [
-    "ICEF Accredited — международная аккредитация",
+    { text: "ICEF Accredited — международная аккредитация", href: "https://www.icef.com/agency/0016M00002g5ZejQAE", label: "Посмотреть сертификат →" },
     "Shorelight Partner — официальный партнёр",
     "Гарантия по договору — возврат при отказе в визе",
   ],
-  photo: "",
+  photo: "images/icef-certificate.png",
 };
 
 /* Admin-edited content wins over the defaults above */
@@ -60,12 +60,22 @@ function AboutUs() {
             </div>
 
             <div className="about__badges">
-              {ABOUT.badges.map((b, i) => (
-                <div className="about__badge" key={i}>
-                  <span className="about__badge-ic">✓</span>
-                  <span>{b}</span>
-                </div>
-              ))}
+              {ABOUT.badges.map((b, i) => {
+                const text = typeof b === "string" ? b : b.text;
+                return (
+                  <div className="about__badge" key={i}>
+                    <span className="about__badge-ic">✓</span>
+                    <span>
+                      {text}
+                      {b.href && (
+                        <a href={b.href} target="_blank" rel="noopener noreferrer" className="about__badge-link">
+                          {b.label || "Сертификат →"}
+                        </a>
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
             <a href="#cta" className="btn btn--dark">Получить консультацию бесплатно →</a>

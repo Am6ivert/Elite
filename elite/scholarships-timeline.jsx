@@ -10,8 +10,8 @@ const CASES = [
   { sum: "$204 000", name: "Тимур", quote: "Спортивный грант по футболу", uni: "Drake University", tag: "спортивная" },
   { sum: "$156 000", name: "Айпери", quote: "Из региона — онлайн-подготовка", uni: "Kalamazoo College", tag: "академическая" },
   { sum: "$72 000", name: "Эрлан", quote: "Перевёлся из колледжа", uni: "Roosevelt University", tag: "спортивная" },
-  { sum: "€0 / год", name: "Диана", quote: "Медицина в Италии — DSU закрыл расходы полностью", uni: "Università di Bologna", tag: "бесплатная" },
-  { sum: "€726 / год", name: "Асель", quote: "Право в Австрии — почти бесплатно для иностранцев", uni: "Universität Wien", tag: "бесплатная" },
+  { sum: "€0 / год", name: "Диана", quote: "Медицина в Италии — DSU закрыл расходы полностью", uni: "Università di Bologna", tag: "need-based" },
+  { sum: "€726 / год", name: "Асель", quote: "Право в Австрии — почти бесплатно для иностранцев", uni: "Universität Wien", tag: "need-based" },
 ];
 
 function useCountdown(target) {
@@ -80,7 +80,7 @@ function DeadlineBanner() {
 
 function Scholarships() {
   const [filter, setFilter] = useState("Все");
-  const filters = ["Все", "академическая", "спортивная", "бесплатная"];
+  const filters = ["Все", "академическая", "спортивная", "need-based"];
   const list = CASES.filter((c) => filter === "Все" || c.tag === filter);
   const t = useCountdown(FALL_DEADLINE);
 
@@ -96,7 +96,7 @@ function Scholarships() {
         <div className="scholar__filters" data-reveal>
           {filters.map((f) => (
             <button key={f} className={"scholar__filter" + (filter === f ? " is-on" : "")} onClick={() => setFilter(f)}>
-              {f === "Все" ? "Все кейсы" : f === "академическая" ? "Академические" : f === "спортивная" ? "Спортивные" : "Бесплатные"}
+              {f === "Все" ? "Все кейсы" : f === "академическая" ? "Академические" : f === "спортивная" ? "Спортивные" : "Need-based"}
             </button>
           ))}
         </div>
@@ -109,7 +109,7 @@ function Scholarships() {
               <div className="case__name">{c.name}</div>
               <p className="case__quote">«{c.quote}»</p>
               <div className="case__uni">{c.uni}</div>
-              <span className={"chip " + (c.tag === "спортивная" ? "tag-blue" : "tag-gold")} style={{ marginTop: 14 }}>{c.tag}</span>
+              <span className={"chip " + (c.tag === "спортивная" ? "tag-blue" : c.tag === "need-based" ? "tag-green" : "tag-gold")} style={{ marginTop: 14 }}>{c.tag === "need-based" ? "need-based" : c.tag}</span>
             </article>
           ))}
         </div>

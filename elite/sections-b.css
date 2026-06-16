@@ -445,6 +445,8 @@
   background: var(--accent-soft); color: var(--navy);
   display: grid; place-items: center; font-size: 12px; font-weight: 800;
 }
+.about__badge-link { margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: underline; white-space: nowrap; }
+.about__badge-link:hover { color: var(--navy); }
 
 /* Story video background */
 .story-big__photo--video { cursor: pointer; background: #000; }

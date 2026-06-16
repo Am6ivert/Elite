@@ -50,12 +50,9 @@ try:
         output=tmp,
         quiet=False,
         use_cookies=False,
-        remaining_ok=True,   # don't fail if some files can't be downloaded
     )
 except Exception as e:
-    print(f"\n[ERROR] gdown failed: {e}")
-    print("Try: gdown --folder <url>  in terminal to debug auth issues.")
-    sys.exit(1)
+    print(f"\n[WARN] gdown error (continuing with what was downloaded): {e}")
 
 
 # ── Walk downloaded tree and sort files ────────────────────────────────────────
