@@ -289,6 +289,12 @@
 .office__2gis-addr span { font-size: 13px; color: var(--muted); }
 .office__2gis-link { text-align: center; font-size: 13px; color: var(--blue); text-decoration: underline; }
 .office__2gis-link:hover { color: var(--navy); }
+.office__map-links { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--line); }
+.office__map-ext-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; border-radius: 8px; padding: 7px 14px; transition: background .2s, color .2s; text-decoration: none; }
+.office__map-ext-link--primary { background: var(--navy); color: #fff; }
+.office__map-ext-link--primary:hover { background: var(--navy-3); color: #fff; }
+.office__map-ext-link--muted { color: var(--muted); }
+.office__map-ext-link--muted:hover { color: var(--navy); }
 
 @media (max-width: 900px) {
   .office__grid { grid-template-columns: 1fr; }

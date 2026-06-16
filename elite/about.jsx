@@ -164,9 +164,7 @@ const OFFICE = window.eaContent ? window.eaContent("office", OFFICE_DEFAULT) : O
 window.EA_OFFICE = OFFICE;
 
 function OfficeBlock() {
-  const [mapTab, setMapTab] = React.useState("google");
   const mapQuery = encodeURIComponent(OFFICE.map);
-  const twoGisHref = "https://2gis.kg/bishkek/search/" + encodeURIComponent(OFFICE.address);
   return (
     <section className="section section--tight office" id="office">
       <div className="wrap">
@@ -193,35 +191,22 @@ function OfficeBlock() {
             <a href="#cta" className="btn btn--gold btn--block">Записаться на консультацию</a>
           </div>
           <div className="office__map card" data-reveal data-delay="1">
-            <div className="office__map-tabs">
-              <button className={"office__map-tab" + (mapTab === "google" ? " is-on" : "")} onClick={() => setMapTab("google")}>Google Maps</button>
-              <button className={"office__map-tab" + (mapTab === "2gis"   ? " is-on" : "")} onClick={() => setMapTab("2gis")}>2GIS</button>
+            <iframe
+              title="Офис Elite Academy на карте"
+              src={`https://www.google.com/maps?q=${mapQuery}&output=embed&hl=ru`}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
+            <div className="office__map-links">
+              <a href="https://go.2gis.com/0qrsd" target="_blank" rel="noopener" className="office__map-ext-link office__map-ext-link--primary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Открыть в 2GIS
+              </a>
+              <a href={`https://www.google.com/maps/search/${mapQuery}`} target="_blank" rel="noopener" className="office__map-ext-link office__map-ext-link--muted">
+                Google Maps
+              </a>
             </div>
-            {mapTab === "google" ? (
-              <iframe
-                title="Офис Elite Academy на карте"
-                src={`https://www.google.com/maps?q=${mapQuery}&output=embed&hl=ru`}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            ) : (
-              <div className="office__2gis">
-                <div className="office__2gis-addr">
-                  <span className="office__2gis-ic">📍</span>
-                  <div>
-                    <b>{OFFICE.address}</b>
-                    <span>БЦ «Бинокль», 6 этаж · Бишкек</span>
-                  </div>
-                </div>
-                <a href={twoGisHref} target="_blank" rel="noopener" className="btn btn--dark btn--block">
-                  Открыть в 2GIS →
-                </a>
-                <a href={"https://go.2gis.com/0qrsd"} target="_blank" rel="noopener" className="office__2gis-link">
-                  Проложить маршрут в 2GIS
-                </a>
-              </div>
-            )}
           </div>
         </div>
       </div>

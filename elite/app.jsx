@@ -27,6 +27,7 @@ function PageHome() {
       <TrustBar />
       <HomeSearch />
       <BeyondDiploma />
+      <Quiz />
       <DeadlineBanner />
       <Countries />
       <MediaFeed />
