@@ -123,7 +123,7 @@ function Accreditations() {
           <span className="eyebrow">Аккредитации и партнёры</span>
           <h2>Нам доверяют не только студенты</h2>
         </div>
-        <ScrollRail trackClass="accreds__grid" loop={true} step={320}>
+        <div className="accreds__grid">
           {ACCREDS.map((a, i) => (
             <article className="accred card card--lift" data-reveal data-delay={i + 1} key={a.name}>
               <span className="accred__tag">{a.tag}</span>
@@ -131,7 +131,7 @@ function Accreditations() {
               <p className="accred__desc">{a.desc}</p>
             </article>
           ))}
-        </ScrollRail>
+        </div>
       </div>
     </section>
   );

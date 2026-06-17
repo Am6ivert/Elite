@@ -269,8 +269,13 @@ function BeyondDiploma() {
           <p className="beyond__eyebrow">Образование за рубежом</p>
           <h2 className="beyond__h2">Это не только диплом</h2>
         </div>
+        <div className="beyond__hero" data-reveal data-delay="1">
+          <img src="images/beyond-hero.jpg" alt="Студенты за рубежом" className="beyond__hero-img" loading="lazy" />
+          <div className="beyond__hero-overlay" />
+          <p className="beyond__hero-cap">Друзья со всего мира, новые города и опыт, который остаётся на всю жизнь</p>
+        </div>
       </div>
-      <div className="beyond__grid" data-reveal data-delay="1">
+      <div className="beyond__grid" data-reveal data-delay="2">
         {BEYOND.map((item) => <BeyondCell key={item.cls} item={item} />)}
       </div>
     </section>

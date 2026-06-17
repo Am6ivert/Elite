@@ -286,14 +286,14 @@ function enrich(u) {
 
   const engTests = u.engTests ?? (
     italy && u.type === "Государственный"
-              ? ["без теста","IELTS","TOEFL"] :
+              ? ["IELTS","TOEFL"] :
     italy     ? ["IELTS","TOEFL","DET"] :
     usa       ? ["TOEFL","IELTS","DET"] :
     (austria || germany)
-              ? ["без теста","IELTS","TOEFL"] :
+              ? ["IELTS","TOEFL"] :
     malaysia  ? ["IELTS","TOEFL","DET"] :
     poland    ? ["IELTS","TOEFL","DET"] :
-    cyprus    ? ["IELTS","DET","без теста"] :
+    cyprus    ? ["IELTS","DET"] :
     ["IELTS","TOEFL"]
   );
 
@@ -341,7 +341,7 @@ const ALL_COUNTRIES = ["Италия","США","Северный Кипр","Ма
 const FIELDS   = ["IT","Бизнес","Медицина","Право","Инженерия","Дизайн","Экономика","Педагогика"];
 const LEVELS   = ["Колледж","Foundation","Бакалавр","Магистр","PhD"];
 const INTAKES  = ["Осень","Зима","Весна","Лето"];
-const ENG_TESTS= ["TOEFL","IELTS","DET","без теста"];
+const ENG_TESTS= ["TOEFL","IELTS","DET"];
 const INT_EXAMS= ["SAT","Cent-s/Tolc","IMAT"];
 const GPA_OPTS = ["4/4","3/4","2.5/4","2/4"];
 const TYPES    = ["Государственный","Частный"];
@@ -480,6 +480,20 @@ function Universities() {
           {/* ====== FILTER SIDEBAR ====== */}
           <aside className="unis__filters card" data-reveal>
 
+            <FilterSection label="Страна">
+              <div className="filter__chips">
+                {ALL_COUNTRIES.map(c => (
+                  <button key={c} className={"filter__chip" + (selCountries.includes(c) ? " is-on" : "")} onClick={() => toggle(selCountries, setCntrs, c)}>
+                    {COUNTRY_ISO[c]
+                      ? <img src={FLAG_URL(COUNTRY_ISO[c], "20x15")} alt={c} className="filter__flag" />
+                      : null
+                    }
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </FilterSection>
+
             <FilterSection label="Поиск по названию">
               <div className="filter__search">
                 <svg width="16" height="16" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6.2" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
@@ -511,21 +525,16 @@ function Universities() {
 
             <div className="filter__group">Затем — университет</div>
 
-            <FilterSection label="Страна">
-              <div className="filter__chips">
-                {ALL_COUNTRIES.map(c => (
-                  <button key={c} className={"filter__chip" + (selCountries.includes(c) ? " is-on" : "")} onClick={() => toggle(selCountries, setCntrs, c)}>
-                    {COUNTRY_ISO[c]
-                      ? <img src={FLAG_URL(COUNTRY_ISO[c], "20x15")} alt={c} className="filter__flag" />
-                      : null
-                    }
-                    {c}
-                  </button>
-                ))}
+            <FilterSection label="Стоимость в год">
+              <div className="filter__price-row">
+                <span className="filter__price-pre">до $</span>
+                <input
+                  type="number" min="0" max="60000" step="500" value={maxPrice}
+                  onChange={e => setPrice(Math.max(0, Math.min(60000, +e.target.value || 0)))}
+                  className="filter__price-input" aria-label="Максимальная стоимость в год, $"
+                />
+                <span className="filter__price-yr">/год</span>
               </div>
-            </FilterSection>
-
-            <FilterSection label={<>Стоимость в год: <b>до ${maxPrice.toLocaleString("ru")}</b></>}>
               <input type="range" min="0" max="60000" step="500" value={maxPrice} onChange={e => setPrice(+e.target.value)} className="filter__range" />
               <div className="filter__range-ends"><span>$0</span><span>$60k</span></div>
             </FilterSection>

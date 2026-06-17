@@ -66,6 +66,22 @@
   line-height: 1.05; color: var(--navy);
 }
 
+/* Intro hero photo */
+.beyond__hero {
+  position: relative; margin-top: 26px;
+  border-radius: 22px; overflow: hidden;
+  height: clamp(220px, 34vw, 420px);
+  box-shadow: 0 18px 50px -16px rgba(10,35,90,.3);
+}
+.beyond__hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; }
+.beyond__hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,12,36,.78) 0%, rgba(4,12,36,.15) 45%, transparent 70%); }
+.beyond__hero-cap {
+  position: absolute; left: 0; bottom: 0; z-index: 2;
+  padding: 28px 32px; max-width: 640px;
+  font-family: var(--font-head); font-weight: 800;
+  font-size: clamp(18px, 2.4vw, 28px); line-height: 1.25; color: #fff;
+}
+
 /* Bento grid — полная ширина без wrap */
 .beyond__grid {
   display: grid;
@@ -491,7 +507,7 @@
 }
 .vmodal {
   position: relative;
-  display: grid; grid-template-columns: 1fr 1.15fr; grid-template-rows: minmax(0, 1fr);
+  display: grid; grid-template-columns: 1.15fr 1fr; grid-template-rows: minmax(0, 1fr);
   width: min(1080px, 96vw); height: min(660px, 88vh);
   background: var(--white); border-radius: 22px; overflow: hidden;
   box-shadow: 0 40px 100px -20px rgba(0,0,0,.6);
@@ -531,7 +547,7 @@
 .vmodal__quote { font-size: 16px; line-height: 1.55; color: #2a3550; margin-top: 22px; font-style: italic; }
 .vmodal__cta { margin-top: 28px; align-self: flex-start; }
 
-.vmodal__video-wrap { background: #05101f; display: flex; align-items: center; justify-content: center; min-height: 0; min-width: 0; overflow: hidden; }
+.vmodal__video-wrap { background: #05101f; display: flex; align-items: center; justify-content: center; min-height: 0; min-width: 0; overflow: hidden; order: -1; }
 .vmodal__video { width: 100%; height: 100%; object-fit: contain; background: #05101f; }
 
 @media (max-width: 760px) {

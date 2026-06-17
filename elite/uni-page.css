@@ -121,13 +121,21 @@
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 40px;
-  align-items: center;
+  align-items: start;
 }
 .uprof__about-h { font-size: clamp(26px, 3vw, 38px); margin-top: 12px; }
 .uprof__about-text {
   margin-top: 18px;
   font-size: 17.5px; line-height: 1.7; color: var(--gray-600);
 }
+.uprof__about-text--muted { font-size: 15.5px; color: var(--muted); margin-top: 14px; }
+.uprof__about-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.uprof__about-chip {
+  font-family: var(--font-head); font-weight: 600; font-size: 13px;
+  color: var(--navy); background: var(--accent-soft, #eef3fb);
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px;
+}
+@media (max-width: 860px) { .uprof__about-grid { grid-template-columns: 1fr; gap: 28px; } }
 .uprof__site {
   display: inline-block; margin-top: 18px;
   font-weight: 700; color: var(--blue);

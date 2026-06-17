@@ -190,7 +190,7 @@ function Hero() {
           </div>
 
           <h1 className="hero__h1" data-reveal data-delay="1">
-            <span className="grad-gold">Твоя возможность</span><br/>за границей
+            <span className="grad-gold">Твой путь</span><br/>к обучению за рубежом
           </h1>
 
           <p className="hero__sub" data-reveal data-delay="2">

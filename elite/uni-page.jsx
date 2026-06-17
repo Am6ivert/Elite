@@ -106,6 +106,18 @@ function UniversityProfile() {
   const similar = UNIS.filter((x) => x.country === u.country && x.short !== u.short).slice(0, 3);
   const det = (window.EA_UNI_DETAILS || {})[u.short];
 
+  /* Rich "about" text — uses curated details when available, otherwise built from the uni's data */
+  const typeLc = u.type === "Государственный" ? "государственный" : "частный";
+  const aboutMain = (det && det.about)
+    ? det.about
+    : `${u.name} — ${typeLc} университет в городе ${u.loc} (${u.country}) и официальный вуз-партнёр Elite Academy по направлению «${u.field}». ` +
+      `Здесь доступны программы уровня ${u.levels.toLowerCase()}${u.qs ? `, а сам вуз входит в мировой рейтинг QS на позиции #${u.qs}` : ""}. ` +
+      `Стоимость обучения — от ${fmt(u.price)} в год.`;
+  const aboutExtra = `Мы сопровождаем поступление под ключ: подбираем программу под твой профиль, готовим документы и мотивационное письмо, ` +
+    `помогаем с языковым тестом и студенческой визой. ` +
+    `${u.dormitory ? "У вуза есть студенческое общежитие. " : ""}` +
+    `${(u.meritBased || u.needBased) ? "Для иностранных студентов доступны стипендии и гранты." : "Расскажем о доступных стипендиях и скидках для иностранных студентов."}`;
+
   return (
     <>
       {/* ===== Dark hero banner ===== */}
@@ -176,7 +188,7 @@ function UniversityProfile() {
             </div>
             <div className="uprof__req">
               <span className="uprof__req-l">Языковой тест</span>
-              <span className="uprof__req-v">{u.engTests && u.engTests.length ? u.engTests.join(" · ") : "Без теста"}</span>
+              <span className="uprof__req-v">{u.engTests && u.engTests.length ? u.engTests.join(" · ") : "IELTS / TOEFL"}</span>
               <span className="uprof__req-d">подтверждение английского (IELTS / TOEFL / Duolingo)</span>
             </div>
             <div className="uprof__req">
@@ -212,44 +224,44 @@ function UniversityProfile() {
       </section>
 
       {/* ===== About ===== */}
-      {det && (
-        <section className="section section--tight uprof-about">
-          <div className="wrap">
-            <div className="uprof__about-grid">
-              <div className="uprof__about-main">
-                <span className="eyebrow">О университете</span>
-                <h2 className="uprof__about-h">Коротко о вузе</h2>
-                <p className="uprof__about-text">{det.about}</p>
-                {det.site && (
-                  <a className="uprof__site" href={`https://${det.site}`} target="_blank" rel="noopener">
-                    Официальный сайт: {det.site} →
-                  </a>
-                )}
+      <section className="section section--tight uprof-about">
+        <div className="wrap">
+          <div className="uprof__about-grid">
+            <div className="uprof__about-main">
+              <span className="eyebrow">Об университете</span>
+              <h2 className="uprof__about-h">Коротко о вузе</h2>
+              <p className="uprof__about-text">{aboutMain}</p>
+              <p className="uprof__about-text uprof__about-text--muted">{aboutExtra}</p>
+              <div className="uprof__about-chips">
+                <span className="uprof__about-chip">{u.type}</span>
+                <span className="uprof__about-chip">{u.field}</span>
+                <span className="uprof__about-chip">{u.loc} · {u.country}</span>
+                {u.levels.split("·").map((l) => (
+                  <span className="uprof__about-chip" key={l}>{l.trim()}</span>
+                ))}
               </div>
-              <div className="uprof__about-stats">
-                {det.founded && (
-                  <div className="uprof__about-stat">
-                    <b>{det.founded}</b>
-                    <span>год основания</span>
-                  </div>
-                )}
-                {det.students && (
-                  <div className="uprof__about-stat">
-                    <b>{det.students}</b>
-                    <span>студентов</span>
-                  </div>
-                )}
-                {u.qs && (
-                  <div className="uprof__about-stat">
-                    <b>#{u.qs}</b>
-                    <span>QS рейтинг</span>
-                  </div>
-                )}
-              </div>
+              {det && det.site && (
+                <a className="uprof__site" href={`https://${det.site}`} target="_blank" rel="noopener">
+                  Официальный сайт: {det.site} →
+                </a>
+              )}
+            </div>
+            <div className="uprof__about-stats">
+              {det && det.founded && (
+                <div className="uprof__about-stat"><b>{det.founded}</b><span>год основания</span></div>
+              )}
+              {det && det.students && (
+                <div className="uprof__about-stat"><b>{det.students}</b><span>студентов</span></div>
+              )}
+              {u.qs && (
+                <div className="uprof__about-stat"><b>#{u.qs}</b><span>QS рейтинг</span></div>
+              )}
+              <div className="uprof__about-stat"><b>{fmt(u.price)}</b><span>стоимость в год</span></div>
+              <div className="uprof__about-stat"><b>{u.field}</b><span>ключевое направление</span></div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* ===== Key facts ===== */}
       <section className="section section--tight uprof-facts">
