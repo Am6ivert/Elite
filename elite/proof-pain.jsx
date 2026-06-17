@@ -272,8 +272,7 @@ function BeyondDiploma() {
     <section className="beyond" id="beyond">
       <div className="wrap">
         <div className="beyond__head" data-reveal>
-          <p className="beyond__eyebrow">Образование за рубежом</p>
-          <h2 className="beyond__h2">Это не только диплом</h2>
+          <h2 className="beyond__h2"><span className="text-blue">Образование за рубежом —</span><br/>это не только диплом</h2>
         </div>
       </div>
       <div className="beyond__grid" data-reveal data-delay="1">
