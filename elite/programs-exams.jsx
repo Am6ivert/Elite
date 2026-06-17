@@ -181,7 +181,7 @@ function Exams() {
           <div className="ph exams__hero-vis" data-label="Duolingo · промо-визуал"></div>
         </div>
 
-        <div className="exams__grid">
+        <ScrollRail trackClass="exams__grid" step={290}>
           {EXAMS.map((e, i) => (
             <article className="exam card card--lift" data-reveal data-delay={i + 1} key={i}>
               {e.badge && <span className="chip tag-green exam__badge">{e.badge}</span>}
@@ -195,7 +195,7 @@ function Exams() {
               <a href="#cta" className="exam__cta">Подготовиться с нами →</a>
             </article>
           ))}
-        </div>
+        </ScrollRail>
       </div>
     </section>
   );

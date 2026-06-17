@@ -239,6 +239,23 @@
 /* ============================================================
    ABOUT PAGE — accreditations + office
    ============================================================ */
+/* ---------- Scroll rail with arrows (shared) ---------- */
+.srail { position: relative; }
+.srail__arrow {
+  position: absolute; top: 44%; transform: translateY(-50%); z-index: 6;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #fff; color: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line, #e7ebf3);
+  box-shadow: 0 6px 20px rgba(10,35,90,.18);
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s, color .2s;
+}
+.srail__arrow:hover { background: var(--navy); color: #fff; box-shadow: 0 12px 28px rgba(10,35,90,.3); transform: translateY(-50%) scale(1.08); }
+.srail__arrow--prev { left: -12px; }
+.srail__arrow--next { right: -12px; }
+@media (max-width: 640px) { .srail__arrow { display: none; } }
+
 .accreds__grid {
   display: flex; gap: 16px; overflow-x: auto;
   scroll-snap-type: x proximity; padding: 4px 4px 16px;

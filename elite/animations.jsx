@@ -88,5 +88,35 @@ function SectionWave({ flip = false, color = "var(--white)" }) {
   );
 }
 
+/* Horizontal scroll rail with prev/next arrows (and optional wrap-around loop).
+   Pass trackClass to reuse an existing flex/scroll grid (e.g. "countries__grid"). */
+function ScrollRail({ children, trackClass = "", loop = false, step = 320 }) {
+  const ref = React.useRef(null);
+  function scroll(dir) {
+    const el = ref.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    if (loop) {
+      if (dir > 0 && el.scrollLeft >= max - 6) { el.scrollTo({ left: 0, behavior: "smooth" }); return; }
+      if (dir < 0 && el.scrollLeft <= 6) { el.scrollTo({ left: max, behavior: "smooth" }); return; }
+    }
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  }
+  return (
+    <div className="srail">
+      <button type="button" className="srail__arrow srail__arrow--prev" onClick={() => scroll(-1)} aria-label="Назад">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div className={"srail__track " + trackClass} ref={ref}>
+        {children}
+      </div>
+      <button type="button" className="srail__arrow srail__arrow--next" onClick={() => scroll(1)} aria-label="Вперёд">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  );
+}
+
 window.AliveBackground = AliveBackground;
 window.SectionWave = SectionWave;
+window.ScrollRail = ScrollRail;
