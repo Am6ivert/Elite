@@ -1,0 +1,520 @@
+
+--- run 2026-06-17 16:26:53 ---
+UniBo	1	OK	File:Barlaugsaltini.jpg
+UniBo	2	OK	File:Bologna, Plzo Hercolani, Strd Maggiore, Political Science Department, Unibo.jpg
+UniBo	3	OK	File:Bust of Nicolaus Copernicus in Bologna University.jpg
+UniBo	4	OK	File:Cà Grande dei Malvezzi - Sala Borsa 06.jpg
+
+--- run 2026-06-17 16:29:13 ---
+PoliMi	1	OK	File:Photo 2022- Einstein Residence Hall - Politecnico di Milano.jpg
+PoliMi	2	OK	File:Polimi Leonardo campus main building.jpg
+PoliMi	3	OK	File:Politecnico di MIlano.jpg
+PoliMi	4	OK	File:Politecnico di Milano Bovisa 3.jpg
+Bocconi	1	OK	File:Biblioteca Università Bocconi.jpg
+Bocconi	2	OK	File:Grafton Building.jpg
+Bocconi	3	OK	File:Posa Ceppo di Gré alleggerito Università Bocconi Milano.jpg
+Bocconi	4	OK	File:Universita Bocconi Ceppo di Gre.jpg
+Sapienza	1	OK	File:Facoltà di Economia Università Sapienza Roma.jpg
+Sapienza	2	OK	File:Great Hall, University of Rome, 6 Sept. 2011 - Flickr - PhillipC (1).jpg
+Sapienza	3	OK	File:Ingresso Dipartimento Darwin Università Sapienza Roma.jpg
+Sapienza	4	OK	File:Ingresso UniSapienza Notte.jpg
+UniPD	1	OK	File:Duomo (Padua) - Gisant del Cardinal Francesco Zabarella.jpg
+UniPD	2	OK	File:800th anniversary of the University of Padua 11.jpg
+UniPD	3	OK	File:Duomo (Padua) - Tomb of Cardinal Francesco Zabarella.jpg
+UniPD	4	OK	File:Duomo (Padua) - cappella di S.Girolamo.jpg
+CaFosc	1	OK	File:(Venice) Ca' Foscari.jpg
+CaFosc	2	OK	File:Alfa, Campus Scientifico Università Ca' Foscari - via Torino, Mestre, Venice, Veneto, Italy - 2022-05-16.jpg
+CaFosc	3	OK	File:Canal in Venice and Università Ca' Foscari (VE) 02.jpg
+CaFosc	4	OK	File:Costruzione del campus scientifico - Università Ca' Foscari - via Torino, Venezia, Veneto, Italy - 2022-04-21.jpg
+LUISS	1	OK	File:Francesco Gaetano Caltagirone al Convegno degli Amici della LUISS..jpg
+LUISS	2	OK	File:Giovanni Lo Storto DG Luiss 01.jpg
+LUISS	3	OK	File:Giovanni Lo Storto DG Luiss 02.jpg
+LUISS	4	OK	File:LUISS Guido Carli sede-viale-pola.jpg
+PoliTO	1	OK	File:Partners ttpu.jpg
+PoliTO	2	OK	File:TPUT.jpg
+PoliTO	3	OK	File:TTPU's entrance.jpg
+PoliTO	4	OK	File:TTPU 2020.jpg
+UniMi	1	OK	File:2019 UCLA Royce Hall 1.jpg
+UniMi	2	OK	File:Bike rack @ Università degli Studi di Milano @ Milan (49760408103).jpg
+UniMi	3	OK	File:UnimiISUsantasofia.JPG
+UniMi	4	OK	File:Festa del Perdono Facciata Milano.jpg
+UniTO	1	OK	File:Arrivée du tonneau envoyé par les étudiants de Turin en 1888.jpg
+UniTO	2	OK	File:Biblioteca Giuseppe Peano del Dipartimento di Matematica. Università degli Studi di Torino.jpg
+UniTO	3	OK	File:Campus Luigi Einaudi @ Università degli Studi di Torino @ Turin (49195208386).jpg
+UniTO	4	OK	File:Sebastiano Ricci 049.jpg
+UniPI	1	OK	File:2007 San Cataldo DCCI progettazione.jpg
+UniPI	2	OK	File:2025-05-09 Pellizzari Corso Moro UniPi 02.jpg
+UniPI	3	OK	File:2026-04-22 Polo San Rossore Unipi 01.jpg
+UniPI	4	OK	File:2026-04-22 Polo San Rossore Unipi 02.jpg
+TorVerg	1	OK	File:Edificio Romanina Tor Vergata Uniroma2.jpg
+TorVerg	2	OK	File:Facoltà Lettere Tor Vergata Uniroma2.jpg
+TorVerg	3	OK	File:Laboratorio di archeologia preistorica Università Tor Vergata logo.png
+TorVerg	4	OK	File:Massimiliano M. Schiraldi.jpg
+UniFI	1	OK	File:Biblioteca di Lettere.jpg
+UniFI	2	OK	File:Irene Vallejo at international literature festival berlin 2023.jpg
+UniFI	3	OK	File:Rettorato firenze, aula magna 02.JPG
+UniFI	4	OK	File:Unifi Sports.png
+UniSI	1	OK	File:Saint Dominic Chapel, Siena Heights University, 1247 East Siena Heights Drive, Adrian, Michigan - panoramio.jpg
+UniSI	2	OK	File:San Niccolò-Unisi.jpg
+UniSI	3	OK	File:Siena, palazzo dell'università 01.JPG
+UniSI	4	OK	File:Siena Heights University Campus.JPG
+UniPV	1	OK	File:Aula magna-University-Pavia-Italy.jpg
+UniPV	2	OK	File:Diprtimento in Musica - 5 giugno 2018 (43648308341).jpg
+UniPV	3	OK	File:Firma convenzione Unipv, Diocesi e San Matteo - 49520392342.jpg
+UniPV	4	OK	File:Giornata dedicata alle lauree magistrali plus (40176952025).jpg
+UniTN	1	OK	File:Trento-university-science-faculty-2009.JPG
+UniTN	2	OK	File:University of Trento (1).jpg
+UniTN	3	OK	File:University of Trento (2).jpg
+UniTN	4	OK	File:University of Trento (3).jpg
+UniTS	1	OK	File:Sala studio univ trieste.jpg
+UniTS	2	OK	File:Sunset dall'Università degli Studi,Trieste - panoramio.jpg
+UniTS	3	OK	File:Units facolta di medicina.jpg
+UniTS	4	OK	File:Units sede di Gorizia.jpg
+UniBS	1	OK	File:Facoltà di Ingegneria - Brescia.jpg
+UniBS	2	OK	File:Monastero di San Faustino Universitá di Brescia.jpg
+UniBS	3	OK	File:Palazzo Martinengo Palatini (Brescia) fronte.JPG
+UniBS	4	OK	File:Palazzo Martinengo Palatini in Piazza Mercato Brescia 2020.jpg
+UniPR	1	OK	File:Dipartimento Matematica Unipr.JPG
+UniPR	2	OK	File:Lione, l. vitet, médecine vétérinaire, 1771, da univ. di parma, inv. S03.JPG
+UniPR	3	OK	File:Marco Botti a Parma 2011.gif
+UniPR	4	OK	File:Palazzo dell'Università (Parma) - facciata 2017-04-06.jpg
+LUMSA	1	OK	File:1.Bandiera LUMSA - Rome - Italy.jpg
+LUMSA	2	OK	File:Glauco Desk.jpg
+LUMSA	3	OK	File:Marcantonio.jpg
+LUMSA	4	OK	File:Nicola Alberto De Carlo Master Università.jpg
+Marang	1	OK	File:Artgate Fondazione Cariplo - Bianchi Mosè, Interno rustico.jpg
+Marang	2	OK	File:Johanna nodier.jpg
+Marang	3	NOT_FOUND
+Marang	4	NOT_FOUND
+IULM	1	OK	File:FileInterno di un edificio dello IULM, Milano Novembre 01 (3).jpg
+IULM	2	OK	File:HPIM6800.JPG
+IULM	3	OK	File:IULM 6 Tower Milan.jpg
+IULM	4	OK	File:Libera Univeristà di Lingue e Comunicazione IULM, Milano - Edificio 1.jpg
+UniMiB	1	OK	File:Bicocca edificio U12.jpg
+UniMiB	2	OK	File:Giovanna Innantuoni, Cerimonia di inaugurazione dell'anno accademico 2021-2022.jpg
+UniMiB	3	OK	File:Pietrarubbia Group, Arnaldo Pomodoro, Università Milano-Bicocca 04.jpg
+UniMiB	4	OK	File:Pietrarubbia Group, Arnaldo Pomodoro, Università Milano-Bicocca 05.jpg
+UniGE	1	OK	File:Francesco Surdich.jpg
+UniGE	2	OK	File:Luciano Garibaldi.jpg
+UniGE	3	OK	File:Michela Malpangotto.jpg
+UniGE	4	OK	File:Paride Rugafiori.jpg
+Roma3	1	OK	File:Preface of Nicolas Gerbelius to Sophianos’s Description of Greece WDL374.png
+Roma3	2	OK	File:Roma 3 Economia 01821-2.JPG
+Roma3	3	OK	File:University Roma Tre.jpg
+Roma3	4	OK	File:University of Roma Tre in 2018.01.jpg
+UniPA	1	OK	File:Cabianca Conferenza Pianificazione Universita di Palermo.jpg
+UniPA	2	OK	File:Facoltà di Architettura a Palermo.jpg
+UniPA	3	OK	File:Facoltà di Ingegneria Palermo.JPG
+UniPA	4	OK	File:Napolitano Ingegneria Palermo.jpg
+UniME	1	OK	File:Diploma Messina 1672.jpg
+UniME	2	OK	File:Facoltà di Scienze Politiche - Messina.jpg
+UniME	3	OK	File:UNIME Polo Papardo 14 10 2022 03.jpg
+UniME	4	OK	File:UNIME Polo Papardo 14 10 2022 04.jpg
+UniCT	1	OK	File:Catania, Universitá degli Studi – Geology Department 2024a.jpg
+UniCT	2	OK	File:Catania, Universitá degli Studi – Geology Department 2024b.jpg
+UniCT	3	OK	File:Catania, Universitá degli Studi – Geology Department 2024c.jpg
+UniCT	4	OK	File:Catania BW 2012-10-06 11-26-20.JPG
+UniSA	1	OK	File:Edificio I1 nel campus di Fisciano, Università di Salerno.jpg
+UniSA	2	OK	File:Ingresso della Centrale Tecnologica del campus di Fisciano, Università di Salerno.jpg
+UniSA	3	OK	File:Ingresso nord di Piazza del Sapere nel campus di Fisciano, Università di Salerno.jpg
+UniSA	4	OK	File:Mappa del campus di Fisciano ad una fermata del bus, Università di Salerno.jpg
+UniCAS	1	OK	File:Battle of Monte Cassino- Cassino (Italy) (3988024822).jpg
+UniCAS	2	OK	File:Cassino (Italy) (3987431019).jpg
+UniCAS	3	OK	File:Cassino (Italy) (3988048310).jpg
+UniCAS	4	NOT_FOUND
+UniUD	1	OK	File:Udine, palazzo florio 01.JPG
+UniUD	2	OK	File:Udine-targaUniversitatdalFriul.jpg
+UniUD	3	OK	File:Udine - la chiesa di San Nicolò, un tempo in via Zanon.jpg
+UniUD	4	OK	File:University of Udine, Palazzo Garzolini 01.jpg
+UniCamp	1	OK	File:Beinn an Dothaidh in morning sun, Scotland.jpg
+UniCamp	2	OK	File:Chiostro Dame.jpg
+UniCamp	3	OK	File:Magnificent CME Erupts on the Sun - August 31.jpg
+UniCamp	4	OK	File:Solar Orbiter’s widest high-res view of the Sun ESA508430.jpg
+UniBa	1	OK	File:Alberto Angela -Laurea Honoris Causa presso Università degli Studi di Bari "Aldo Moro" Bari.jpg
+UniBa	2	OK	File:Aula-Magna-Attilio-Alto.jpg
+UniBa	3	OK	File:Bari - Università degli Studi di Bari Aldo Moro - 2024-09-03 10-31-22 001.jpg
+UniBa	4	OK	File:Bari - Università degli Studi di Bari Aldo Moro - 2025-09-12 01-01-41 001.jpg
+UNIVPM	1	OK	File:Dipartimento di Ingegneria.jpg
+UNIVPM	2	OK	File:Saint Petersburg Polytechnical University 01.jpg
+UNIVPM	3	OK	File:Saint Petersburg Polytechnical University 02.jpg
+UNIVPM	4	OK	File:Sede principale con vista del porto e di Ancona.jpg
+LinkCU	1	OK	File:Kenyatta University Mombasa Campus, 2025 (01).jpg
+LinkCU	2	OK	File:Bailey Hall - Cornell University Concert Hall 01.jpg
+LinkCU	3	OK	File:Buckingham Hall - University of Colorado Boulder Campus - Student Housing.jpg
+LinkCU	4	OK	File:Calvary University Student Life Center.jpg
+RUFA	1	NOT_FOUND
+RUFA	2	NOT_FOUND
+RUFA	3	NOT_FOUND
+RUFA	4	NOT_FOUND
+LUM	1	OK	File:LUMSede.jpg
+LUM	2	OK	File:Lum Glongcheer 2.jpg
+LUM	3	OK	File:Lum Glongcheer 6.jpg
+LUM	4	OK	File:Lum You execution invitation.jpg
+Roosevelt	1	OK	File:Crouse College Syracuse University 01.jpg
+Roosevelt	2	OK	File:Columbia University bulletins of information - announcement (1915) (14592359290).jpg
+Roosevelt	3	OK	File:University Center (UCC) Dormitories.jpg
+Roosevelt	4	OK	File:Mary McLeod Bethune with a Line of Girls from the School WDL4013.png
+Bellevue	1	OK	File:(1)Scots College Bellevue Hill.jpg
+Bellevue	2	OK	File:491 BC - 1902 AD - A Long Time Between Drinks.jpg
+Bellevue	3	OK	File:BellevueCommunityCollege.jpg
+Bellevue	4	OK	File:Bellevue College Dormitories.jpg
+LaSalle	1	OK	File:De La Salle University Manila DLSU Malate Gokongwei Hall Lobby.jpg
+LaSalle	2	OK	File:Vue générale de l'exposition universelle.jpg
+LaSalle	3	OK	File:De La Salle University Philippines (Moonsons; 2023-08-03) 09.jpg
+LaSalle	4	OK	File:Bâtiment principal du campus d'UniLaSalle, à Beauvais (Oise).jpg
+K-Zoo	1	OK	File:Brown Hall and Dormitory, Kalamazoo College, Kalamazoo, MI.jpg
+K-Zoo	2	OK	File:Kalamazoo College (32697499897).jpg
+K-Zoo	3	OK	File:Kalamazoo College (46915893864).jpg
+K-Zoo	4	OK	File:Kalamazoo College (47640017471).jpg
+Westcliff	1	OK	File:Pepperdine vs Westcliff 131.png
+Westcliff	2	OK	File:Pepperdine vs Westcliff 150.png
+Westcliff	3	OK	File:Pepperdine vs Westcliff 162.png
+Westcliff	4	OK	File:Pepperdine vs Westcliff 200.1715.png
+UB	1	OK	File:Niagara County Community College, Cambria, New York, August 2022.jpg
+UB	2	OK	File:Old Post Office, Ellicott Street and Swan Street, Buffalo, NY.jpg
+UB	3	OK	File:Farber Hall, University at Buffalo South Campus, Buffalo, New York - 20230311.jpg
+UB	4	OK	File:SUNY Buffalo entrance sign.JPG
+UE	1	OK	File:Carnegie Hall in Moores Hill.jpg
+UE	2	OK	File:Florists' review (microform) (1912) (16067238474).jpg
+UE	3	OK	File:Evansville (1880 steamboat) bow view.jpg
+UE	4	OK	File:Evansville (1880 steamboat) bow view.tif
+DePaul	1	OK	File:1907-1908 DePaul D-Men Football.webp
+DePaul	2	OK	File:Florists' review (microform) (1912) (16067238474).jpg
+DePaul	3	OK	File:St. Vincent de Paul Rectory, Buffalo, New York - 20200519.jpg
+DePaul	4	OK	File:DePaul Center, DePaul University Loop Campus, Chicago, Illinois (9181553724).jpg
+Rowan	1	OK	File:Bunce Hall8 small.JPG
+Rowan	2	OK	File:Bunce Hall Rowan University sky.jpg
+Rowan	3	OK	File:Cory Booker at Rowan University 2018.jpg
+Rowan	4	OK	File:Rowan University, Bunce Hall facade with two names (Glassboro State College and Rowan University).jpg
+HarrisU	1	OK	File:Downtown Harrisburg, Pennsylvania Harrisburg University banner.jpg
+HarrisU	2	OK	File:HUST-Main-building-4111.jpg
+HarrisU	3	OK	File:HUST-Main-building-4109.jpg
+HarrisU	4	OK	File:Bizarre (1915) (14768816364).jpg
+UST	1	OK	File:DuBourg Hall, Saint Louis University, Grand Avenue, Midtown, St. Louis, MO.jpg
+UST	2	OK	File:St. Thomas University, Fredericton, New Brunswick.jpg
+UST	3	OK	File:St. Thomas University New Brunswick Canada lower campus.jpg
+UST	4	OK	File:St Thomas campus.jpg
+ASU	1	OK	File:Brick Breeden Fieldhouse sign - Montana State University - Bozeman, Montana - 2013-07-09.jpg
+ASU	2	OK	File:Arizona State University 2023 01.jpg
+ASU	3	OK	File:Arizona State University 2023 02.jpg
+ASU	4	OK	File:Matsunaga-2018-open-door-8123 (38848184860).jpg
+CalState	1	OK	File:Exterior view of Pomona College, Claremont, 1907 (CHS-3857).jpg
+CalState	2	OK	File:Appendix to the Journals of the Senate and Assembly of the session of the Legislature of the State of California (1909) (14592615810).jpg
+CalState	3	OK	File:Barry St Student Housing Melbourne 2011.jpg
+CalState	4	OK	File:College of Fisheries students practicing seining in Geyser Basin, University of Washington campus, 1921 (COBB 347).jpeg
+SJSU	1	OK	File:2008-0817-SJSU-MLKlib.jpg
+SJSU	2	OK	File:Appendix to the Journals of the Senate and Assembly of the session of the Legislature of the State of California (1909) (14592615810).jpg
+SJSU	3	OK	File:Joe West Hall, SJSU, SE corner 2024-02-28.jpg
+SJSU	4	OK	File:Cesar-chavez-arch.jpg
+GGU	1	OK	File:California Academy of Sciences pano.jpg
+GGU	2	OK	File:Aerial view of Golden Gate Bridge from the south dllu.jpg
+GGU	3	OK	File:Golden Gate Bridge Yang Ming Line.jpg
+GGU	4	OK	File:Golden Gate Bridge as seen from Marshall’s Beach, March 2018.jpg
+MU	1	OK	File:Loyola Marymount SunkenGardens SacredHeartChapel.jpg
+MU	2	OK	File:MarymountU-4789-022022.jpg
+MU	3	OK	File:MarymountU-5276-012122.jpg
+MU	4	OK	File:MarymountU-5281-012122.jpg
+Adelphi	1	OK	File:Adelphi College Library - DPLA - 657f7fbe4fac6bbe60be12f503a5ef02.jpg
+Adelphi	2	OK	File:Adelphi College Library - DPLA - b2d72a38807a3cf97ea34cad7222dba1.jpg
+Adelphi	3	OK	File:Adelphi University Quad.jpg
+Adelphi	4	OK	File:Inside Blodgett Hall, Adelphi University.JPG
+UC	1	OK	File:Armory Fieldhouse, Graduation Day.jpg
+UC	2	OK	File:Americana 1920 Cincinnati - University of Cincinnati Buildings.jpg
+UC	3	OK	File:Logan Hall, University of Cincinnati, Corryville, Cincinnati, OH (46558932434).jpg
+UC	4	OK	File:Joseph A. Steger Student Life Center.jpg
+Temple	1	OK	File:University of Virginia, Pavilion III, West Lawn, University of Virginia Campus, Charlottesville, Charlottesville, VA HABS VA,2-CHAR,1D- (sheet 10 of 10).tif
+Temple	2	OK	File:Pennsylvania Female College Catalogue (1886) (14584602810).jpg
+Temple	3	OK	File:Archeological Ruins of Nalanda Mahavihara.jpg
+Temple	4	OK	File:Lafayette College - Some pages of its past, pictures of its present, and forecasts of its future (1901) (14773108761).jpg
+Drexel	1	OK	File:Anthony J. Drexel bust - Drexel University - IMG 7344.JPG
+Drexel	2	OK	File:Drexel facade.jpg
+Drexel	3	OK	File:Drexel sign.jpg
+Drexel	4	OK	File:Randell Hall - Drexel University - IMG 7267.JPG
+Suffolk	1	OK	File:Archer Building Suffolk University.jpg
+Suffolk	2	OK	File:Donahue Lobby Elevators, Suffolk University 2009 (53813291515).jpg
+Suffolk	3	OK	File:Fenton Building Suffolk University.jpg
+Suffolk	4	OK	File:Ipswich, University of Suffolk - geograph.org.uk - 7218230.jpg
+Pace	1	OK	File:Elisabeth Haub School of Law - Pace University (52641711048).jpg
+Pace	2	OK	File:Lubin School of Business, Pace University.jpg
+Pace	3	OK	File:NYC Mike Brown-Ferguson protest Pace University.JPG
+Pace	4	OK	File:One Pace Plaza, Pace University 03.jpg
+UArizona	1	OK	File:Brick Breeden Fieldhouse sign - Montana State University - Bozeman, Montana - 2013-07-09.jpg
+UArizona	2	OK	File:Covered board sidewalk in Tombstone, Arizona - May 1940 (cropped).jpg
+UArizona	3	OK	File:University of Arizona Band 1922.png
+UArizona	4	OK	File:Arizona Stadium, University of Arizona (3443689670).jpg
+FIU	1	OK	File:Florida International University College of Law, building exterior.jpg
+FIU	2	OK	File:Entry gate, Florida International University.JPG
+FIU	3	OK	File:FIU ChemistryPhysics.JPG
+FIU	4	OK	File:FIU Worlds Ahead.jpg
+UConn	1	OK	File:Connecticut Street Armory, Connecticut Street, Front Park, Buffalo, NY.jpg
+UConn	2	OK	File:Preliminary announcement, foundation, organization, site, and plans (1914) (14780753311).jpg
+UConn	3	OK	File:Campus view - University of Connecticut - DSC09948.JPG
+UConn	4	OK	File:Divinity College at Yale before 1870, Memories of Yale life and men, 1854-1899 (1903).jpg
+Clarkson	1	OK	File:Clarkson-university-logo-green.png
+Clarkson	2	OK	File:Clarkson Logo.png
+Clarkson	3	OK	File:Clarkson University Pep Band at Meehan Auditorium.jpg
+Clarkson	4	OK	File:Clarkson University Shield green and gold.png
+ColChic	1	OK	File:Chicago 20031231 55 Columbia College, Wabash Ave. near Harrison St. (6816993011).jpg
+ColChic	2	OK	File:Chicago Women's Club Building-Columbia College Chicago Getz Theater Center 2020-0425.jpg
+ColChic	3	OK	File:Chicago Women's Club Building-Columbia College Chicago Getz Theater Center 2020-0431.jpg
+ColChic	4	OK	File:The Audubon annual bulletin (1916) (20349734555).jpg
+NYFA	1	OK	File:LA-NYFA.jpg
+NYFA	2	OK	File:NYFA Diploma.JPG
+NYFA	3	OK	File:NewYorkFilmAcademyDay.JPG
+NYFA	4	OK	File:New York Film Academy, campus building, Whitehall.jpg
+Webster	1	OK	File:Crouse-Hinds Hall (Syracuse University) 01.jpg
+Webster	2	OK	File:Afro-American encyclopaedia, or, The thoughts, doings, and sayings of the race (electronic resource)- embracing addresses, lectures, biographical sketches, sermons, poems, names of universities, (14577035840).jpg
+Webster	3	OK	File:Buckingham Hall - University of Colorado Boulder Campus - Student Housing.jpg
+Webster	4	OK	File:Female students at the Territorial University of Washington , 1883 (MOHAI 5858).jpg
+Simmons	1	OK	File:2018 Simmons University, Boston.jpg
+Simmons	2	OK	File:Simmons Hall - Simmons College - DSC09858.JPG
+Simmons	3	OK	File:Simmons University.jpg
+Simmons	4	OK	File:The uplift (serial) (1909) (14764074532).jpg
+FloridaTech	1	OK	File:Applied Research Lab Florida Tech 20230307 150119.jpg
+FloridaTech	2	OK	File:Applied Research Lab Florida Tech 20230307 150150.jpg
+FloridaTech	3	OK	File:Florida Tech Campus Security 20230307 150257.jpg
+FloridaTech	4	OK	File:FlTechSUB.jpg
+NAU	1	OK	File:Exterior of Gilman Hall, on the Johns Hopkins University campus in Baltimore, Maryland LCCN2013646483.tif
+NAU	2	OK	File:Afro-American encyclopaedia, or, The thoughts, doings, and sayings of the race (electronic resource)- embracing addresses, lectures, biographical sketches, sermons, poems, names of universities, (14577035840).jpg
+NAU	3	OK	File:Bemis Hall.JPG
+NAU	4	OK	File:Looking north, northwest showing south end and east side - University of Idaho, University Classroom Building, Line Street between University Avenue and Idaho Avenue, Moscow, Latah HABS ID-122-F-7.tif
+Radford	1	OK	File:2017 Graduation at Radford University.jpg
+Radford	2	OK	File:Muse Hall, Radford University.jpg
+Radford	3	OK	File:Muse Hall at Radford University 2008.jpg
+Radford	4	OK	File:Radford University - panoramio.jpg
+Concord	1	OK	File:Concord University 2011 Library.jpg
+Concord	2	OK	File:Concord University 2011 Marsh Hall.jpg
+Concord	3	OK	File:Concord University 2011 University Point.jpg
+Concord	4	OK	File:The uplift (serial) (1909) (14764074532).jpg
+UAlbany	1	OK	File:New Albany Police HQ 1.jpg
+UAlbany	2	OK	File:New York State Normal School 1909.jpg
+UAlbany	3	OK	File:SUNY Albany (5406832382).jpg
+UAlbany	4	OK	File:The Albany, Old Hall Street 2019.jpg
+CWU	1	OK	File:Detail view of the east elevation to show gable end and exterior end chimeny; note; this is the end wall of the first floor parlor and the windows glazed with the nine-over-six HABS SC,39-CLEM,1-21.tif
+CWU	2	OK	File:Afro-American encyclopaedia, or, The thoughts, doings, and sayings of the race (electronic resource)- embracing addresses, lectures, biographical sketches, sermons, poems, names of universities, (14577035840).jpg
+CWU	3	OK	File:ENTRANCE DETAIL AT TECHWOOD DORMITORY, SHOWING NORTH ENTRANCE FROM CENTRAL COURTYARD INTO CENTER WING. ORIGINAL DOUBLE DOORS HAVE BEEN REPLACED WITH A SINGLE, WIDER DOOR. STONE HABS GA,61-ATLA,60F-6.tif
+CWU	4	OK	File:2009-05-23, Central Washington University sign (Ellensburg, Washington), 232040.jpg
+ConnColl	1	OK	File:Yale University, Samuel F.B. Morse and Ezra Stiles Colleges, New Haven, Connecticut, 1958-62. Exterior - 00707v.jpg
+ConnColl	2	OK	File:Preliminary announcement, foundation, organization, site, and plans (1914) (14780753311).jpg
+ConnColl	3	OK	File:Comely Connecticut College Harkness Chapel.jpg
+ConnColl	4	OK	File:Divinity College at Yale before 1870, Memories of Yale life and men, 1854-1899 (1903).jpg
+SFBU	1	OK	File:NPU NorthBuilding.jpg
+SFBU	2	OK	File:NPU North Building.jpg
+SFBU	3	OK	File:Northwestern Polytechnical University 1.jpg
+SFBU	4	OK	File:Northwestern Polytechnical University 2.jpg
+SCSS	1	OK	File:Exterior front view of the Doheny mansion, West Adams district, Los Angeles, ca.1912-1921 (CHS-5573).jpg
+SCSS	2	OK	File:Exterior view of Trinity Auditorium Building, 9th Street and Grand Avenue, Los Angeles, ca.1914-1920 (CHS-5622).jpg
+SCSS	3	OK	File:California - Los Angeles - NARA - 23934503.jpg
+SCSS	4	OK	File:Franklin Fire in California (MODIS 2024-12-13).jpg
+DeAnza	1	OK	File:Apple1 MLB.jpg
+DeAnza	2	OK	File:De Anza College 1 2018-08-12.jpg
+DeAnza	3	OK	File:Dehartlearningcenter.jpg
+DeAnza	4	OK	File:Dr. Jill Biden at De Anza College in Cupertino California - 2015.jpg
+GreenRiver	1	OK	File:Lane Technical High School, Addison Street and Western Avenue, Roscoe Village, Chicago, IL - 54520733822.jpg
+GreenRiver	2	OK	File:Green River College - Kent Station campus.jpg
+GreenRiver	3	OK	File:Green River College — Mel Lindbloom Student Union — 001.jpg
+GreenRiver	4	OK	File:Winnipeg (6387109075).jpg
+SCC	1	OK	File:27 Oct 2007 Seattle Demo - SCCC 01.jpg
+SCC	2	OK	File:March staging at Seattle Central College.jpg
+SCC	3	OK	File:SCCC 01.jpg
+SCC	4	OK	File:SCCC lawn.jpg
+SMC	1	OK	File:Campus33.jpg
+SMC	2	OK	File:Corsair Field May 1 2014 4-51 pm 2014-05-08 07-48.jpg
+SMC	3	OK	File:Drescherhall.JPG
+SMC	4	OK	File:SANTA MONICA COLLEGE EQUITY.png
+LACC	1	OK	File:Exterior front view of the Doheny mansion, West Adams district, Los Angeles, ca.1912-1921 (CHS-5573).jpg
+LACC	2	OK	File:Exterior view of Trinity Auditorium Building, 9th Street and Grand Avenue, Los Angeles, ca.1914-1920 (CHS-5622).jpg
+LACC	3	OK	File:Billy Barty and the Los Angeles City College basketball team 1951.jpg
+LACC	4	OK	File:Know Your City No.45 Grounds and front view of the Administration Building at Los Angeles City College.jpg
+CCC	1	OK	File:BESUD TOM DASHNYAM.jpg
+CCC	2	OK	File:Otgontugs Besud Tom Dashnyam, Ph.D., Mongolian Fine Arts and Culture Researcher.jpg
+CCC	3	OK	File:Tom Dashnyam.jpg
+CCC	4	OK	File:The Tiger (student newspaper), Sept. 1903-June 1904 (1903) (14594838297).jpg
+LWIT	1	OK	File:LWTech Allied Health Building 1.jpg
+LWIT	2	OK	File:LWTech Allied Health Building 2.jpg
+LWIT	3	OK	File:LWTech Allied Health Building 3.jpg
+LWIT	4	OK	File:LWTech Annual Plant Sale.jpg
+CCSF	1	OK	File:"Theory and Science" mural located at San Francisco City College (CCSF) up close detail.jpg
+CCSF	2	OK	File:CCSF Chinatown North Beach campus, December 2019.jpg
+CCSF	3	OK	File:City College of San Francisco at Valencia.jpg
+CCSF	4	OK	File:Congresswoman Pelosi delivers remarks at City College of San Francisco (12191908996).jpg
+CSI	1	OK	File:116th Computer Systems Squadron.png
+CSI	2	OK	File:702 Computer Systems Sq emblem.png
+CSI	3	OK	File:82 Computer Systems Squadron.jpg
+CSI	4	OK	File:US Army Computer Systems Command SSI 2026-05-09.png
+EMU	1	OK	File:Dlr emu at tower gateway.jpg
+EMU	2	OK	File:Eastern Mediterranean University, Famagusta.jpg
+EMU	3	OK	File:Emu 1 - Tidbinbilla.jpg
+EMU	4	OK	File:Emu portrait.jpg
+EUL	1	OK	File:EUL MS 23 - 02.jpg
+EUL	2	OK	File:Jeong Eul-ho portrait (cropped).png
+EUL	3	OK	File:Kim Eul-Dong and Park Eun-Hye.jpg
+EUL	4	OK	File:Kwon Oh-eul 20250804.jpg
+CIU	1	OK	File:CIU Arena Basketball.jpg
+CIU	2	OK	File:CIU Campus.jpg
+CIU	3	OK	File:Ciulibrarystudyingplace.jpg
+CIU	4	OK	File:Cyprus International University campus 1.jpg
+Monash	1	OK	File:Bandar Sunway aerial.jpg
+Monash	2	OK	File:Cmglee Sunway Monash University.jpg
+Monash	3	OK	File:Monash University Malaysia (221208) 01.jpg
+Monash	4	OK	File:Monash University Malaysia (221208) 02.jpg
+UNM	1	OK	File:Acalypha UNMC.JPG
+UNM	2	OK	File:Block E, The University of Nottingham Malaysia Campus.jpg
+UNM	3	OK	File:Campus photo 2 (250m) (1).jpg
+UNM	4	OK	File:Nottinghamunimalaysia.JPG
+USMalaysia	1	OK	File:U of Southampton Malaysia.png
+USMalaysia	2	NOT_FOUND
+USMalaysia	3	NOT_FOUND
+USMalaysia	4	NOT_FOUND
+HWU	1	NOT_FOUND
+HWU	2	NOT_FOUND
+HWU	3	NOT_FOUND
+HWU	4	NOT_FOUND
+Sunway	1	OK	File:Cmglee Sunway University old building.jpg
+Sunway	2	OK	File:Sunway U.jpg
+Sunway	3	OK	File:Sunway University (211104).jpg
+Sunway	4	OK	File:Sunway University (New Building) - 2015.jpg
+Taylor's	1	OK	File:Ball State University CAP INDY.jpg
+Taylor's	2	OK	File:English Hall Taylor Univ.jpg
+Taylor's	3	OK	File:Jean-Pierre Poulain at Taylor's University 2012 b.jpg
+Taylor's	4	OK	File:Schine Student Center (Syracuse University) 01.jpg
+APU	1	OK	File:APU Bakery.jpg
+APU	2	OK	File:A distant view of Ritsumeikan Asia-Pacific University from Jyumonjihara Park, Beppu, Oita, Japan.jpg
+APU	3	OK	File:Ritsumeikan APU.jpg
+APU	4	OK	File:Ritsumeikan APU Univ, Japan.JPG
+HELP	1	OK	File:Cooley Laboratory - Montana State University - Bozeman, Montana - 2013-07-09.jpg
+HELP	2	OK	File:Emergency help point, Tocil Wood. University of Warwick, Coventry - geograph.org.uk - 4134670.jpg
+HELP	3	OK	File:New South Entry.JPG
+HELP	4	OK	File:The University of North Carolina Record. Illustrations and General Information. (1909) (1909) (14770379071).jpg
+INTI	1	OK	File:Cmglee Inti College Penang.jpg
+INTI	2	OK	File:INTI Nilai Student Centre.png
+INTI	3	OK	File:INTI Nilai bridge.png
+INTI	4	OK	File:INTI Subang - Mapillary (FrFeVDhUppVU9dh1EVMB5W).jpg
+IIUM	1	OK	File:7-Eleven IIUM 01.jpg
+IIUM	2	OK	File:CFS IIUM walkway 1.jpg
+IIUM	3	OK	File:CU convenience store in IIUM, Malaysia.jpg
+IIUM	4	OK	File:IIUM - panoramio.jpg
+IMU	1	OK	File:EC-IMU (8719853419).jpg
+IMU	2	OK	File:EI-IMU (LEBB, 2016-10-09).jpg
+IMU	3	OK	File:IMU 101.jpg
+IMU	4	OK	File:IMU 101 at Dakabin.jpg
+MMU	1	OK	File:HP-HP9000-PARISC-PA7150-MMU 006.jpg
+MMU	2	OK	File:MMU FOB.jpg
+MMU	3	OK	File:Multimedia University.JPG
+MMU	4	OK	File:Multimedia University Johor Campus.jpg
+UTP	1	OK	File:An-Nur Islamic Centre.jpg
+UTP	2	OK	File:Pocket C.jpg
+UTP	3	OK	File:SVPG.jpg
+UTP	4	OK	File:UTP-logo.png
+UTAR	1	OK	File:Lake View UTAR 11122025.png
+UTAR	2	OK	File:Tunku Abdul Rahman University.JPG
+UTAR	3	OK	File:UTAR's Grand Hall Lighted Up.jpg
+UTAR	4	OK	File:UTAR FAS & ICS.jpg
+SEGi	1	OK	File:2010ibaetafeminismo03.jpg
+SEGi	2	OK	File:Kota Damansara 16.jpg
+SEGi	3	OK	File:Lambang Universitas Negeri Medan.png
+SEGi	4	OK	File:SEGi University.jpg
+MSU	1	OK	File:Looking NE at Wilson Hall and Hamilton Hall - Montana State University - 2013-07-09.jpg
+MSU	2	OK	File:938 380 MSU.jpg
+MSU	3	OK	File:MSU Medical Centre and The Residence.jpg
+MSU	4	OK	File:MSU U-Square.jpg
+MAHSA	1	OK	File:Amir Kabir University uprising September 2022 (2).jpg
+MAHSA	2	OK	File:Amir Kabir University uprising September 2022 (3).jpg
+MAHSA	3	OK	File:Amir Kabir University uprising September 2022 (4).jpg
+MAHSA	4	OK	File:Amir Kabir University uprising September 2022 (5).jpg
+UoRM	1	OK	File:Show Your Stripes change in temperature graphic for Ipoh, Malaysia with labels.png
+UoRM	2	OK	File:Show Your Stripes change in temperature graphic for Klang, Malaysia with labels.png
+UoRM	3	OK	File:Show Your Stripes change in temperature graphic for Malaysia, Klang.png
+UoRM	4	OK	File:Show Your Stripes change in temperature graphic for Malaysia, Kota Bharu.png
+Swinburne	1	OK	File:20240323 SUTS.jpg
+Swinburne	2	OK	File:20240323 SUTS Borneo Atrium.jpg
+Swinburne	3	OK	File:20240510 SUTS.jpg
+Swinburne	4	OK	File:Building A of Swinburne University of Technology Sarawak Campus.jpg
+UOC	1	NOT_FOUND
+UOC	2	NOT_FOUND
+UOC	3	NOT_FOUND
+UOC	4	NOT_FOUND
+CordonBleu	1	NOT_FOUND
+CordonBleu	2	NOT_FOUND
+CordonBleu	3	NOT_FOUND
+CordonBleu	4	NOT_FOUND
+UOW	1	OK	File:Game Square 2017.jpg
+UOW	2	OK	File:KDU University College, Damansara Jaya campus.JPG
+UOW	3	OK	File:KDU University College, Utropolis.jpg
+UOW	4	NOT_FOUND
+TOA	1	OK	File:Columbus Signature Academy, Fodrea Campus. Columbus, Indiana LCCN2013650702.tif
+TOA	2	OK	File:Royal Academy of Music- the work of the Royal Academy in Wartime, London, England, UK, 1944 D22303.jpg
+TOA	3	OK	File:Attica 06-13 Athens 28 Academy of Athens.jpg
+TOA	4	OK	File:Annual reports of the boards to the General Assembly (1890) (14763385722).jpg
+UniKL	1	OK	File:Glühwendel brennt durch.jpg
+UniKL	2	OK	File:Kluni.png
+UniKL	3	OK	File:UniKL BMI 01.jpg
+UniKL	4	OK	File:UniKL BMI 02.jpg
+UNITEN	1	OK	File:COIT in UNITEN.JPG
+UNITEN	2	OK	File:Ilsa 2023-04-13 0150Z.jpg
+UNITEN	3	OK	File:Masjid Uniten - panoramio.jpg
+UNITEN	4	OK	File:Masjid Uniten - panoramio - nenek kebayan.jpg
+TARUC	1	OK	File:TAR-UMT (Kuala Lumpur Campus).jpg
+TARUC	2	OK	File:TARUC KL (220124) 03.jpg
+TARUC	3	OK	File:TARUC KL (220124) 01.jpg
+TARUC	4	OK	File:TARUC KL (220124) 04.jpg
+UE of Europe	1	OK	File:Artificial Sky Lab - Stuttgart Technology University of Applied Sciences (Hft Stuttgart).jpg
+UE of Europe	2	OK	File:Iserlohn-BiTS1-Asio.jpg
+UE of Europe	3	OK	File:University-of-Europe-for-Applied-Sciences-Campus-Berlin-Dessauer-Str.jpg
+UE of Europe	4	OK	File:University of Applied Sciences Europe - Campus Berlin.jpg
+Gisma	1	OK	File:GISMA Hannover.jpg
+Gisma	2	OK	File:GISMA office building Goethestrasse Hanover Germany.jpg
+Gisma	3	OK	File:University-of-Europe-for-Applied-Sciences-Campus-Berlin-Dessauer-Str.jpg
+Gisma	4	NOT_FOUND
+Vistula	1	OK	File:Akademia Finansów i Biznesu Vistula.jpg
+Vistula	2	OK	File:Img 5286- Wyższa Szkoła Ekonomiczno-Informatyczna w Warszawie.jpg
+Vistula	3	OK	File:SGTiH Vistula.jpg
+Vistula	4	OK	File:Stanisławski Vistula near Tyniec.jpg
+UTA	1	NOT_FOUND
+UTA	2	NOT_FOUND
+UTA	3	NOT_FOUND
+UTA	4	NOT_FOUND
+VIZJA	1	OK	File:AEH coat of arms.jpg
+VIZJA	2	OK	File:AEH coat of arms.png
+VIZJA	3	OK	File:AEH logo Polish.jpg
+VIZJA	4	OK	File:AEH nowy budynek październik 2019.jpg
+PJATK	1	OK	File:PJATK.jpg
+PJATK	2	OK	File:PJWSTK 1.jpg
+PJATK	3	OK	File:PJWSTK 4.jpg
+PJATK	4	OK	File:Polish-Japanese Institute of Information Technology.png
+UniWien	1	OK	File:Universität Wien Campus Hof (Ian Ehm) 2.jpg
+UniWien	2	OK	File:Arkadenhof der Universität Wien-1201-Bearbeitet.jpg
+UniWien	3	OK	File:Arkadenhof der Universität Wien-1230-Bearbeitet.jpg
+UniWien	4	OK	File:Josef von Skoda (1805-1881), Nr. 102 bust (bronze) in the Arkadenhof of the University of Vienna--34.jpg
+WU	1	OK	File:Campus WU EA DSC 1571w.jpg
+WU	2	OK	File:Campus WU LC D1 TC DSC 1440w.jpg
+WU	3	OK	File:Campus WU TC.JPG
+WU	4	OK	File:Die Wirtschaftsuniversität Wien.jpg
+TU Wien	1	OK	File:Gedenktafel Opfer des Faschismus TU Wien DSC 9015w.jpg
+TU Wien	2	OK	File:Josef Stiny Hof TU-Wien-DSC 3573w.jpg
+TU Wien	3	OK	File:Kieslinger TU-Wien Hof-DSC 3582w.jpg
+TU Wien	4	OK	File:Kuppelsaal TU Wien DSC 8691w.jpg
+MedUni Wien	1	OK	File:20190402 Ignaz Semmelweis Meduni Wien P20.jpg
+MedUni Wien	2	OK	File:AKH Wien MedUniWien.JPG
+MedUni Wien	3	OK	File:Eingangsbereich Medizinische Universität Wien.jpg
+MedUni Wien	4	OK	File:MedUni Campus Mariannengasse, Ansicht Spitalgasse.jpg
+MedUni Graz	1	OK	File:Logo Med Uni Graz.png
+MedUni Graz	2	OK	File:Med.University Graz.jpg
+MedUni Graz	3	OK	File:Med Uni Graz Logo.png
+MedUni Graz	4	OK	File:Medizinische Universität Graz 08.jpg
+MedUni Innsbruck	1	OK	File:Fingerhut im Heil und Nutzpflanzengarten Botanischer Garten Uni Innsbruck 02.jpg
+MedUni Innsbruck	2	OK	File:Gert Mayer.jpg
+MedUni Innsbruck	3	OK	File:Heil und Nutzpflanzengarten Botanischer Garten Uni Innsbruck 01.jpg
+MedUni Innsbruck	4	OK	File:Heil und Nutzpflanzengarten Botanischer Garten Uni Innsbruck 03.jpg
+JKU Linz	1	OK	File:Johannes Kepler University Linz - Bank Building PNr°1113.jpg
+JKU Linz	2	OK	File:Johannes Kepler University Linz - artwork Gigant-VD NE PNr°1117.jpg
+JKU Linz	3	OK	File:Johannes Kepler University Linz - artwork Gigant-VD SE PNr°1116.jpg
+JKU Linz	4	OK	File:Johannes Kepler University Linz - astronomical sundial-VD SE ar 1to1 PNr°1118.jpg
+Angewandte	1	OK	File:Angewandte.jpg
+Angewandte	2	OK	File:Die Angewandte 12.02.JPG
+Angewandte	3	OK	File:Kassenhalle, ehemalige Postsparkasse, Universität für angewandte Kunst Wien.jpg
+Angewandte	4	OK	File:M.A.K. Vienna June 2006 001.jpg
+MDW	1	OK	File:Konzertsaal im Future-Art-Lab der mdw - Universität für Musik und darstellende Kunst Wien, 2021.jpg
+MDW	2	OK	File:Musica - sculpture Vienna III.JPG
+MDW	3	OK	File:University of Music and Performing Arts Vienna.jpg
+MDW	4	OK	File:Universität für Musik und Darstellende Kunst.jpg

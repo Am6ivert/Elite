@@ -1,0 +1,42 @@
+=== italy ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\italy\1.jpg (1600x1067)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\italy\2.jpg (1600x1200)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\italy\3.jpg (1600x1062)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\italy\4.jpg (1600x1066)
+=== usa ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\usa\1.jpg (1600x1066)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\usa\2.jpg (1600x1066)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\usa\3.jpg (1600x1066)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\usa\4.jpg (1600x1066)
+=== austria ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\austria\1.jpg (1600x1066)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\austria\2.jpg (1600x1199)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\austria\3.jpg (1600x900)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\austria\4.jpg (1600x1066)
+=== germany ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\germany\1.jpg (1600x1201)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\germany\2.jpg (1600x1064)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\germany\3.jpg (1600x1066)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\germany\4.jpg (1600x1066)
+=== poland ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\poland\1.jpg (1600x900)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\poland\2.jpg (1600x900)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\poland\3.jpg (1600x1200)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\poland\4.jpg (1600x1066)
+=== kipr ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\kipr\1.jpg (1600x900)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\kipr\2.jpg (1600x1066)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\kipr\3.jpg (1600x900)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\kipr\4.jpg (1600x1066)
+=== malasia ===
+    hero уже существует, пропускаю (запусти с --force чтобы перезаписать)
+    [OK] gallery 1 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\malasia\1.jpg (1600x900)
+    [OK] gallery 2 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\malasia\2.jpg (1600x1066)
+    [OK] gallery 3 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\malasia\3.jpg (1600x1034)
+    [OK] gallery 4 -> C:\Users\nursu\OneDrive\Desktop\elite-academy\Elite_website\images\countries\malasia\4.jpg (1600x1066)
