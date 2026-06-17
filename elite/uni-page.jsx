@@ -14,15 +14,15 @@ function uniSlug(short) {
 
 const GALLERY_LABELS = ["Кампус", "Учебные корпуса", "Общежитие", "Студенческая жизнь"];
 
-function GalleryTile({ src, label, big }) {
-  const [err, setErr] = useState(false);
+function GalleryTile({ src, fallback, label, big }) {
+  const [stage, setStage] = useState(0); // 0 = src, 1 = fallback, 2 = placeholder
   const cls = "uprof__tile" + (big ? " uprof__tile--big" : "");
-  if (err) {
+  if (stage === 2 || (stage === 1 && !fallback)) {
     return <div className={cls + " ph"} data-label={"фото · " + label.toLowerCase()}></div>;
   }
   return (
     <div className={cls}>
-      <img src={src} alt={label} loading="lazy" onError={() => setErr(true)} />
+      <img src={stage === 0 ? src : fallback} alt={label} loading="lazy" onError={() => setStage(stage + 1)} />
       <span className="uprof__tile-tag">{label}</span>
     </div>
   );
@@ -168,6 +168,7 @@ function UniversityProfile() {
               <GalleryTile
                 key={label}
                 src={`images/unis/${slug}/${i + 1}.jpg`}
+                fallback={i === 0 ? u.campus : null}
                 label={label}
                 big={i === 0}
               />

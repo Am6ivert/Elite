@@ -230,6 +230,19 @@ const LOGO_MAP = {
   "CIU":"images/logos/catalog/ciu.png",
 };
 
+/* ---------- Campus photos (banner background) by short code ---------- */
+const CAMPUS_MAP = {
+  "PoliMi":"images/campus/polimi.jpg",     "Bocconi":"images/campus/bocconi.jpg",
+  "Sapienza":"images/campus/sapienza.jpg", "UniPD":"images/campus/unipd.jpg",
+  "CaFosc":"images/campus/cafosc.jpg",     "LUISS":"images/campus/luiss.jpg",
+  "PoliTO":"images/campus/polito.jpg",     "UniMi":"images/campus/unimi.jpg",
+  "UniTO":"images/campus/unito.jpg",       "UniPI":"images/campus/unipi.jpg",
+  "TorVerg":"images/campus/torverg.jpg",   "UniFI":"images/campus/unifi.jpg",
+  "UniSI":"images/campus/unisi.jpg",       "UniPV":"images/campus/unipv.jpg",
+  "UniTN":"images/campus/unitn.jpg",       "UniTS":"images/campus/units.jpg",
+  "UniPR":"images/campus/unipr.jpg",
+};
+
 /* ---------- Country visual palette for campus banner ---------- */
 const COUNTRY_PALETTE = {
   "Италия":        "linear-gradient(135deg,#c1440e 0%,#8b2a00 100%)",
@@ -305,7 +318,7 @@ function enrich(u) {
     financialAid: !!(u.meritBased || u.needBased),
     needBased:   u.needBased  ?? false,
     meritBased:  u.meritBased ?? false,
-    campus:      null,
+    campus:      CAMPUS_MAP[u.short] ?? null,
     logo:        LOGO_MAP[u.short] ?? null,
     ...u,
     intake,
