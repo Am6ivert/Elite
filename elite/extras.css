@@ -240,11 +240,14 @@
    ABOUT PAGE — accreditations + office
    ============================================================ */
 .accreds__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  display: flex; gap: 16px; overflow-x: auto;
+  scroll-snap-type: x proximity; padding: 4px 4px 16px;
+  scrollbar-width: thin; scrollbar-color: rgba(6,64,102,.3) transparent;
 }
-.accred { padding: 26px; }
+.accreds__grid::-webkit-scrollbar { height: 8px; }
+.accreds__grid::-webkit-scrollbar-thumb { background: rgba(6,64,102,.22); border-radius: 99px; }
+.accred { padding: 26px; flex: 0 0 300px; scroll-snap-align: start; }
+@media (max-width: 600px) { .accred { flex: 0 0 82%; } }
 .accred__tag {
   display: inline-block;
   font-size: 11.5px; font-weight: 700;

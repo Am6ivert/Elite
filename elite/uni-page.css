@@ -150,6 +150,24 @@
 }
 .uprof__about-stat span { font-size: 14px; color: var(--muted); }
 
+/* ---------- Admission requirements ---------- */
+.uprof-req { padding-top: 8px; }
+.uprof__req-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 8px;
+}
+.uprof__req {
+  background: var(--white); border: 1px solid var(--line, #e7ebf3);
+  border-left: 4px solid var(--blue); border-radius: var(--r-md, 14px);
+  padding: 22px 20px; display: flex; flex-direction: column; gap: 6px;
+  box-shadow: 0 4px 18px rgba(10,35,90,.06);
+}
+.uprof__req-l { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+.uprof__req-v { font-family: var(--font-head); font-weight: 800; font-size: 20px; color: var(--navy); line-height: 1.2; }
+.uprof__req-d { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+.uprof__req-cta { margin-top: 24px; }
+@media (max-width: 900px) { .uprof__req-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .uprof__req-grid { grid-template-columns: 1fr; } }
+
 /* ---------- Facts ---------- */
 .uprof-facts { padding-top: 20px; padding-bottom: 30px; }
 .uprof__facts-grid {

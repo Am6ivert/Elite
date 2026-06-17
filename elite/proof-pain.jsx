@@ -213,13 +213,28 @@ const BEYOND = [
 
 function BeyondCell({ item }) {
   const ref = React.useRef(null);
-  function enter() { const v = ref.current; if (v) v.play().catch(() => {}); }
-  function leave() { const v = ref.current; if (v) { v.pause(); } }
+  const [sound, setSound] = React.useState(false);
+
+  function enter() { const v = ref.current; if (v && v.muted) v.play().catch(() => {}); }
+  function leave() {
+    const v = ref.current;
+    if (v && v.muted) { v.pause(); v.currentTime = 0; } // keep playing if user turned sound on
+  }
+  function toggleSound(e) {
+    e.stopPropagation();
+    const v = ref.current; if (!v) return;
+    if (v.muted) { v.muted = false; v.play().catch(() => {}); setSound(true); }
+    else { v.muted = true; setSound(false); }
+  }
+
   return (
     <div
-      className={`beyond__cell beyond__cell--${item.cls}`}
+      className={`beyond__cell beyond__cell--${item.cls}` + (sound ? " beyond__cell--sound" : "")}
       onMouseEnter={enter}
       onMouseLeave={leave}
+      onClick={toggleSound}
+      role="button"
+      tabIndex={0}
     >
       <video
         ref={ref}
@@ -235,8 +250,13 @@ function BeyondCell({ item }) {
         <span className="beyond__sub">{item.sub}</span>
       </div>
       <span className="beyond__play" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M5 3.5v9l7-4.5z"/></svg>
+        {sound ? (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1c2.9.9 5 3.5 5 6.7s-2.1 5.8-5 6.7v2.1c4-1 7-4.6 7-8.8s-3-7.8-7-8.8z"/></svg>
+        ) : (
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM3 3l18 18-1.4 1.4L1.6 4.4 3 3z"/></svg>
+        )}
       </span>
+      <span className="beyond__sound-hint" aria-hidden="true">{sound ? "Звук включён" : "Нажми для звука"}</span>
     </div>
   );
 }

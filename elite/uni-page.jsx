@@ -160,6 +160,40 @@ function UniversityProfile() {
         </div>
       </section>
 
+      {/* ===== Admission requirements ===== */}
+      <section className="section section--tight uprof-req">
+        <div className="wrap">
+          <div className="section-head" data-reveal>
+            <span className="eyebrow">Поступление</span>
+            <h2>Что нужно, чтобы поступить</h2>
+            <p>Главные требования {u.name} для иностранных абитуриентов. Полный список и сроки разберём на консультации.</p>
+          </div>
+          <div className="uprof__req-grid" data-reveal data-delay="1">
+            <div className="uprof__req">
+              <span className="uprof__req-l">Минимальный GPA</span>
+              <span className="uprof__req-v">{u.gpaMin}</span>
+              <span className="uprof__req-d">средний балл аттестата / диплома</span>
+            </div>
+            <div className="uprof__req">
+              <span className="uprof__req-l">Языковой тест</span>
+              <span className="uprof__req-v">{u.engTests && u.engTests.length ? u.engTests.join(" · ") : "Без теста"}</span>
+              <span className="uprof__req-d">подтверждение английского (IELTS / TOEFL / Duolingo)</span>
+            </div>
+            <div className="uprof__req">
+              <span className="uprof__req-l">Вступительные экзамены</span>
+              <span className="uprof__req-v">{u.exams && u.exams.length ? u.exams.join(" · ") : "Не требуются"}</span>
+              <span className="uprof__req-d">внутренние экзамены вуза</span>
+            </div>
+            <div className="uprof__req">
+              <span className="uprof__req-l">Уровни и набор</span>
+              <span className="uprof__req-v">{u.levels}</span>
+              <span className="uprof__req-d">старт: {u.intake && u.intake.length ? u.intake.join(" / ") : "уточняется"}</span>
+            </div>
+          </div>
+          <a href="#cta" className="btn btn--dark uprof__req-cta" data-reveal data-delay="2">Проверить свои шансы на поступление →</a>
+        </div>
+      </section>
+
       {/* ===== Photo gallery ===== */}
       <section className="section section--tight uprof-gallery">
         <div className="wrap">
