@@ -75,6 +75,67 @@ const PAGE_TO_KEY = {
   about: "О нас",
 };
 
+/* ============================================================
+   LANGUAGE SWITCH — RU / EN / KG via Google Website Translator
+   Persists across pages through the `googtrans` cookie.
+   ============================================================ */
+const LANGS = ["RU", "EN", "KG"];
+const LANG_CODE = { RU: "ru", EN: "en", KG: "ky" }; // KG = кыргызский (код ky)
+
+/* Manual labels for the navbar (Google Translate conflicts with React re-renders here,
+   so we translate the menu ourselves and mark it translate="no"). */
+const NAV_T = {
+  RU: { "Страны": "Страны", "Университеты": "Университеты", "Программы": "Программы", "Поступление": "Поступление", "О нас": "О нас", cta: "Бесплатная консультация", call: "Позвонить" },
+  EN: { "Страны": "Countries", "Университеты": "Universities", "Программы": "Programs", "Поступление": "Admission", "О нас": "About", cta: "Free consultation", call: "Call" },
+  KG: { "Страны": "Өлкөлөр", "Университеты": "Университеттер", "Программы": "Программалар", "Поступление": "Кабыл алуу", "О нас": "Биз жөнүндө", cta: "Акысыз консультация", call: "Чалуу" },
+};
+function navT(lang, key) { return (NAV_T[lang] && NAV_T[lang][key]) || NAV_T.RU[key] || key; }
+
+function currentLang() {
+  const m = (document.cookie.match(/googtrans=\/[^/]+\/(\w+)/) || [])[1];
+  if (m === "en") return "EN";
+  if (m === "ky") return "KG";
+  return "RU";
+}
+
+function setSiteLang(label) {
+  const code = LANG_CODE[label] || "ru";
+  const hosts = ["", "; domain=" + location.hostname, "; domain=." + location.hostname];
+  if (code === "ru") {
+    // remove translation → back to the original Russian
+    hosts.forEach((d) => { document.cookie = "googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT" + d; });
+  } else {
+    hosts.forEach((d) => { document.cookie = "googtrans=/ru/" + code + "; path=/" + d; });
+  }
+  window.location.reload();
+}
+
+function injectGoogleTranslate() {
+  if (window.__gtLoaded) return;
+  window.__gtLoaded = true;
+  const style = document.createElement("style");
+  style.textContent =
+    ".goog-te-banner-frame.skiptranslate,.goog-te-gadget-icon{display:none!important}" +
+    "body{top:0!important;position:static!important}" +
+    "#goog-gt-tt,.goog-te-balloon-frame{display:none!important}" +
+    ".goog-text-highlight{background:none!important;box-shadow:none!important}" +
+    "#google_translate_element{display:none!important}";
+  document.head.appendChild(style);
+  const host = document.createElement("div");
+  host.id = "google_translate_element";
+  document.body.appendChild(host);
+  window.googleTranslateElementInit = function () {
+    new window.google.translate.TranslateElement(
+      { pageLanguage: "ru", includedLanguages: "ru,en,ky", autoDisplay: false },
+      "google_translate_element"
+    );
+  };
+  const s = document.createElement("script");
+  s.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  s.async = true;
+  document.body.appendChild(s);
+}
+
 function Logo({ light }) {
   const col = light ? "#fff" : "var(--navy)";
   return (
@@ -98,7 +159,7 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(null);
   const [drawer, setDrawer] = useState(false);
-  const [lang, setLang] = useState("RU");
+  const [lang, setLang] = useState(currentLang());
   const closeT = useRef(null);
   const currentPage = getCurrentPage();
   const activeKey = PAGE_TO_KEY[currentPage] || null;
@@ -114,6 +175,8 @@ function Navbar() {
     document.body.style.overflow = drawer ? "hidden" : "";
   }, [drawer]);
 
+  useEffect(() => { injectGoogleTranslate(); }, []);
+
   const enter = (k) => { clearTimeout(closeT.current); setOpen(k); };
   const leave = () => { closeT.current = setTimeout(() => setOpen(null), 140); };
 
@@ -128,15 +191,16 @@ function Navbar() {
               <a
                 key={k}
                 href={MEGA[k].page}
+                translate="no"
                 className={
-                  "nav__item" +
+                  "nav__item notranslate" +
                   (open === k ? " is-open" : "") +
                   (activeKey === k ? " is-active" : "")
                 }
                 onMouseEnter={() => enter(k)}
                 onFocus={() => enter(k)}
               >
-                {k}
+                <span>{navT(lang, k)}</span>
                 <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
               </a>
             ))}
@@ -147,11 +211,11 @@ function Navbar() {
               <svg width="19" height="19" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6.2" stroke="currentColor" strokeWidth="1.8" fill="none"/><path d="M14 14l4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
             </button>
             <div className="lang">
-              {["RU", "EN", "KY"].map((l) => (
-                <button key={l} className={l === lang ? "is-active" : ""} onClick={() => setLang(l)}>{l}</button>
+              {LANGS.map((l) => (
+                <button key={l} className={l === lang ? "is-active" : ""} onClick={() => setSiteLang(l)}>{l}</button>
               ))}
             </div>
-            <a href="index.html#cta" className="btn btn--gold pulse nav__cta">Бесплатная консультация</a>
+            <a href="index.html#cta" translate="no" className="btn btn--gold pulse nav__cta notranslate">{navT(lang, "cta")}</a>
             <button className="nav__burger" aria-label="Меню" onClick={() => setDrawer(true)}>
               <span></span><span></span><span></span>
             </button>
@@ -225,13 +289,13 @@ function Navbar() {
           </div>
           <nav className="drawer__nav">
             {Object.keys(MEGA).map((k) => (
-              <DrawerGroup key={k} title={k} cols={MEGA[k].cols} page={MEGA[k].page} isActive={activeKey === k} />
+              <DrawerGroup key={k} title={navT(lang, k)} cols={MEGA[k].cols} page={MEGA[k].page} isActive={activeKey === k} />
             ))}
           </nav>
-          <a href="index.html#cta" className="btn btn--gold btn--block" onClick={() => setDrawer(false)}>Бесплатная консультация</a>
+          <a href="index.html#cta" translate="no" className="btn btn--gold btn--block notranslate" onClick={() => setDrawer(false)}>{navT(lang, "cta")}</a>
           <div className="drawer__lang">
-            {["RU", "EN", "KY"].map((l) => (
-              <button key={l} className={l === lang ? "is-active" : ""} onClick={() => setLang(l)}>{l}</button>
+            {LANGS.map((l) => (
+              <button key={l} className={l === lang ? "is-active" : ""} onClick={() => setSiteLang(l)}>{l}</button>
             ))}
           </div>
         </div>
@@ -239,7 +303,7 @@ function Navbar() {
 
       {/* Mobile sticky bottom CTA bar */}
       <div className="bottombar">
-        <a href="tel:+996555720712" className="bottombar__btn bottombar__btn--ghost">Позвонить</a>
+        <a href="tel:+996555720712" translate="no" className="bottombar__btn bottombar__btn--ghost notranslate">{navT(lang, "call")}</a>
         <a href="https://t.me/eliteacademykg" target="_blank" rel="noopener" className="bottombar__btn bottombar__btn--tg">Telegram</a>
       </div>
     </>
@@ -251,7 +315,7 @@ function DrawerGroup({ title, cols, page, isActive }) {
   const items = cols.flatMap((c) => c.items);
   return (
     <div className={"dg" + (o ? " is-open" : "")}>
-      <button className={"dg__h" + (isActive ? " is-active" : "")} onClick={() => setO(!o)}>
+      <button translate="no" className={"dg__h notranslate" + (isActive ? " is-active" : "")} onClick={() => setO(!o)}>
         {title}
         <span className="dg__plus">{o ? "–" : "+"}</span>
       </button>
