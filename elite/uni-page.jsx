@@ -98,7 +98,10 @@ function UniversityProfile() {
 
   const slug = uniSlug(u.short);
   const iso = (window.EA_COUNTRY_ISO || {})[u.country];
-  const palette = (window.EA_PALETTE || {})[u.country] || "linear-gradient(135deg,#0a2463 0%,#1b4f9b 100%)";
+  const paletteBase = (window.EA_PALETTE || {})[u.country] || "linear-gradient(135deg,#0a2463 0%,#1b4f9b 100%)";
+  const palette = u.campus
+    ? `linear-gradient(rgba(8,24,60,0.62),rgba(8,24,60,0.70)),url('../${u.campus}') center/cover no-repeat`
+    : paletteBase;
   const fmt = (p) => "$" + p.toLocaleString("ru");
   const isBachelor = u.levels.includes("Бакалавр") || u.levels.includes("Колледж") || u.levels.includes("Foundation");
   const isMaster = u.levels.includes("Магистр");
@@ -144,6 +147,7 @@ function UniversityProfile() {
                 </div>
                 <div className="uprof__chips">
                   {u.qs && <span className="uprof__chip uprof__chip--qs">QS #{u.qs}</span>}
+                  {u.itRank && <span className="uprof__chip uprof__chip--qs">IT #{u.itRank}</span>}
                   <span className="uprof__chip">{u.type}</span>
                   <span className="uprof__chip">{u.field}</span>
                   {u.elite && <span className="uprof__chip uprof__chip--elite">★ Elite выбор</span>}
@@ -159,6 +163,12 @@ function UniversityProfile() {
                   {u.meritBased && <span className="uprof__schol-tag">Стипендия</span>}
                   {u.needBased && <span className="uprof__schol-tag uprof__schol-tag--grant">Грант</span>}
                 </div>
+              )}
+              {u.appFee > 0 && (
+                <div className="uprof__aside-micro" style={{marginBottom:6}}>Взнос за подачу: €{u.appFee}</div>
+              )}
+              {u.appFee === 0 && (
+                <div className="uprof__aside-micro" style={{marginBottom:6}}>Взнос за подачу: бесплатно</div>
               )}
               <a href="#cta" className="btn btn--gold btn--block">Поступить с Elite →</a>
               <div className="uprof__aside-micro">Бесплатная консультация · план поступления</div>
@@ -255,6 +265,9 @@ function UniversityProfile() {
               )}
               {u.qs && (
                 <div className="uprof__about-stat"><b>#{u.qs}</b><span>QS рейтинг</span></div>
+              )}
+              {u.itRank && (
+                <div className="uprof__about-stat"><b>#{u.itRank}</b><span>рейтинг в Италии</span></div>
               )}
               <div className="uprof__about-stat"><b>{fmt(u.price)}</b><span>стоимость в год</span></div>
               <div className="uprof__about-stat"><b>{u.field}</b><span>ключевое направление</span></div>
