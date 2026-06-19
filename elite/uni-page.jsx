@@ -23,7 +23,6 @@ function GalleryTile({ src, fallback, label, big }) {
   return (
     <div className={cls}>
       <img src={stage === 0 ? src : fallback} alt={label} loading="lazy" onError={() => setStage(stage + 1)} />
-      <span className="uprof__tile-tag">{label}</span>
     </div>
   );
 }
