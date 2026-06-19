@@ -93,6 +93,12 @@ const UNIS_RAW = [
   { name: "Connecticut College",               short: "ConnColl", loc: "Нью-Лондон",  country: "США",           flag: "🇺🇸", qs: null, price: 26000, type: "Частный",         field: "Право",      levels: "Бакалавр", meritBased: true, needBased: true },
   { name: "San Francisco Bay University",      short: "SFBU",     loc: "Сан-Франциско",country: "США",          flag: "🇺🇸", qs: null, price: 14500, type: "Частный",         field: "IT",         levels: "Бакалавр · Магистр" },
   { name: "Southern California State University",short:"SCSS",    loc: "Лос-Анджелес",country: "США",           flag: "🇺🇸", qs: null, price: 12000, type: "Государственный", field: "Бизнес",     levels: "Бакалавр · Магистр" },
+  { name: "Lynn University",                    short: "Lynn",     loc: "Бока-Ратон",  country: "США",           flag: "🇺🇸", qs: 1001, price: 10000, type: "Частный",         field: "Бизнес",     levels: "Бакалавр · Магистр", meritBased: true, needBased: true },
+  { name: "University of Tulsa",                short: "UTulsa",   loc: "Талса",       country: "США",           flag: "🇺🇸", qs: 801,  price: 52000, type: "Частный",         field: "Инженерия",  levels: "Бакалавр · Магистр · PhD", meritBased: true },
+  { name: "University of San Francisco",        short: "USF",      loc: "Сан-Франциско",country: "США",          flag: "🇺🇸", qs: 801,  price: 63000, type: "Частный",         field: "Бизнес",     levels: "Бакалавр · Магистр" },
+  { name: "Gannon University",                  short: "Gannon",   loc: "Эри",         country: "США",           flag: "🇺🇸", qs: null, price: 8000,  type: "Частный",         field: "Инженерия",  levels: "Бакалавр · Магистр", meritBased: true },
+  { name: "Florida National University",        short: "FNU",      loc: "Майами",      country: "США",           flag: "🇺🇸", qs: null, price: 13800, type: "Частный",         field: "Бизнес",     levels: "Бакалавр · Магистр", meritBased: true },
+  { name: "San Francisco State University",     short: "SFSU",     loc: "Сан-Франциско",country: "США",          flag: "🇺🇸", qs: 1001, price: 10500, type: "Государственный", field: "Бизнес",     levels: "Бакалавр · Магистр", meritBased: true },
   /* США — College */
   { name: "De Anza College",                   short: "DeAnza",   loc: "Купертино",   country: "США",           flag: "🇺🇸", qs: null, price: 9500,  type: "Государственный", field: "IT",         levels: "Колледж" },
   { name: "Green River College",               short: "GreenRiver",loc:"Оберн",        country: "США",           flag: "🇺🇸", qs: null, price: 10000, type: "Государственный", field: "Бизнес",     levels: "Колледж" },
@@ -105,9 +111,9 @@ const UNIS_RAW = [
   { name: "Computer System Institute",         short: "CSI",      loc: "Чикаго",      country: "США",           flag: "🇺🇸", qs: null, price: 8500,  type: "Частный",         field: "IT",         levels: "Колледж" },
 
   /* ========== СЕВЕРНЫЙ КИПР ========== */
-  { name: "Eastern Mediterranean University",  short: "EMU",      loc: "Фамагуста",   country: "Северный Кипр", flag: "🇨🇾", qs: 601,  price: 4500,  type: "Государственный", field: "Инженерия",  levels: "Бакалавр · Магистр · PhD", meritBased: true },
-  { name: "European University of Lefke",      short: "EUL",      loc: "Лефке",       country: "Северный Кипр", flag: "🇨🇾", qs: 701,  price: 3800,  type: "Частный",         field: "Бизнес",     levels: "Бакалавр · Магистр" },
-  { name: "Cyprus International University",   short: "CIU",      loc: "Никосия",     country: "Северный Кипр", flag: "🇨🇾", qs: null, price: 3200,  type: "Частный",         field: "Медицина",   levels: "Бакалавр · Магистр", meritBased: true },
+  { name: "Eastern Mediterranean University",  short: "EMU",      loc: "Фамагуста",   country: "Северный Кипр", flag: "🇨🇾", qs: 691,  price: 4000,  type: "Государственный", field: "Инженерия",  levels: "Бакалавр · Магистр · PhD", meritBased: true },
+  { name: "European University of Lefke",      short: "EUL",      loc: "Лефке",       country: "Северный Кипр", flag: "🇨🇾", qs: 901,  price: 1700,  type: "Частный",         field: "Бизнес",     levels: "Бакалавр · Магистр" },
+  { name: "Cyprus International University",   short: "CIU",      loc: "Никосия",     country: "Северный Кипр", flag: "🇨🇾", qs: 525,  price: 3000,  type: "Частный",         field: "Медицина",   levels: "Бакалавр · Магистр", meritBased: true },
 
   /* ========== МАЛАЙЗИЯ ========== */
   { name: "Monash University Malaysia",        short: "Monash",   loc: "Субанг-Джая", country: "Малайзия",      flag: "🇲🇾", qs: 57,   price: 9900,  type: "Частный",         field: "Инженерия",  levels: "Бакалавр · Магистр · PhD", meritBased: true },
