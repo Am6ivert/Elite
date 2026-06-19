@@ -220,3 +220,17 @@
   }
   .cprof__tile--big { grid-column: span 1; }
 }
+@media (max-width: 768px) {
+  .cprof-hero__inner { text-align: center; }
+  .cprof__crumbs { justify-content: center; }
+  .cprof-hero__flag { margin: 0 auto; }
+  .cprof__hero-cta { flex-direction: column; align-items: center; gap: 10px; }
+  .cprof__hero-cta .btn { width: 100%; max-width: 320px; }
+  .cprof__name { font-size: clamp(32px, 9vw, 52px); }
+  .cprof__tagline { font-size: 15px; }
+  .cprof__facts-row { gap: 0; }
+  .cprof__fact { padding: 10px 6px; }
+  .cprof__fact-ic { width: 34px; height: 34px; }
+  .cprof__fact-v { font-size: 13px; }
+  .cprof__students-grid { grid-template-columns: repeat(2, 1fr); }
+}

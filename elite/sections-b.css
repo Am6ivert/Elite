@@ -628,6 +628,20 @@
   .vcard { width: 175px; }
   .vcard__media { height: 280px; }
 }
+@media (max-width: 768px) {
+  .stories__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .sgrid__thumb { height: 180px; }
+  .beyond__grid { gap: 10px; }
+  .beyond__cell { min-height: 180px; }
+  .beyond__title { font-size: 16px; }
+  .beyond__sub { font-size: 12px; }
+  .vmodal { grid-template-columns: 1fr; }
+  .vmodal__side { padding: 20px; }
+  .finalcta__head h2 { font-size: clamp(22px, 6vw, 34px); }
+  .footer__grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .footer__map { height: 180px; }
+  .scholar__grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 560px) {
   .scholar__grid, .visas__grid, .blog__grid { grid-template-columns: 1fr; }
   .footer__grid { grid-template-columns: 1fr; gap: 28px; }
@@ -636,6 +650,9 @@
   .tstep__node { width: 52px; height: 52px; font-size: 18px; }
   .timeline__line { left: 25px; }
   .tstep { gap: 18px; }
+  .stories__grid { grid-template-columns: 1fr; }
+  .sgrid.card { flex-direction: row; align-items: center; }
+  .sgrid__thumb { width: 90px; min-width: 90px; height: 90px; border-radius: 10px; flex-shrink: 0; }
 }
 
 /* ============================================================

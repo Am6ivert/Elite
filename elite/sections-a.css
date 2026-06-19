@@ -534,7 +534,18 @@
   .exams__hero { grid-template-columns: 1fr; }
   .exams__hero-vis { min-height: 180px; order: -1; }
 }
+@media (max-width: 768px) {
+  .trustbar { padding: 20px 0 24px; }
+  .unibar__item { width: 110px; }
+  .unibar__logo-box { height: 42px; }
+  .country { flex: 0 0 80%; }
+  .quiz { border-radius: var(--r-md); }
+  .quiz__head, .quiz__stage { padding-left: 18px; padding-right: 18px; }
+  .quiz__q { font-size: clamp(18px, 5vw, 24px); }
+  .programs__who { grid-template-columns: 1fr; }
+}
 @media (max-width: 560px) {
   .quiz__head, .quiz__stage { padding-left: 20px; padding-right: 20px; }
   .quiz__form { grid-template-columns: 1fr; }
+  .country { flex: 0 0 88%; }
 }

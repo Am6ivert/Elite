@@ -286,6 +286,19 @@
   .success-card--horiz { max-width: none; }
   .success-card__horiz-money { display: none; }
 }
+@media (max-width: 768px) {
+  .hero { padding-top: calc(var(--nav-h) + 24px); padding-bottom: 40px; }
+  .hero h1 { font-size: clamp(28px, 8vw, 42px); }
+  .hero__sub { font-size: 15px; margin-top: 16px; }
+  .hero__grid { text-align: center; }
+  .hero__badge { margin-left: auto; margin-right: auto; }
+  .hero__search { max-width: 100%; }
+  .hero__sugs { justify-content: center; }
+  .hero__cta { justify-content: center; }
+  .hero__stats { grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 28px; padding-top: 20px; }
+  .hero__stat-n { font-size: clamp(22px, 6vw, 30px); }
+  .hero__right { display: none; }
+}
 @media (max-width: 520px) {
   .hero__search { flex-wrap: wrap; padding: 14px; }
   .hero__search input { width: 100%; }

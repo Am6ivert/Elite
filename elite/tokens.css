@@ -287,3 +287,22 @@ ul { margin: 0; padding: 0; list-style: none; }
   background: linear-gradient(120deg, #ffffff, var(--accent-2) 60%, var(--accent));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+
+/* ============================================================
+   MOBILE — global responsive overrides (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  .section       { padding: 52px 0; }
+  .section--tight{ padding: 36px 0; }
+  .wrap          { padding: 0 16px; }
+
+  .section-head  { margin-bottom: 32px; }
+  .section-head h2 { font-size: clamp(24px, 6.5vw, 36px); }
+  .section-head p  { font-size: 15px; margin-top: 12px; }
+}
+
+@media (max-width: 480px) {
+  .section       { padding: 40px 0; }
+  .section--tight{ padding: 28px 0; }
+  .btn--lg       { padding: 15px 22px; font-size: 15px; }
+}
