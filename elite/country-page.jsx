@@ -87,13 +87,23 @@ function CountryProfile() {
       <section className="section--tight cprof-facts">
         <div className="wrap">
           <div className="cprof__facts-row">
-            {Object.entries(det.facts).map(([k, v]) => (
-              <div className="cprof__fact" key={k}>
-                <span className="cprof__fact-ic">{{"Столица":"🏛","Язык обучения":"🗣️","Валюта":"💱","Учёба от":"📚","Виза":"🛂"}[k] || "📌"}</span>
-                <span className="cprof__fact-l">{k}</span>
-                <b className="cprof__fact-v">{v}</b>
-              </div>
-            ))}
+            {Object.entries(det.facts).map(([k, v]) => {
+              const FACT_IC = {
+                "Столица":       { bg:"#E6F1FB", cl:"#185FA5", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="10" width="18" height="11" rx="1"/><path d="M9 21V10l3-7 3 7v11"/><rect x="9.5" y="14" width="2" height="3"/><rect x="12.5" y="14" width="2" height="3"/></svg> },
+                "Язык обучения": { bg:"#E1F5EE", cl:"#0F6E56", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16M4 12h10M4 18h6"/><path d="M15 15l2 2 4-4"/></svg> },
+                "Валюта":        { bg:"#FAEEDA", cl:"#854F0B", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3 3 0 0 0-5 2c0 1.5 1 2.5 2.5 3s2.5 1.5 2.5 3a3 3 0 0 1-5 2M12 6v2m0 8v2"/></svg> },
+                "Учёба от":      { bg:"#FAEEDA", cl:"#854F0B", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12"/><path d="M4 15h16"/><path d="M8 7v8m4-8v8m4-8v8"/></svg> },
+                "Виза":          { bg:"#EEEDFE", cl:"#534AB7", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="8" cy="15" r="1.5"/><path d="M12 14h5m-5 2h3"/></svg> },
+              };
+              const meta = FACT_IC[k] || { bg:"#F1EFE8", cl:"#5F5E5A", ic:<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg> };
+              return (
+                <div className="cprof__fact" key={k}>
+                  <span className="cprof__fact-ic" style={{ background: meta.bg, color: meta.cl }}>{meta.ic}</span>
+                  <span className="cprof__fact-l">{k}</span>
+                  <b className="cprof__fact-v">{v}</b>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
