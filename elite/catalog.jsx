@@ -220,6 +220,9 @@ const LOGO_MAP = {
   "UAlbany":"images/logos/catalog/ualb.png",
   "CWU":"images/logos/catalog/cwu.png",               "ConnColl":"images/logos/catalog/conncoll.png",
   "SFBU":"images/logos/catalog/sfbu.png",
+  "Lynn":"images/logos/catalog/lynn.png",         "UTulsa":"images/logos/catalog/utulsa.png",
+  "USF":"images/logos/catalog/usf.png",           "Gannon":"images/logos/catalog/gannon.png",
+  "FNU":"images/logos/catalog/fnu.jpg",           "SFSU":"images/logos/catalog/sfsu.png",
   // США — Колледжи
   "DeAnza":"images/logos/catalog/deanza.svg",   "GreenRiver":"images/logos/catalog/greenriver.png",
   "SCC":"images/logos/catalog/scc.png",         "SMC":"images/logos/catalog/smc.svg",
@@ -368,6 +371,9 @@ const CAMPUS_MAP = {
   "UAlbany":"images/campus/ualbany.jpg",     "CWU":"images/campus/cwu.jpg",
   "ConnColl":"images/campus/conncoll.jpg",   "SFBU":"images/campus/sfbu.jpg",
   "SCSS":"images/campus/scss.jpg",
+  "Lynn":"images/campus/lynn.jpg",     "UTulsa":"images/campus/utulsa.jpg",
+  "USF":"images/campus/usf.jpg",       "Gannon":"images/campus/gannon.jpg",
+  "FNU":"images/campus/fnu.webp",      "SFSU":"images/campus/sfsu.png",
   // США — колледжи
   "DeAnza":"images/campus/deanza.webp",      "GreenRiver":"images/campus/greenriver.jpg",
   "SCC":"images/campus/scc.webp",            "SMC":"images/campus/smc.jpg",
