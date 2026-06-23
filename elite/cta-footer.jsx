@@ -2,7 +2,7 @@
    FINAL CTA (positive vs loss) + FOOTER
    ============================================================ */
 const { useState, useEffect, useRef } = React;
-const LEADS_URL = "https://script.google.com/macros/s/AKfycbwGSpttr-mA0WUqjpu3ABwkKxYEY3Ey_ybcyG3vJdNca8cYMXa1b97wN6FGGXlg7z2-/exec";
+const LEADS_URL = "https://script.google.com/macros/s/AKfycbw4i67Vtu9cMUjZvXxVCZ0ZdeDndAG2GqY0eS7PznuBGxZeG4PkwHbe8xN-RAoa35BW/exec";
 const FOOTER_MAP_COORDS = [74.590385, 42.843700];
 const FOOTER_DGIS_KEY   = "de8b758a-a208-4a05-9f30-25eb492f4364";
 
