@@ -207,7 +207,7 @@ function buildInitial() {
   const det = window.EA_UNI_DETAILS || {};
   const unis = (window.EA_UNIS_RAW || []).map((u) => {
     const d = det[u.short] || {};
-    return { ...clone(u), about: d.about || "", founded: d.founded || "", students: d.students || "", site: d.site || "" };
+    return { ...clone(u), about: d.about || "", founded: d.founded || "", students: d.students || "", site: d.site || "", reqTable: d.reqTable ? clone(d.reqTable) : null };
   });
   const cdet = window.EA_COUNTRY_DETAILS || {};
   const countries = (window.EA_COUNTRY_CARDS || []).map((c) => ({
@@ -246,6 +246,7 @@ function buildContent(s) {
     if (u.founded) d.founded = isNaN(+u.founded) ? u.founded : +u.founded;
     if (u.students) d.students = u.students;
     if (u.site) d.site = u.site;
+    if (u.reqTable) d.reqTable = u.reqTable;
     if (Object.keys(d).length) uniDetails[u.short] = d;
   });
   const countryCards = s.countries.map((c) => c.card);
@@ -369,6 +370,11 @@ function UnisEditor({ list, setList, token, branch }) {
             <TIn l="Год основания" v={u.founded} on={(v) => upd(sel, "founded", v)} ph="1863" />
             <TIn l="Студентов" v={u.students} on={(v) => upd(sel, "students", v)} ph="≈47 000" />
             <TIn l="Официальный сайт" v={u.site} on={(v) => upd(sel, "site", v)} ph="polimi.it" />
+
+            <div className="aform__divider">Таблица требований (страница вуза)</div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <ReqTableEditor u={u} onChange={(rt) => upd(sel, "reqTable", rt)} />
+            </div>
           </div>
           <div className="aform__divider">Медиа</div>
           {token ? (
@@ -534,6 +540,135 @@ function SimpleList({ list, setList, schema, titleKey, addTemplate, addLabel }) 
 }
 
 /* ============================================================
+   REQUIREMENTS TABLE EDITOR
+   ============================================================ */
+const REQ_LEVELS = [
+  { key: "bachelor",   label: "Бакалавр" },
+  { key: "master",     label: "Магистратура" },
+  { key: "foundation", label: "Foundation" },
+];
+
+function reqAdminDefaultItems(u, levelKey) {
+  if (levelKey === "bachelor") {
+    return [
+      { label: "Мин. GPA", value: u.gpaMin || "" },
+      { label: "Языковой тест", value: (u.engTests && u.engTests.length) ? u.engTests.join(" / ") : "IELTS / TOEFL" },
+      { label: "Образование", value: "11 лет" },
+      { label: "Экзамены вуза", value: (u.exams && u.exams.length) ? u.exams.join(", ") : "Не требуются" },
+    ];
+  }
+  if (levelKey === "master") {
+    return [
+      { label: "Мин. GPA", value: u.gpaMin || "" },
+      { label: "Языковой тест", value: (u.engTests && u.engTests.length) ? u.engTests.join(" / ") : "IELTS / TOEFL" },
+      { label: "Образование", value: "Бакалавриат" },
+      { label: "Экзамены вуза", value: "Не требуются" },
+    ];
+  }
+  if (levelKey === "foundation") {
+    return [
+      { label: "Мин. GPA", value: "Не требуется" },
+      { label: "Языковой тест", value: "Не требуется" },
+      { label: "Образование", value: "9–11 лет" },
+      { label: "Экзамены вуза", value: "Не требуются" },
+    ];
+  }
+  return [];
+}
+
+function ReqTableEditor({ u, onChange }) {
+  const rt = u.reqTable || {};
+  const enabled = rt.enabled || {};
+
+  /* Default visibility derived from uni levels; admin can override per-column */
+  const defaultOn = {
+    bachelor:   (u.levels || "").includes("Бакалавр") || (u.levels || "").includes("Колледж"),
+    master:     (u.levels || "").includes("Магистр"),
+    foundation: (u.levels || "").includes("Foundation"),
+  };
+  const isOn = (key) => enabled[key] !== undefined ? enabled[key] : defaultOn[key];
+
+  function items(levelKey) {
+    if (rt[levelKey] && Array.isArray(rt[levelKey].items)) return rt[levelKey].items;
+    return reqAdminDefaultItems(u, levelKey);
+  }
+
+  function setItems(levelKey, newItems) {
+    const newRt = clone(rt);
+    if (!newRt[levelKey]) newRt[levelKey] = {};
+    newRt[levelKey].items = newItems;
+    onChange(newRt);
+  }
+
+  function updItem(levelKey, idx, field, value) {
+    const its = clone(items(levelKey));
+    its[idx] = { ...its[idx], [field]: value };
+    setItems(levelKey, its);
+  }
+
+  function addItem(levelKey) {
+    const its = clone(items(levelKey));
+    its.push({ label: "Новый пункт", value: "" });
+    setItems(levelKey, its);
+  }
+
+  function removeItem(levelKey, idx) {
+    const its = clone(items(levelKey));
+    its.splice(idx, 1);
+    setItems(levelKey, its);
+  }
+
+  function toggle(levelKey, on) {
+    const newRt = clone(rt);
+    newRt.enabled = { ...enabled, [levelKey]: on };
+    onChange(newRt);
+  }
+
+  const activeLevels = REQ_LEVELS.filter(l => isOn(l.key));
+
+  return (
+    <div>
+      <div className="ahint" style={{ marginBottom: 10 }}>
+        Включай или выключай колонки таблицы поступления независимо от уровней вуза. В каждой колонке — свой набор пунктов, добавляй и убирай их кнопкой «+» / «✕».
+      </div>
+      <div className="req-editor__toggles">
+        {REQ_LEVELS.map(lv => (
+          <Chk key={lv.key} l={lv.label} v={isOn(lv.key)} on={(v) => toggle(lv.key, v)} />
+        ))}
+      </div>
+      {!activeLevels.length && (
+        <div className="ahint" style={{ marginTop: 10 }}>Все колонки выключены — таблица не будет показана на странице вуза.</div>
+      )}
+      <div className="req-editor">
+        {activeLevels.map(lv => (
+          <div className="req-editor__col" key={lv.key}>
+            <div className="req-editor__head">{lv.label}</div>
+            {items(lv.key).map((it, i) => (
+              <div className="req-editor__item" key={i}>
+                <input
+                  className="req-editor__item-lbl"
+                  value={it.label}
+                  placeholder="Название пункта"
+                  onChange={e => updItem(lv.key, i, "label", e.target.value)}
+                />
+                <input
+                  className="req-editor__item-val"
+                  value={it.value}
+                  placeholder="Значение"
+                  onChange={e => updItem(lv.key, i, "value", e.target.value)}
+                />
+                <button className="req-editor__item-rm" onClick={() => removeItem(lv.key, i)} title="Удалить пункт">✕</button>
+              </div>
+            ))}
+            <button className="req-editor__add" onClick={() => addItem(lv.key)}>+ Добавить пункт</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
    MAIN APP
    ============================================================ */
 const SECTIONS = [
@@ -616,7 +751,7 @@ function PublishSettings({ token, setToken, branch, setBranch, onExport }) {
           <input type="password" value={token} placeholder="github_pat_…"
                  onChange={(e) => setToken(e.target.value)} />
         </F>
-        <Sel l="Ветка" v={branch} on={setBranch} opts={["dev", "main"]} />
+        <Sel l="Ветка" v={branch} on={setBranch} opts={["for-public", "dev", "main"]} />
         <div className="ahint" style={{ gridColumn: "1 / -1", marginTop: 0 }}>
           Ключ хранится только в этом браузере. Относись к нему как к паролю.
         </div>
@@ -860,7 +995,7 @@ function AdminApp() {
   const [savedAt, setSavedAt] = useState(null);
   const hasDraft = useMemo(() => { try { return !!localStorage.getItem(LS_KEY); } catch (e) { return false; } }, [savedAt]);
   const [ghToken, setGhTokenState] = useState(() => { try { return localStorage.getItem(GH_TOKEN_KEY) || ""; } catch (e) { return ""; } });
-  const [ghBranch, setGhBranchState] = useState(() => { try { return localStorage.getItem(GH_BRANCH_KEY) || "dev"; } catch (e) { return "dev"; } });
+  const [ghBranch, setGhBranchState] = useState(() => { try { return localStorage.getItem(GH_BRANCH_KEY) || "for-public"; } catch (e) { return "for-public"; } });
   const [pub, setPub] = useState({ busy: false, ok: null, err: null });
   const setGhToken = (v) => { setGhTokenState(v); try { localStorage.setItem(GH_TOKEN_KEY, v); } catch (e) {} };
   const setGhBranch = (v) => { setGhBranchState(v); try { localStorage.setItem(GH_BRANCH_KEY, v); } catch (e) {} };

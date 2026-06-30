@@ -1,12 +1,36 @@
 /* ============================================================
    UNIVERSITY PROFILE — university.html?u=<short>
-   UniPage-style profile: photo-first, facts as chips, Google Maps.
-   Photos: drop files into images/unis/<slug>/1.jpg … 4.jpg
-   (slug = short name, lowercase, letters+digits only,
-    e.g. "TU Wien" → images/unis/tuwien/1.jpg).
-   Until real photos exist, labeled placeholders are shown.
    ============================================================ */
 const { useState, useEffect, useRef } = React;
+
+/* Region map — city (ru) → region for USA and Italy */
+const CITY_REGIONS = {
+  /* USA → state */
+  "Чикаго": "Иллинойс",      "Сиэтл": "Вашингтон",      "Белвью": "Вашингтон",
+  "Филадельфия": "Пенсильвания", "Кламазу": "Мичиган",    "Ирвайн": "Калифорния",
+  "Буффало": "Нью-Йорк",     "Эвансвилл": "Индиана",     "Нью-Джерси": "Нью-Джерси",
+  "Харрисберг": "Пенсильвания", "Хьюстон": "Техас",       "Феникс": "Аризона",
+  "Темпе": "Аризона",         "Сан-Хосе": "Калифорния",   "Сан-Франциско": "Калифорния",
+  "Арлингтон": "Вирджиния",  "Гарден-Сити": "Нью-Йорк",  "Манхэссет": "Нью-Йорк",
+  "Цинциннати": "Огайо",     "Бостон": "Массачусетс",     "Нью-Йорк": "Нью-Йорк",
+  "Тусон": "Аризона",         "Майами": "Флорида",         "Сторрс": "Коннектикут",
+  "Потсдам": "Нью-Йорк",     "Сент-Луис": "Миссури",      "Мельбурн": "Флорида",
+  "Рэдфорд": "Вирджиния",    "Афины": "Западная Вирджиния", "Олбани": "Нью-Йорк",
+  "Элленсберг": "Вашингтон", "Нью-Лондон": "Коннектикут", "Фримонт": "Калифорния",
+  "Лос-Анджелес": "Калифорния", "Портленд": "Орегон",     "Денвер": "Колорадо",
+  "Лас-Вегас": "Невада",      "Атланта": "Джорджия",       "Сиракьюс": "Нью-Йорк",
+  "Балтимор": "Мэриленд",     "Даллас": "Техас",            "Остин": "Техас",
+  /* Italy → region */
+  "Милан": "Ломбардия",       "Болонья": "Эмилия-Романья", "Рим": "Лацио",
+  "Падуя": "Венето",          "Венеция": "Венето",          "Турин": "Пьемонт",
+  "Флоренция": "Тоскана",     "Сиена": "Тоскана",           "Пиза": "Тоскана",
+  "Павия": "Ломбардия",       "Тренто": "Трентино-Альто-Адидже", "Триест": "Фриули-Венеция-Джулия",
+  "Брешиа": "Ломбардия",      "Парма": "Эмилия-Романья",   "Удине": "Фриули-Венеция-Джулия",
+  "Кассино": "Лацио",         "Неаполь": "Кампания",        "Бари": "Апулия",
+  "Анкона": "Марке",          "Палермо": "Сицилия",         "Мессина": "Сицилия",
+  "Катания": "Сицилия",       "Салерно": "Кампания",        "Казерта": "Кампания",
+  "Генуя": "Лигурия",         "Реджо-Калабрия": "Калабрия", "Перуджа": "Умбрия",
+};
 
 function uniSlug(short) {
   return short.toLowerCase().replace(/[^a-z0-9]+/g, "");
@@ -14,21 +38,37 @@ function uniSlug(short) {
 
 const GALLERY_LABELS = ["Кампус", "Учебные корпуса", "Общежитие", "Студенческая жизнь"];
 
-function GalleryTile({ src, fallback, label, big }) {
-  const [stage, setStage] = useState(0); // 0 = src, 1 = fallback, 2 = placeholder
-  const cls = "uprof__tile" + (big ? " uprof__tile--big" : "");
-  if (stage === 2 || (stage === 1 && !fallback)) {
-    return <div className={cls + " ph"} data-label={"фото · " + label.toLowerCase()}></div>;
-  }
+/* ── Lightbox ── */
+function Lightbox({ src, alt, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
   return (
-    <div className={cls}>
-      <img src={stage === 0 ? src : fallback} alt={label} loading="lazy" onError={() => setStage(stage + 1)} />
+    <div className="lightbox" onClick={onClose} role="dialog" aria-modal="true">
+      <button className="lightbox__close" onClick={onClose} aria-label="Закрыть">✕</button>
+      <img src={src} alt={alt} className="lightbox__img" onClick={e => e.stopPropagation()} />
     </div>
   );
 }
 
-/* Видео-тур по кампусу: ждёт файл videos/unis/<slug>/tour.mp4,
-   пока его нет — показывает заглушку в стиле остальных плейсхолдеров */
+function GalleryTile({ src, fallback, label, big, onZoom }) {
+  const [stage, setStage] = useState(0);
+  const cls = "uprof__tile" + (big ? " uprof__tile--big" : "");
+  if (stage === 2 || (stage === 1 && !fallback)) {
+    return <div className={cls + " ph"} data-label={"фото · " + label.toLowerCase()}></div>;
+  }
+  const imgSrc = stage === 0 ? src : fallback;
+  return (
+    <div className={cls + " uprof__tile--zoom"} onClick={() => onZoom && onZoom(imgSrc, label)}>
+      <img src={imgSrc} alt={label} loading="lazy" onError={() => setStage(stage + 1)} />
+      <span className="uprof__tile-zoom-ic" aria-hidden="true">⊕</span>
+    </div>
+  );
+}
+
+/* Видео-тур */
 function TourVideo({ slug }) {
   const vref = useRef(null);
   const [missing, setMissing] = useState(false);
@@ -50,25 +90,120 @@ function TourVideo({ slug }) {
 
   return (
     <div className="uprof__tour uprof__tour--video" onClick={toggle}>
-      <video
-        ref={vref}
-        src={`videos/unis/${slug}/tour.mp4`}
-        preload="metadata"
-        playsInline
-        onError={() => setMissing(true)}
-      />
+      <video ref={vref} src={`videos/unis/${slug}/tour.mp4`} preload="metadata" playsInline onError={() => setMissing(true)} />
       {!playing && <span className="uprof__tour-play" aria-hidden="true">▶</span>}
     </div>
   );
 }
 
-function FactCard({ label, children }) {
+function FactCard({ label, children, sub }) {
   return (
     <div className="uprof__fact card">
       <div className="uprof__fact-body">
         <span className="uprof__fact-l">{label}</span>
         <div className="uprof__fact-v">{children}</div>
+        {sub && <div className="uprof__fact-sub">{sub}</div>}
       </div>
+    </div>
+  );
+}
+
+/* ── Foundation tooltip ── */
+function FoundationTip() {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="ftip" style={{ position: "relative", display: "inline-flex", alignItems: "center", marginLeft: 6 }}>
+      <button
+        className="ftip__btn"
+        onClick={() => setOpen(o => !o)}
+        aria-label="Что такое Foundation?"
+        title="Что такое Foundation?"
+      >?</button>
+      {open && (
+        <div className="ftip__popup" role="tooltip">
+          <strong>Foundation (подготовительный год)</strong> — это вводная программа, которая подготавливает студентов к поступлению на бакалавриат. Обычно длится 1 год и не требует GPA. Позволяет поступить без IELTS/TOEFL на некоторых программах.
+          <button className="ftip__close" onClick={() => setOpen(false)} aria-label="Закрыть">✕</button>
+        </div>
+      )}
+    </span>
+  );
+}
+
+/* ── Requirements Table ── */
+const REQ_COL_ICONS = { bachelor: "🎓", master: "📚", foundation: "🌱" };
+
+function reqDefaultItems(u, levelKey) {
+  if (levelKey === "bachelor") {
+    return [
+      { label: "Мин. GPA", value: u.gpaMin || "—" },
+      { label: "Языковой тест", value: u.engTests && u.engTests.length ? u.engTests.join(" / ") : "IELTS / TOEFL" },
+      { label: "Образование", value: "11 лет" },
+      { label: "Экзамены вуза", value: u.exams && u.exams.length ? u.exams.join(", ") : "Не требуются" },
+    ];
+  }
+  if (levelKey === "master") {
+    return [
+      { label: "Мин. GPA", value: u.gpaMin || "—" },
+      { label: "Языковой тест", value: u.engTests && u.engTests.length ? u.engTests.join(" / ") : "IELTS / TOEFL" },
+      { label: "Образование", value: "Бакалавриат" },
+      { label: "Экзамены вуза", value: "Не требуются" },
+    ];
+  }
+  if (levelKey === "foundation") {
+    return [
+      { label: "Мин. GPA", value: "Не требуется" },
+      { label: "Языковой тест", value: "Не требуется" },
+      { label: "Образование", value: "9–11 лет" },
+      { label: "Экзамены вуза", value: "Не требуются" },
+    ];
+  }
+  return [];
+}
+
+function ReqTable({ u, det }) {
+  const rt = (det && det.reqTable) ? det.reqTable : null;
+  const enabled = (rt && rt.enabled) || {};
+
+  /* Admin toggle wins; otherwise derive from uni levels */
+  const hasBachelor   = enabled.bachelor   !== undefined ? enabled.bachelor   : (u.levels.includes("Бакалавр") || u.levels.includes("Колледж"));
+  const hasMaster     = enabled.master     !== undefined ? enabled.master     : u.levels.includes("Магистр");
+  const hasFoundation = enabled.foundation !== undefined ? enabled.foundation : u.levels.includes("Foundation");
+
+  const itemsFor = (levelKey) => {
+    if (rt && rt[levelKey] && Array.isArray(rt[levelKey].items) && rt[levelKey].items.length) {
+      return rt[levelKey].items;
+    }
+    return reqDefaultItems(u, levelKey);
+  };
+
+  const cols = [
+    hasBachelor   && { key: "bachelor",   label: "Бакалавр" },
+    hasMaster     && { key: "master",     label: "Магистратура" },
+    hasFoundation && { key: "foundation", label: "Foundation", tip: true },
+  ].filter(Boolean);
+
+  if (!cols.length) return null;
+
+  return (
+    <div className="uprof__req-wrap" data-reveal>
+      <div className="uprof__req-cards" style={{ "--req-cols": cols.length }}>
+        {cols.map((c) => (
+          <div className={"uprof__req-col" + (c.key === "bachelor" ? " uprof__req-col--main" : "")} key={c.key}>
+            <div className="uprof__req-col-head">
+              <span className="uprof__req-col-ic">{REQ_COL_ICONS[c.key]}</span>
+              {c.label}
+              {c.tip && <FoundationTip />}
+            </div>
+            {itemsFor(c.key).map((item, i) => (
+              <div className="uprof__req-cell" key={i}>
+                <span className="uprof__req-cell-lbl">{item.label}</span>
+                <span className="uprof__req-cell-val">{item.value}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <a href="#cta" className="btn btn--dark uprof__req-cta" data-reveal>Проверить свои шансы на поступление →</a>
     </div>
   );
 }
@@ -78,6 +213,7 @@ function UniversityProfile() {
   const key = params.get("u");
   const UNIS = window.EA_UNIS || [];
   const u = UNIS.find((x) => x.short === key);
+  const [lightbox, setLightbox] = useState(null); // { src, alt }
 
   useEffect(() => {
     if (u) document.title = `${u.name} — Elite Academy KG`;
@@ -108,7 +244,6 @@ function UniversityProfile() {
   const similar = UNIS.filter((x) => x.country === u.country && x.short !== u.short).slice(0, 3);
   const det = (window.EA_UNI_DETAILS || {})[u.short];
 
-  /* Rich "about" text — uses curated details when available, otherwise built from the uni's data */
   const typeLc = u.type === "Государственный" ? "государственный" : "частный";
   const aboutMain = (det && det.about)
     ? det.about
@@ -142,7 +277,11 @@ function UniversityProfile() {
                 <h1 className="uprof__name">{u.name}</h1>
                 <div className="uprof__loc">
                   {iso && <img src={window.EA_FLAG_URL(iso, "20x15")} alt={u.country} />}
-                  {u.loc} · {u.country}
+                  {u.loc}
+                  {(u.country === "США" || u.country === "Италия") && CITY_REGIONS[u.loc] && (
+                    <span className="uprof__loc-region">, {CITY_REGIONS[u.loc]}</span>
+                  )}
+                  {" · " + u.country}
                 </div>
                 <div className="uprof__chips">
                   {u.qs && <span className="uprof__chip uprof__chip--qs">QS #{u.qs}</span>}
@@ -181,40 +320,6 @@ function UniversityProfile() {
         </div>
       </section>
 
-      {/* ===== Admission requirements ===== */}
-      <section className="section section--tight uprof-req">
-        <div className="wrap">
-          <div className="section-head" data-reveal>
-            <span className="eyebrow">Поступление</span>
-            <h2>Что нужно, чтобы поступить</h2>
-            <p>Главные требования {u.name} для иностранных абитуриентов. Полный список и сроки разберём на консультации.</p>
-          </div>
-          <div className="uprof__req-grid" data-reveal data-delay="1">
-            <div className="uprof__req">
-              <span className="uprof__req-l">Минимальный GPA</span>
-              <span className="uprof__req-v">{u.gpaMin}</span>
-              <span className="uprof__req-d">средний балл аттестата / диплома</span>
-            </div>
-            <div className="uprof__req">
-              <span className="uprof__req-l">Языковой тест</span>
-              <span className="uprof__req-v">{u.engTests && u.engTests.length ? u.engTests.join(" · ") : "IELTS / TOEFL"}</span>
-              <span className="uprof__req-d">подтверждение английского (IELTS / TOEFL / Duolingo)</span>
-            </div>
-            <div className="uprof__req">
-              <span className="uprof__req-l">Вступительные экзамены</span>
-              <span className="uprof__req-v">{u.exams && u.exams.length ? u.exams.join(" · ") : "Не требуются"}</span>
-              <span className="uprof__req-d">внутренние экзамены вуза</span>
-            </div>
-            <div className="uprof__req">
-              <span className="uprof__req-l">Уровни и набор</span>
-              <span className="uprof__req-v">{u.levels}</span>
-              <span className="uprof__req-d">старт: {u.intake && u.intake.length ? u.intake.join(" / ") : "уточняется"}</span>
-            </div>
-          </div>
-          <a href="#cta" className="btn btn--dark uprof__req-cta" data-reveal data-delay="2">Проверить свои шансы на поступление →</a>
-        </div>
-      </section>
-
       {/* ===== Photo gallery ===== */}
       <section className="section section--tight uprof-gallery">
         <div className="wrap">
@@ -226,35 +331,17 @@ function UniversityProfile() {
                 fallback={i === 0 ? u.campus : null}
                 label={label}
                 big={i === 0}
+                onZoom={(src, alt) => setLightbox({ src, alt })}
               />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ===== About ===== */}
+      {/* ===== About — stats LEFT, text RIGHT ===== */}
       <section className="section section--tight uprof-about">
         <div className="wrap">
           <div className="uprof__about-grid">
-            <div className="uprof__about-main">
-              <span className="eyebrow">Об университете</span>
-              <h2 className="uprof__about-h">Коротко о вузе</h2>
-              <p className="uprof__about-text">{aboutMain}</p>
-              <p className="uprof__about-text uprof__about-text--muted">{aboutExtra}</p>
-              <div className="uprof__about-chips">
-                <span className="uprof__about-chip">{u.type}</span>
-                <span className="uprof__about-chip">{u.field}</span>
-                <span className="uprof__about-chip">{u.loc} · {u.country}</span>
-                {u.levels.split("·").map((l) => (
-                  <span className="uprof__about-chip" key={l}>{l.trim()}</span>
-                ))}
-              </div>
-              {det && det.site && (
-                <a className="uprof__site" href={`https://${det.site}`} target="_blank" rel="noopener">
-                  Официальный сайт: {det.site} →
-                </a>
-              )}
-            </div>
             <div className="uprof__about-stats">
               {det && det.founded && (
                 <div className="uprof__about-stat"><b>{det.founded}</b><span>год основания</span></div>
@@ -271,36 +358,97 @@ function UniversityProfile() {
               <div className="uprof__about-stat"><b>{fmt(u.price)}</b><span>стоимость в год</span></div>
               <div className="uprof__about-stat"><b>{u.field}</b><span>ключевое направление</span></div>
             </div>
+            <div className="uprof__about-main">
+              <span className="eyebrow">Об университете</span>
+              <h2 className="uprof__about-h">Коротко о вузе</h2>
+              <p className="uprof__about-text">{aboutMain}</p>
+              <p className="uprof__about-text uprof__about-text--muted">{aboutExtra}</p>
+              <div className="uprof__about-chips">
+                <span className="uprof__about-chip">{u.type}</span>
+                <span className="uprof__about-chip">{u.field}</span>
+                <span className="uprof__about-chip">
+                  {u.loc}
+                  {(u.country === "США" || u.country === "Италия") && CITY_REGIONS[u.loc] ? `, ${CITY_REGIONS[u.loc]}` : ""} · {u.country}
+                </span>
+                {u.levels.split("·").map((l) => (
+                  <span className="uprof__about-chip" key={l}>{l.trim()}</span>
+                ))}
+              </div>
+              {det && det.site && (
+                <a className="uprof__site" href={`https://${det.site}`} target="_blank" rel="noopener">
+                  Официальный сайт: {det.site} →
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== Key facts ===== */}
+      {/* ===== Key facts — column layout ===== */}
       <section className="section section--tight uprof-facts">
         <div className="wrap">
-          <div className="uprof__facts-grid">
-            {isBachelor && <FactCard ic="BA" label="Бакалавриат">{fmt(u.price)}/год</FactCard>}
-            {isMaster && <FactCard ic="MA" label="Магистратура">{fmt(u.price)}/год</FactCard>}
+          <div className="uprof__facts-grid uprof__facts-grid--col">
+            {isBachelor && (
+              <FactCard label="Бакалавриат"
+                sub={(u.meritBased || u.needBased) ? (u.needBased ? "Доступны гранты и стипендии" : "Доступны стипендии") : null}
+              >
+                <span>{fmt(u.price)}/год</span>
+                {u.discount > 0 && <span className="uprof__fact-schol">🎓 скидка {fmt(u.discount)}</span>}
+              </FactCard>
+            )}
+            {isMaster && (
+              <FactCard label="Магистратура"
+                sub={(u.meritBased || u.needBased) ? "Стипендии для иностранных студентов" : null}
+              >
+                <span>{fmt(u.price)}/год</span>
+                {u.discount > 0 && <span className="uprof__fact-schol">🎓 скидка {fmt(u.discount)}</span>}
+              </FactCard>
+            )}
             {u.faculties && u.faculties.length > 0 && (
-              <FactCard ic="Фак" label="Ключевые факультеты">
+              <FactCard label="Ключевые факультеты">
                 <div className="uprof__minichips">{u.faculties.map((x) => <span key={x}>{x}</span>)}</div>
               </FactCard>
             )}
-            <FactCard ic="Наб" label="Набор">
+            <FactCard label="Набор">
               <div className="uprof__minichips">{u.intake.map((x) => <span key={x}>{x}</span>)}</div>
             </FactCard>
-            <FactCard ic="Яз" label="Языковой тест">
+            <FactCard label="Языковой тест">
               <div className="uprof__minichips">{u.engTests.map((x) => <span key={x}>{x}</span>)}</div>
             </FactCard>
             {u.exams.length > 0 && (
-              <FactCard ic="Экз" label="Вступительные экзамены">
+              <FactCard label="Вступительные экзамены">
                 <div className="uprof__minichips">{u.exams.map((x) => <span key={x}>{x}</span>)}</div>
               </FactCard>
             )}
-            <FactCard ic="GPA" label="Минимальный GPA">{u.gpaMin}</FactCard>
-            <FactCard ic="Общ" label="Общежитие">{u.dormitory ? "Есть" : "Нет"}</FactCard>
-            <FactCard ic="Прог" label="Программы">{u.levels}</FactCard>
+            <FactCard label="Минимальный GPA">{u.gpaMin}</FactCard>
+            <FactCard label="Общежитие">{u.dormitory ? "Есть" : "Нет"}</FactCard>
+            <FactCard label="Программы">{u.levels}</FactCard>
           </div>
+        </div>
+      </section>
+
+      {/* ===== Video tour ===== */}
+      <section className="section section--tight uprof-tour">
+        <div className="wrap">
+          <div className="section-head" data-reveal>
+            <span className="eyebrow">Видео-тур</span>
+            <h2>Прогуляйся по кампусу, не выходя из дома</h2>
+          </div>
+          <div data-reveal>
+            <TourVideo slug={slug} />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Admission requirements table ===== */}
+      <section className="section section--tight uprof-req">
+        <div className="wrap">
+          <div className="section-head" data-reveal>
+            <span className="eyebrow">Поступление</span>
+            <h2>Что нужно, чтобы поступить</h2>
+            <p>Основные требования {u.name} для иностранных абитуриентов.</p>
+          </div>
+          <ReqTable u={u} det={det} />
         </div>
       </section>
 
@@ -320,24 +468,7 @@ function UniversityProfile() {
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-          <a
-            className="uprof__map-link"
-            href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
-            target="_blank" rel="noopener"
-          >Открыть в Google Maps →</a>
-        </div>
-      </section>
-
-      {/* ===== Video tour — сразу после карты (правка заказчика) ===== */}
-      <section className="section section--tight uprof-tour">
-        <div className="wrap">
-          <div className="section-head" data-reveal>
-            <span className="eyebrow">Видео-тур</span>
-            <h2>Прогуляйся по кампусу, не выходя из дома</h2>
-          </div>
-          <div data-reveal>
-            <TourVideo slug={slug} />
-          </div>
+          <a className="uprof__map-link" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Открыть в Google Maps →</a>
         </div>
       </section>
 
@@ -367,6 +498,9 @@ function UniversityProfile() {
           </div>
         </section>
       )}
+
+      {/* ===== Lightbox ===== */}
+      {lightbox && <Lightbox src={lightbox.src} alt={lightbox.alt} onClose={() => setLightbox(null)} />}
     </>
   );
 }

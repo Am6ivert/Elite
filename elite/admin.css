@@ -257,3 +257,71 @@ body { background: var(--gray-100); }
 .mslot__ok  { color: #16a34a; }
 .mslot__err { color: #c0392b; word-break: break-word; }
 .mslot__hint { padding: 0 12px 10px; font-size: 11px; color: var(--muted); word-break: break-all; }
+
+/* ---------- Req table editor ---------- */
+.req-editor__toggles {
+  display: flex; flex-wrap: wrap; gap: 18px;
+  padding: 12px 14px; margin-bottom: 14px;
+  background: var(--gray-50); border: 1px solid var(--line); border-radius: var(--r-md);
+}
+.req-editor {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.req-editor__col {
+  background: var(--gray-50);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 14px 14px 10px;
+}
+.req-editor__head {
+  font-family: var(--font-head);
+  font-weight: 700; font-size: 14px;
+  color: var(--navy); margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.req-editor__item {
+  display: flex; gap: 6px; align-items: center;
+  margin-bottom: 8px;
+}
+.req-editor__item-lbl {
+  flex: 0 0 38%;
+  font-size: 12px;
+  padding: 7px 8px;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  color: var(--muted);
+}
+.req-editor__item-val {
+  flex: 1;
+  font-size: 13px;
+  padding: 7px 8px;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  color: var(--navy); font-weight: 600;
+}
+.req-editor__item-rm {
+  flex: 0 0 auto;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--white); color: var(--muted);
+  cursor: pointer; font-size: 12px;
+  transition: background .15s, color .15s;
+}
+.req-editor__item-rm:hover { background: #fdecec; color: #c0392b; border-color: #f3c2c2; }
+.req-editor__add {
+  width: 100%; margin-top: 4px;
+  padding: 8px; border: 1px dashed var(--blue); border-radius: var(--r-sm);
+  background: transparent; color: var(--blue);
+  font-size: 12.5px; font-weight: 700; cursor: pointer;
+  transition: background .15s;
+}
+.req-editor__add:hover { background: var(--accent-soft); }
+@media (max-width: 820px) {
+  .req-editor { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  .req-editor { grid-template-columns: 1fr; }
+  .req-editor__item { flex-wrap: wrap; }
+  .req-editor__item-lbl, .req-editor__item-val { flex: 1 1 100%; }
+}
