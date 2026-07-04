@@ -252,7 +252,6 @@ function QuizResult({ ans, done, setDone, restart }) {
       <div className="quiz__lead">
         <p className="quiz__lead-t">Введи имя и телефон, чтобы получить <b>полный список</b> и бесплатную консультацию:</p>
         <QuizLeadForm onDone={() => setDone(true)} ans={ans} />
-      </div>
         <div className="quiz__micro">✓ Без спама &nbsp; ✓ Ответим в течение 1 часа</div>
       </div>
     </div>

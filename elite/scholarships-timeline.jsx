@@ -1,3 +1,4 @@
+/* @jsx React.createElement */
 /* ============================================================
    SCHOLARSHIPS (cases + filter + countdown) · HOW WE WORK (timeline)
    ============================================================ */
@@ -15,36 +16,28 @@ const CASES = [
 ];
 
 function useCountdown(target) {
-  const [t, setT] = useState({});
+  const [cd, setCd] = useState({ d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const tick = () => {
-      const d = Math.max(0, target - Date.now());
-      setT({
-        d: Math.floor(d / 86400000),
-        h: Math.floor((d / 3600000) % 24),
-        m: Math.floor((d / 60000) % 60),
-        s: Math.floor((d / 1000) % 60),
+      const diff = Math.max(0, target - Date.now());
+      setCd({
+        d: Math.floor(diff / 86400000),
+        h: Math.floor((diff / 3600000) % 24),
+        m: Math.floor((diff / 60000) % 60),
+        s: Math.floor((diff / 1000) % 60),
       });
     };
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [target]);
-  return t;
-}
-
-function FlipDigit({ value }) {
-  return (
-    <span className="countdown__flip">
-      <span key={value} className="countdown__flip-in">{value}</span>
-    </span>
-  );
+  return cd;
 }
 
 const FALL_DEADLINE = new Date("2026-08-31T23:59:00").getTime();
 
 function DeadlineBanner() {
-  const t = useCountdown(FALL_DEADLINE);
+  const cd = useCountdown(FALL_DEADLINE);
   return (
     <div className="deadline-banner" data-reveal>
       <div className="wrap">
@@ -60,11 +53,15 @@ function DeadlineBanner() {
           </div>
           <div className="countdown">
             {[["d","дней"],["h","часов"],["m","минут"],["s","секунд"]].map(([k, lab]) => {
-              const padded = String(t[k] ?? 0).padStart(2, "0");
+              const padded = String(cd[k] || 0).padStart(2, "0");
               return (
                 <div className="countdown__unit" key={k}>
                   <span className="countdown__num">
-                    {padded.split("").map((d, i) => <FlipDigit key={i} value={d} />)}
+                    {padded.split("").map((digit, i) => (
+                      <span key={i} className="countdown__flip">
+                        <span className="countdown__flip-in">{digit}</span>
+                      </span>
+                    ))}
                   </span>
                   <span className="countdown__lab">{lab}</span>
                 </div>
@@ -82,7 +79,7 @@ function Scholarships() {
   const [filter, setFilter] = useState("Все");
   const filters = ["Все", "академическая", "спортивная", "need-based"];
   const list = CASES.filter((c) => filter === "Все" || c.tag === filter);
-  const t = useCountdown(FALL_DEADLINE);
+  const cd = useCountdown(FALL_DEADLINE);
 
   return (
     <section className="section scholar" id="scholarships">
@@ -126,11 +123,15 @@ function Scholarships() {
           </div>
           <div className="countdown">
             {[["d","дней"],["h","часов"],["m","минут"],["s","секунд"]].map(([k, lab]) => {
-              const padded = String(t[k] ?? 0).padStart(2, "0");
+              const padded = String(cd[k] || 0).padStart(2, "0");
               return (
                 <div className="countdown__unit" key={k}>
                   <span className="countdown__num">
-                    {padded.split("").map((d, i) => <FlipDigit key={i} value={d} />)}
+                    {padded.split("").map((digit, i) => (
+                      <span key={i} className="countdown__flip">
+                        <span className="countdown__flip-in">{digit}</span>
+                      </span>
+                    ))}
                   </span>
                   <span className="countdown__lab">{lab}</span>
                 </div>
