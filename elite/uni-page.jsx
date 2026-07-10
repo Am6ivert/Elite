@@ -96,60 +96,8 @@ function TourVideo({ slug }) {
   );
 }
 
-function FactCard({ label, children, sub }) {
-  return (
-    <div className="uprof__fact card">
-      <div className="uprof__fact-body">
-        <span className="uprof__fact-l">{label}</span>
-        <div className="uprof__fact-v">{children}</div>
-        {sub && <div className="uprof__fact-sub">{sub}</div>}
-      </div>
-    </div>
-  );
-}
-
-/* ── Auto program cards — built from a uni's catalog data when no cards
-      were authored in the admin panel. Content is in English to match the
-      program-card design. ── */
-const PROG_FIELD_EN = {
-  "IT": "Information Technology",
-};
-const PROG_SEASON_EN = { "Осень": "Fall", "Весна": "Spring", "Зима": "Winter", "Лето": "Summer" };
-
-function autoProgram(u, level) {
-  const fieldEn = PROG_FIELD_EN[u.field] || u.field || "Degree";
-  const tests = (u.engTests && u.engTests.length) ? u.engTests : ["IELTS", "TOEFL"];
-  const langTest = tests.join(" / ");
-  const exams = (u.exams && u.exams.length) ? u.exams.join(", ") : "Not required";
-  const isB = level === "bachelor";
-  const seasons = (u.intake || []).map((s) => PROG_SEASON_EN[s] || s);
-  const funding = u.needBased ? "Need-based grant" : (u.meritBased ? "Merit scholarship" : "");
-  return {
-    level,
-    title: fieldEn + (isB ? " — Bachelor" : " — Master"),
-    tags: [fieldEn, isB ? "Bachelor's" : "Master's"],
-    tuition: u.price ? "$" + u.price.toLocaleString("en-US") + " / year" : "",
-    funding,
-    language: "English",
-    entrance: langTest,
-    requirements: [
-      "Minimum GPA: " + (u.gpaMin || "—"),
-      "English test: " + langTest,
-      "Prior education: " + (isB ? "High-school diploma (11 years)" : "Bachelor's degree"),
-      "Entrance exams: " + exams,
-    ],
-    deadlines: seasons.length ? ["Intakes: " + seasons.join(" · ")] : [],
-  };
-}
-
-function autoPrograms(u) {
-  const lv = u.levels || "";
-  const out = [];
-  if (lv.includes("Бакалавр") || lv.includes("Колледж") || lv.includes("Foundation")) out.push(autoProgram(u, "bachelor"));
-  if (lv.includes("Магистр")) out.push(autoProgram(u, "master"));
-  if (!out.length) out.push(autoProgram(u, "bachelor"));
-  return out;
-}
+/* Program list (authored or auto-built) is shared with the catalog page —
+   see eaUniPrograms in catalog.jsx (exposed as window.eaUniPrograms). */
 
 /* ── Program Cards (horizontal · white = bachelor, navy = master) ── */
 function programLevelLabel(level) {
@@ -295,9 +243,59 @@ function ProgramModal({ p, u, det, fmt, onClose }) {
   );
 }
 
+/* ── Focused program (?p=N from catalog) — full card right after the photos,
+      with similar programs below ── */
+function FocusProgram({ u, det, fmt, all, idx }) {
+  const p = all[idx];
+  const goTo = (short, i) => { window.location.href = `university.html?u=${encodeURIComponent(short)}&p=${i}`; };
+
+  /* Similar: this uni's other programs first, then the flagship program of
+     other unis in the same field/country */
+  const similar = all
+    .map((sp, i) => ({ p: sp, u, i }))
+    .filter((x) => x.i !== idx);
+  (window.EA_UNIS || [])
+    .filter((x) => x.short !== u.short && (x.field === u.field || x.country === u.country))
+    .sort((a, b) => ((b.field === u.field ? 1 : 0) - (a.field === u.field ? 1 : 0)) || ((a.qs || 9999) - (b.qs || 9999)))
+    .slice(0, 4)
+    .forEach((x) => similar.push({ p: window.eaUniPrograms(x)[0], u: x, i: 0 }));
+
+  useEffect(() => {
+    setTimeout(() => {
+      const el = document.getElementById("program");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 400);
+  }, []);
+
+  return (
+    <section className="section section--tight uprof-progfocus" id="program">
+      <div className="wrap">
+        <div className="section-head">
+          <span className="eyebrow">Программа</span>
+          <h2>{p.title}</h2>
+        </div>
+        <ProgramCard p={p} u={u} det={det} fmt={fmt} />
+        {similar.length > 0 && (
+          <>
+            <h3 className="uprof-progfocus__sim-h">Похожие программы</h3>
+            <div className="pcards__grid">
+              {similar.slice(0, 4).map((s, i) => (
+                <ProgramCardCompact
+                  key={s.u.short + "-" + s.i}
+                  p={s.p} u={s.u} det={(window.EA_UNI_DETAILS || {})[s.u.short]} fmt={fmt}
+                  onMore={() => goTo(s.u.short, s.i)}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function ProgramCards({ u, det, fmt }) {
-  const authored = (det && Array.isArray(det.programs)) ? det.programs.filter(Boolean) : [];
-  const all = authored.length ? authored : autoPrograms(u);
+  const all = window.eaUniPrograms(u);
   const bachelors = all.filter((p) => (p.level || "bachelor") !== "master");
   const masters = all.filter((p) => p.level === "master");
   const hasBoth = bachelors.length > 0 && masters.length > 0;
@@ -362,11 +360,14 @@ function UniversityProfile() {
     ? `linear-gradient(rgba(8,24,60,0.62),rgba(8,24,60,0.70)),url('../${u.campus}') center/cover no-repeat`
     : paletteBase;
   const fmt = (p) => "$" + p.toLocaleString("ru");
-  const isBachelor = u.levels.includes("Бакалавр") || u.levels.includes("Колледж") || u.levels.includes("Foundation");
-  const isMaster = u.levels.includes("Магистр");
   const mapQuery = encodeURIComponent(`${u.name}, ${u.loc}`);
   const similar = UNIS.filter((x) => x.country === u.country && x.short !== u.short).slice(0, 3);
   const det = (window.EA_UNI_DETAILS || {})[u.short];
+
+  /* ?p=N — a specific program picked in the catalog */
+  const allPrograms = window.eaUniPrograms(u);
+  const progIdx = parseInt(params.get("p"), 10);
+  const focusProgram = Number.isInteger(progIdx) && allPrograms[progIdx] ? progIdx : null;
 
   const typeLc = u.type === "Государственный" ? "государственный" : "частный";
   const aboutMain = (det && det.about)
@@ -462,6 +463,11 @@ function UniversityProfile() {
         </div>
       </section>
 
+      {/* ===== Focused program (arrived from catalog program card) ===== */}
+      {focusProgram !== null && (
+        <FocusProgram u={u} det={det} fmt={fmt} all={allPrograms} idx={focusProgram} />
+      )}
+
       {/* ===== About — stats LEFT, text RIGHT ===== */}
       <section className="section section--tight uprof-about">
         <div className="wrap">
@@ -508,62 +514,6 @@ function UniversityProfile() {
         </div>
       </section>
 
-      {/* ===== Key facts — column layout ===== */}
-      <section className="section section--tight uprof-facts">
-        <div className="wrap">
-          <div className="uprof__facts-grid uprof__facts-grid--col">
-            {isBachelor && (
-              <FactCard label="Бакалавриат"
-                sub={(u.meritBased || u.needBased) ? (u.needBased ? "Доступны гранты и стипендии" : "Доступны стипендии") : null}
-              >
-                <span>{fmt(u.price)}/год</span>
-                {u.discount > 0 && <span className="uprof__fact-schol">🎓 скидка {fmt(u.discount)}</span>}
-              </FactCard>
-            )}
-            {isMaster && (
-              <FactCard label="Магистратура"
-                sub={(u.meritBased || u.needBased) ? "Стипендии для иностранных студентов" : null}
-              >
-                <span>{fmt(u.price)}/год</span>
-                {u.discount > 0 && <span className="uprof__fact-schol">🎓 скидка {fmt(u.discount)}</span>}
-              </FactCard>
-            )}
-            {u.faculties && u.faculties.length > 0 && (
-              <FactCard label="Ключевые факультеты">
-                <div className="uprof__minichips">{u.faculties.map((x) => <span key={x}>{x}</span>)}</div>
-              </FactCard>
-            )}
-            <FactCard label="Набор">
-              <div className="uprof__minichips">{u.intake.map((x) => <span key={x}>{x}</span>)}</div>
-            </FactCard>
-            <FactCard label="Языковой тест">
-              <div className="uprof__minichips">{u.engTests.map((x) => <span key={x}>{x}</span>)}</div>
-            </FactCard>
-            {u.exams.length > 0 && (
-              <FactCard label="Вступительные экзамены">
-                <div className="uprof__minichips">{u.exams.map((x) => <span key={x}>{x}</span>)}</div>
-              </FactCard>
-            )}
-            <FactCard label="Минимальный GPA">{u.gpaMin}</FactCard>
-            <FactCard label="Общежитие">{u.dormitory ? "Есть" : "Нет"}</FactCard>
-            <FactCard label="Программы">{u.levels}</FactCard>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Video tour ===== */}
-      <section className="section section--tight uprof-tour">
-        <div className="wrap">
-          <div className="section-head" data-reveal>
-            <span className="eyebrow">Видео-тур</span>
-            <h2>Прогуляйся по кампусу, не выходя из дома</h2>
-          </div>
-          <div data-reveal>
-            <TourVideo slug={slug} />
-          </div>
-        </div>
-      </section>
-
       {/* ===== Admission requirements table ===== */}
       <section className="section section--tight uprof-req">
         <div className="wrap">
@@ -593,6 +543,19 @@ function UniversityProfile() {
             ></iframe>
           </div>
           <a className="uprof__map-link" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Открыть в Google Maps →</a>
+        </div>
+      </section>
+
+      {/* ===== Video tour ===== */}
+      <section className="section section--tight uprof-tour">
+        <div className="wrap">
+          <div className="section-head" data-reveal>
+            <span className="eyebrow">Видео-тур</span>
+            <h2>Прогуляйся по кампусу, не выходя из дома</h2>
+          </div>
+          <div data-reveal>
+            <TourVideo slug={slug} />
+          </div>
         </div>
       </section>
 

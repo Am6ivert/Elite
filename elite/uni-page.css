@@ -177,44 +177,6 @@
 @media (max-width: 900px) { .uprof__req-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .uprof__req-grid { grid-template-columns: 1fr; } }
 
-/* ---------- Facts ---------- */
-.uprof-facts { padding-top: 20px; padding-bottom: 30px; }
-.uprof__facts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 14px;
-}
-/* Column layout override for uni-page */
-.uprof__facts-grid--col {
-  grid-template-columns: repeat(2, 1fr);
-}
-@media (max-width: 640px) {
-  .uprof__facts-grid--col { grid-template-columns: 1fr; }
-}
-.uprof__fact {
-  display: flex; gap: 14px; align-items: flex-start;
-  padding: 20px;
-}
-.uprof__fact-body { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-.uprof__fact-ic { font-size: 24px; line-height: 1; }
-.uprof__fact-l {
-  display: block; font-size: 12.5px; font-weight: 700;
-  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
-  margin-bottom: 6px;
-}
-.uprof__fact-v { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--navy); }
-.uprof__fact-sub { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
-.uprof__fact-schol {
-  display: inline-block; margin-top: 6px;
-  font-size: 12.5px; font-weight: 700; color: var(--blue);
-}
-.uprof__minichips { display: flex; flex-wrap: wrap; gap: 6px; }
-.uprof__minichips span {
-  font-family: var(--font-body); font-size: 13px; font-weight: 600;
-  padding: 4px 10px; border-radius: 999px;
-  background: var(--accent-soft); color: var(--blue);
-}
-
 /* ---------- Map ---------- */
 .uprof-map { padding-top: 30px; }
 .uprof__map { overflow: hidden; padding: 0; }
@@ -648,4 +610,28 @@
 @media (max-width: 520px) {
   .pmodal { padding: 30px 10px; }
   .pmodal__close { top: -4px; right: 2px; }
+}
+
+/* ============================================================
+   PROGRAM RESULTS IN CATALOG (universities.html) — uni-style card
+   with the program info in the bottom half (.uni--prog)
+   ============================================================ */
+.uni--prog { cursor: pointer; }
+.uni--prog .uni__head-row .pcard__badge { margin-bottom: 0; align-self: flex-start; }
+.uni--prog .pcard__badge--master { background: var(--navy); border-color: var(--navy); color: #fff; }
+.uni__prog { margin-top: 12px; }
+.uni__prog-title {
+  font-family: var(--font-head); font-weight: 800; font-size: 18.5px; line-height: 1.25;
+  color: var(--navy); margin: 0;
+}
+.uni__prog .pcard__tags { margin-top: 10px; }
+.uni__prog .uni__rows { margin-top: 12px; }
+
+/* ============================================================
+   FOCUSED PROGRAM on university.html (?p=N) + similar programs
+   ============================================================ */
+.uprof-progfocus { padding-top: 0; }
+.uprof-progfocus__sim-h {
+  font-family: var(--font-head); font-weight: 800; font-size: 22px; color: var(--navy);
+  margin: 36px 0 18px;
 }

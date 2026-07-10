@@ -832,6 +832,77 @@ const UNIS = UNIS_SRC.map(enrich);
 const uniLevels = u => u.levels.split("·").map(s => s.trim());
 const TOTAL_PROGRAMS = UNIS.reduce((n, u) => n + uniLevels(u).length, 0);
 
+/* ============================================================
+   PROGRAM LIST PER UNI — authored cards from uni-data.js when
+   present, otherwise auto-built from catalog data. Shared with
+   university.html (uni-page.jsx) via window.eaUniPrograms.
+   ============================================================ */
+const PROG_FIELD_EN = {
+  "IT": "Information Technology",
+};
+const PROG_SEASON_EN = { "Осень": "Fall", "Весна": "Spring", "Зима": "Winter", "Лето": "Summer" };
+
+function eaAutoProgram(u, level) {
+  const fieldEn = PROG_FIELD_EN[u.field] || u.field || "Degree";
+  const tests = (u.engTests && u.engTests.length) ? u.engTests : ["IELTS", "TOEFL"];
+  const langTest = tests.join(" / ");
+  const exams = (u.exams && u.exams.length) ? u.exams.join(", ") : "Not required";
+  const isB = level === "bachelor";
+  const seasons = (u.intake || []).map((s) => PROG_SEASON_EN[s] || s);
+  const funding = u.needBased ? "Need-based grant" : (u.meritBased ? "Merit scholarship" : "");
+  return {
+    level,
+    title: fieldEn + (isB ? " — Bachelor" : " — Master"),
+    tags: [fieldEn, isB ? "Bachelor's" : "Master's"],
+    tuition: u.price ? "$" + u.price.toLocaleString("en-US") + " / year" : "",
+    funding,
+    language: "English",
+    entrance: langTest,
+    requirements: [
+      "Minimum GPA: " + (u.gpaMin || "—"),
+      "English test: " + langTest,
+      "Prior education: " + (isB ? "High-school diploma (11 years)" : "Bachelor's degree"),
+      "Entrance exams: " + exams,
+    ],
+    deadlines: seasons.length ? ["Intakes: " + seasons.join(" · ")] : [],
+  };
+}
+
+function eaUniPrograms(u) {
+  const det = (window.EA_UNI_DETAILS || {})[u.short];
+  const authored = (det && Array.isArray(det.programs)) ? det.programs.filter(Boolean) : [];
+  if (authored.length) return authored;
+  const lv = u.levels || "";
+  const out = [];
+  if (lv.includes("Бакалавр") || lv.includes("Колледж") || lv.includes("Foundation")) out.push(eaAutoProgram(u, "bachelor"));
+  if (lv.includes("Магистр")) out.push(eaAutoProgram(u, "master"));
+  if (!out.length) out.push(eaAutoProgram(u, "bachelor"));
+  return out;
+}
+window.eaUniPrograms = eaUniPrograms;
+
+/* Program-level matching for catalog search / field filter */
+const PROG_TAGS = v => Array.isArray(v) ? v : (v ? String(v).split(/[·,]/).map(s => s.trim()).filter(Boolean) : []);
+const FIELD_KEYWORDS = {
+  IT:          ["information technology", "computer", "data science", "software", "informatics", "artificial intelligence", "cyber"],
+  Business:    ["business", "management", "marketing", "finance", "mba"],
+  Medicine:    ["medicine", "medical", "nursing", "pharmacy", "dentistry", "health", "biomed"],
+  Law:         ["law", "legal"],
+  Engineering: ["engineering", "mechanical", "civil", "electrical", "construction", "aerospace"],
+  Design:      ["design", "architecture", "fashion", "fine art"],
+  Economics:   ["economics", "economic"],
+  Education:   ["education", "teaching", "pedagog"],
+};
+function progMatchesField(p, u, field) {
+  const tags = PROG_TAGS(p.tags);
+  const hay = ((p.title || "") + " " + tags.join(" ")).toLowerCase();
+  const kws = FIELD_KEYWORDS[field] || [field.toLowerCase()];
+  if (kws.some(k => hay.includes(k))) return true;
+  /* an untagged program inherits its uni's field */
+  return tags.length === 0 && u.field === field;
+}
+const PROG_LEVEL_RU = { "Бакалавр": "bachelor", "Колледж": "bachelor", "Foundation": "foundation", "Магистр": "master", "PhD": "phd" };
+
 /* ---------- Filter constants ---------- */
 const ALL_COUNTRIES = ["Италия","США","Северный Кипр","Малайзия","Германия","Польша","Австрия"];
 const FIELDS   = ["IT","Business","Medicine","Law","Engineering","Design","Economics","Education"];
@@ -868,6 +939,90 @@ function FilterSection({ label, children }) {
       <label className="filter__label">{label}</label>
       {children}
     </div>
+  );
+}
+
+/* ---------- Program result in the unified catalog list — looks like a uni
+      card (banner photo, logo, uni name) but the bottom half describes the
+      program. Click opens university.html?u=SHORT&p=INDEX with the program
+      already expanded. ---------- */
+function ProgramUniCard({ p, u, idx }) {
+  const level = p.level === "master" ? "master" : "bachelor";
+  const levelLabel = p.levelLabel ||
+    (p.level === "master" ? "MASTER'S" : p.level === "phd" ? "PHD" : p.level === "foundation" ? "FOUNDATION" : "BACHELOR'S");
+  const tuition = p.tuition || (u.price ? "$" + u.price.toLocaleString("en-US") + " / year" : "");
+  const tags = PROG_TAGS(p.tags);
+  const href = `university.html?u=${encodeURIComponent(u.short)}&p=${idx}`;
+
+  const bannerBg = u.campus
+    ? { backgroundImage: `url(${u.campus})`, backgroundSize: "cover", backgroundPosition: "center" }
+    : { background: COUNTRY_PALETTE[u.country] || "#1a2a4a" };
+  const activeStickers = STICKERS.filter(s => s.check(u));
+  const lp = LOGO_BG[u.country] || { bg: "#edf0f8", color: "#1a2a4a" };
+  const initials = u.name.split(" ").filter(w => /[A-Za-z]/.test(w[0])).slice(0,2).map(w => w[0]).join("").toUpperCase();
+
+  return (
+    <article
+      className={"uni card uni--prog uni--prog-" + level}
+      onClick={e => { if (e.target.closest("a,button")) return; window.location.href = href; }}
+    >
+      {/* Campus banner — same as the uni card */}
+      <div className="uni__banner" style={bannerBg}>
+        <div className="uni__banner-overlay" />
+        {activeStickers.length > 0 && (
+          <div className="uni__stickers">
+            {activeStickers.map(s => (
+              <span key={s.key} className={`uni__sticker ${s.cls}`}>{s.label}</span>
+            ))}
+          </div>
+        )}
+        {u.elite && <span className="uni__elite-star" title="Elite выбор">★</span>}
+        {COUNTRY_ISO[u.country] && (
+          <span className="uni__country-chip">
+            <img
+              className="uni__country-flag"
+              src={FLAG_URL(COUNTRY_ISO[u.country], "40x30")}
+              srcSet={`${FLAG_URL(COUNTRY_ISO[u.country], "80x60")} 2x`}
+              alt=""
+            />
+            {u.country}
+          </span>
+        )}
+      </div>
+
+      {/* Card body: uni identity on top, program info below */}
+      <div className="uni__body">
+        <div className="uni__head-row">
+          {u.logo
+            ? <img src={u.logo} className="uni__logo-img" alt={u.short} />
+            : <div className="uni__logo-ph" title={u.name} style={{ background: lp.bg, color: lp.color }}>
+                {initials || u.short.slice(0,2).toUpperCase()}
+              </div>
+          }
+          <span className={"pcard__badge" + (level === "master" ? " pcard__badge--master" : "")}>{levelLabel}</span>
+        </div>
+
+        <h3 className="uni__name">{u.name}</h3>
+        <div className="uni__loc">
+          <svg className="uni__loc-ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {p.location || u.loc} · {u.country}
+        </div>
+
+        <div className="uni__prog">
+          <h4 className="uni__prog-title">{p.title}</h4>
+          {tags.length > 0 && (
+            <div className="pcard__tags">{tags.slice(0, 3).map((t, i) => <span className="pcard__tag" key={i}>{t}</span>)}</div>
+          )}
+          <div className="uni__rows">
+            <div className="uni__row"><span>Annual tuition</span><b>{tuition || "—"}</b></div>
+            {p.funding && <div className="uni__row"><span>Funding</span><b>{p.funding}</b></div>}
+            {p.language && <div className="uni__row"><span>Language</span><b>{p.language}</b></div>}
+          </div>
+        </div>
+
+        <a href={href} className="btn btn--ghost btn--block uni__more">Подробнее →</a>
+      </div>
+    </article>
   );
 }
 
@@ -928,12 +1083,16 @@ function Universities() {
   };
 
   /* ---------- Filter logic ---------- */
-  let list = UNIS.filter(u => {
-    if (q && ![u.name, u.loc, u.short].some(s => s.toLowerCase().includes(q.toLowerCase()))) return false;
+  /* opts.forPrograms: skip search/field/level checks — they are re-applied
+     per-program when building the program results below */
+  const uniPasses = (u, forPrograms) => {
+    if (!forPrograms) {
+      if (q && ![u.name, u.loc, u.short].some(s => s.toLowerCase().includes(q.toLowerCase()))) return false;
+      if (selFields.length  > 0 && !selFields.includes(u.field)) return false;
+      if (selLevel && !u.levels.includes(selLevel)) return false;
+    }
     if (maxPrice === 0 ? !u.needBased : u.price > maxPrice) return false;
-    if (selFields.length    > 0 && !selFields.includes(u.field)) return false;
     if (selCountries.length > 0 && !selCountries.includes(u.country)) return false;
-    if (selLevel && !u.levels.includes(selLevel)) return false;
     if (selIntakes.length   > 0 && !selIntakes.some(i  => u.intake.includes(i)))    return false;
     if (selEngTests.length  > 0 && !selEngTests.some(t  => u.engTests.includes(t))) return false;
     if (selExams.length     > 0 && !selExams.some(e    => u.exams.includes(e)))     return false;
@@ -945,16 +1104,35 @@ function Universities() {
     if (bools.financialAid && !u.financialAid) return false;
     if (bools.exchange     && !u.exchange)     return false;
     return true;
-  });
+  };
 
-  list = [...list].sort((a, b) =>
+  let list = UNIS.filter(u => uniPasses(u, false));
+
+  const uniSort = (a, b) =>
     sort === "price"  ? a.price - b.price :
     sort === "rating" ? (a.qs||9999) - (b.qs||9999) :
-    ((b.elite ? 1 : 0) - (a.elite ? 1 : 0)) || ((a.qs||9999) - (b.qs||9999))
-  );
+    ((b.elite ? 1 : 0) - (a.elite ? 1 : 0)) || ((a.qs||9999) - (b.qs||9999));
+  list = [...list].sort(uniSort);
+
+  /* ---------- Program results (only when searching or a field is picked) ---------- */
+  const showPrograms = !!(q || selFields.length > 0);
+  let progList = [];
+  if (showPrograms) {
+    const qLc = q.toLowerCase();
+    UNIS.filter(u => uniPasses(u, true)).forEach(u => {
+      eaUniPrograms(u).forEach((p, idx) => {
+        const pLevel = p.level || "bachelor";
+        if (selLevel && pLevel !== PROG_LEVEL_RU[selLevel]) return;
+        if (selFields.length > 0 && !selFields.some(f => progMatchesField(p, u, f))) return;
+        if (q && !((p.title || "").toLowerCase().includes(qLc) || u.name.toLowerCase().includes(qLc))) return;
+        progList.push({ p, u, idx });
+      });
+    });
+    progList.sort((a, b) => uniSort(a.u, b.u));
+  }
 
   /* Счёт программ в выдаче — с учётом выбранного уровня */
-  const progCount = list.reduce(
+  const progCount = showPrograms ? progList.length : list.reduce(
     (n, u) => n + uniLevels(u).filter(l => !selLevel || l === selLevel).length, 0);
 
   const fmtPrice = p => "$" + p.toLocaleString("ru") + "/год";
@@ -1083,7 +1261,12 @@ function Universities() {
             </div>
 
             <div className="unis__grid">
-              {list.slice(0, shown).map((u, i) => {
+              {/* Unified list: with a search/field filter active every result
+                  is a program (uni-style card with the program at the bottom) */}
+              {showPrograms && progList.slice(0, shown).map(({ p, u, idx }) => (
+                <ProgramUniCard key={u.short + "-" + idx} p={p} u={u} idx={idx} />
+              ))}
+              {!showPrograms && list.slice(0, shown).map((u, i) => {
                 const bannerBg = u.campus
                   ? { backgroundImage: `url(${u.campus})`, backgroundSize: "cover", backgroundPosition: "center" }
                   : { background: COUNTRY_PALETTE[u.country] || "#1a2a4a" };
@@ -1194,13 +1377,17 @@ function Universities() {
               })}
             </div>
 
-            {shown < list.length ? (
-              <button className="btn btn--dark unis__load" onClick={() => setShown(s => s + 6)}>
-                Загрузить ещё ({list.length - shown} вузов)
-              </button>
-            ) : list.length === 0 ? (
-              <div className="unis__empty">Ничего не нашлось — попробуй смягчить фильтры.</div>
-            ) : null}
+            {(() => {
+              const total = showPrograms ? progList.length : list.length;
+              const noun = showPrograms ? "программ" : "вузов";
+              return shown < total ? (
+                <button className="btn btn--dark unis__load" onClick={() => setShown(s => s + 6)}>
+                  Загрузить ещё ({total - shown} {noun})
+                </button>
+              ) : total === 0 ? (
+                <div className="unis__empty">Ничего не нашлось — попробуй смягчить фильтры.</div>
+              ) : null;
+            })()}
           </div>
         </div>
       </div>
