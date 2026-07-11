@@ -386,20 +386,19 @@
 }
 /* Elite unis — blue outline around the whole card + small star top-right */
 .uni--elite {
-  border: 4px solid var(--blue-2);
-  box-shadow: 0 6px 24px rgba(74,143,199,.22);
+  border: 5px solid var(--navy);
+  box-shadow: 0 6px 24px rgba(6,64,102,.25);
 }
-.uni--elite:hover { box-shadow: 0 18px 48px -12px rgba(74,143,199,.4); }
+.uni--elite:hover { box-shadow: 0 18px 48px -12px rgba(6,64,102,.45); }
 .uni__elite-star {
   position: absolute; top: 10px; right: 10px; z-index: 4;
   width: 24px; height: 24px; border-radius: 50%;
-  background: rgba(74,143,199,.25);
-  border: 1.5px solid rgba(74,143,199,.8);
+  background: var(--navy);
+  border: 1.5px solid rgba(255,255,255,.35);
   color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; line-height: 1;
-  box-shadow: 0 0 8px rgba(74,143,199,.45);
-  backdrop-filter: blur(4px);
+  box-shadow: 0 0 8px rgba(6,64,102,.5);
   cursor: default;
 }
 .uni__sticker {
