@@ -138,19 +138,15 @@ function injectGoogleTranslate() {
 }
 
 function Logo({ light }) {
-  const col = light ? "#fff" : "var(--navy)";
   return (
     <a href="index.html" className="logo" aria-label="Elite Academy KG">
-      <span className="logo__mark" aria-hidden="true">
-        <img
-          className="logo__img-mark"
-          src={light ? "images/logo-icon-white.png" : "images/logo-icon-dark.png"}
-          alt=""
-        />
-      </span>
-      <span className="logo__txt" style={{ color: col }}>
-        Elite <b>Academy</b>
-        <i>образование за рубежом</i>
+      <img
+        className="logo__full"
+        src={light ? "images/logo-full-white.png" : "images/logo-full-navy.png"}
+        alt="Elite Academy"
+      />
+      <span className="logo__tagline" style={{ color: light ? "rgba(255,255,255,.6)" : "var(--muted)" }}>
+        образование за рубежом
       </span>
     </a>
   );

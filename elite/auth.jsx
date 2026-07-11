@@ -5,7 +5,7 @@
    ============================================================ */
 
 const AUTH_KEY  = "ea_dev_auth";        // sessionStorage key
-const AUTH_HASH = "b7563f58f45bee9fc910d274a36cb3202e1c69b3084586fb30db421e71ac6ecd"; // sha256("Elite:elite2026")
+const AUTH_HASH = "f04a03268888d3a2ba3f0e233b34fd7338d968241e69859ae1c0927abadd2976";
 
 async function sha256(str) {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
@@ -13,7 +13,9 @@ async function sha256(str) {
 }
 
 function AuthGate({ children }) {
-  const [authed, setAuthed] = React.useState(() => sessionStorage.getItem(AUTH_KEY) === "1");
+  /* The session stores the hash it was opened with — changing AUTH_HASH
+     (i.e. the password) instantly invalidates every existing session. */
+  const [authed, setAuthed] = React.useState(() => sessionStorage.getItem(AUTH_KEY) === AUTH_HASH);
   const [login, setLogin]   = React.useState("");
   const [pass,  setPass]    = React.useState("");
   const [error, setError]   = React.useState("");
@@ -24,7 +26,7 @@ function AuthGate({ children }) {
     setError(""); setLoading(true);
     const hash = await sha256(login.trim() + ":" + pass);
     if (hash === AUTH_HASH) {
-      sessionStorage.setItem(AUTH_KEY, "1");
+      sessionStorage.setItem(AUTH_KEY, AUTH_HASH);
       setAuthed(true);
     } else {
       setError("Неверный логин или пароль");

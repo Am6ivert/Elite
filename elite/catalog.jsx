@@ -752,14 +752,14 @@ const COUNTRY_PALETTE = {
 
 /* Ключевые факультеты по профилю вуза — дефолт, переопределяется полем `faculties` в данных */
 const FIELD_FACULTIES = {
-  "IT":         ["Computer Science", "Data Science", "Кибербезопасность"],
-  "Business":     ["Business Administration", "Менеджмент", "Маркетинг"],
-  "Medicine":   ["Медицина", "Фармацевтика", "Сестринское дело"],
-  "Law":      ["Право", "Международные отношения", "Политология"],
-  "Engineering":  ["Инженерия", "Архитектура", "Робототехника"],
-  "Design":     ["Дизайн", "Мода", "Медиа и искусство"],
-  "Economics":  ["Экономика", "Финансы", "Банковское дело"],
-  "Education": ["Педагогика", "Психология", "Гуманитарные науки"],
+  "IT":         ["Computer Science", "Data Science", "Cybersecurity"],
+  "Business":     ["Business Administration", "Management", "Marketing"],
+  "Medicine":   ["Medicine", "Pharmacy", "Nursing"],
+  "Law":      ["Law", "International Relations", "Political Science"],
+  "Engineering":  ["Engineering", "Architecture", "Robotics"],
+  "Design":     ["Design", "Fashion", "Media & Arts"],
+  "Economics":  ["Economics", "Finance", "Banking"],
+  "Education": ["Education", "Psychology", "Humanities"],
 };
 
 /* ---------- Enrich: compute derived / default fields ---------- */
@@ -1124,7 +1124,7 @@ function Universities() {
         const pLevel = p.level || "bachelor";
         if (selLevel && pLevel !== PROG_LEVEL_RU[selLevel]) return;
         if (selFields.length > 0 && !selFields.some(f => progMatchesField(p, u, f))) return;
-        if (q && !((p.title || "").toLowerCase().includes(qLc) || u.name.toLowerCase().includes(qLc))) return;
+        if (q && !((p.title || "").toLowerCase().includes(qLc) || u.name.toLowerCase().includes(qLc) || PROG_TAGS(p.tags).some(t => t.toLowerCase().includes(qLc)))) return;
         progList.push({ p, u, idx });
       });
     });
@@ -1184,6 +1184,25 @@ function Universities() {
 
             <FilterSection label="Направление">
               {chips(selFields, setFields, FIELDS)}
+              {selFields.length > 0 && (
+                <div className="filter__subgroup">
+                  {selFields.map(f => (
+                    <div className="filter__sublist" key={f}>
+                      <span className="filter__sublist-title">{f}</span>
+                      <div className="filter__subchips">
+                        {(FIELD_FACULTIES[f] || []).map((fac, i) => (
+                          <button
+                            type="button"
+                            key={i}
+                            className={"filter__subchip" + (q.toLowerCase() === fac.toLowerCase() ? " is-on" : "")}
+                            onClick={() => setQ(cur => cur.toLowerCase() === fac.toLowerCase() ? "" : fac)}
+                          >{fac}</button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </FilterSection>
 
             <FilterSection label="Учебный год / семестр">
