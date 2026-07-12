@@ -313,14 +313,28 @@
 .filter__chip { padding: 8px 13px; border-radius: 999px; border: 1.5px solid var(--line); font-size: 13.5px; font-weight: 600; font-family: var(--font-head); color: var(--muted); transition: all .18s; }
 .filter__chip:hover { border-color: var(--blue); color: var(--blue); }
 .filter__chip.is-on { background: var(--navy); border-color: var(--navy); color: #fff; }
-/* Sub-list of faculties/majors shown under a selected "Направление" chip */
-.filter__subgroup { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
-.filter__sublist { padding-left: 12px; border-left: 2px solid var(--line); }
-.filter__sublist-title { display: block; font-size: 12px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
-.filter__subchips { display: flex; flex-wrap: wrap; gap: 6px; }
-.filter__subchip { padding: 5px 10px; border-radius: 999px; background: rgba(74,143,199,.1); font-size: 12.5px; color: var(--muted); border: 1px solid transparent; cursor: pointer; transition: all .15s; }
-.filter__subchip:hover { border-color: var(--blue-2); color: var(--blue); }
-.filter__subchip.is-on { background: var(--blue-2); border-color: var(--blue-2); color: #fff; }
+/* Dropdown of faculties/majors under a selected "Направление" chip (nav-style).
+   flex-basis:100% forces the panel onto its own row right below the clicked chip. */
+.filter__chip--dd { display: inline-flex; align-items: center; gap: 6px; }
+.filter__chip--dd svg { transition: transform .25s var(--ease); opacity: .7; flex-shrink: 0; }
+.filter__chip--dd.is-open svg { transform: rotate(180deg); }
+.filter__dd {
+  flex-basis: 100%;
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--white); border: 1.5px solid var(--line); border-radius: 12px;
+  box-shadow: 0 14px 30px -16px rgba(6,64,102,.35);
+  padding: 7px; margin: 2px 0 4px;
+  animation: filterDdIn .22s var(--ease);
+}
+@keyframes filterDdIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.filter__dd-item {
+  text-align: left; padding: 8px 11px; border-radius: 8px;
+  background: none; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  transition: background .15s, color .15s;
+}
+.filter__dd-item:hover { background: var(--light-bg); color: var(--blue); }
+.filter__dd-item.is-on { background: var(--navy); color: #fff; }
 /* Заголовки групп фильтров: «Сначала — программа» / «Затем — университет» */
 .filter__group {
   font-family: var(--font-head); font-weight: 800; font-size: 12px;

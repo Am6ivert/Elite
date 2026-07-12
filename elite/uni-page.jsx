@@ -150,6 +150,7 @@ function ProgramCard({ p, u, det, fmt }) {
             {p.location && <div className="pcard__loc">📍 {p.location}</div>}
             {tags.length > 0 && (
               <div className="pcard__tags">
+                <span className="pcard__tags-l">field:</span>
                 {tags.map((t, i) => <span className="pcard__tag" key={i}>{t}</span>)}
               </div>
             )}
@@ -157,8 +158,8 @@ function ProgramCard({ p, u, det, fmt }) {
         </div>
         <div className="pcard__meta">
           <span className="pcard__badge">{p.levelLabel || programLevelLabel(level)}</span>
-          {tuition && (<><span className="pcard__meta-l">Annual tuition</span><span className="pcard__meta-v">{tuition}</span></>)}
-          {p.funding && (<><span className="pcard__meta-l">Funding</span><span className="pcard__meta-v">{p.funding}</span></>)}
+          {tuition && (<span className="pcard__fin"><span className="pcard__fin-ic" aria-hidden="true">💵</span>{tuition}</span>)}
+          {p.funding && (<span className="pcard__fin"><span className="pcard__fin-ic" aria-hidden="true">💰</span>{p.funding}</span>)}
         </div>
       </header>
 
@@ -167,7 +168,12 @@ function ProgramCard({ p, u, det, fmt }) {
           <div className="pcard__col-h">About program</div>
           {p.paidEducation && (<div className="pcard__kv"><span className="pcard__kv-l">If paid education</span><span className="pcard__kv-v">{p.paidEducation}</span></div>)}
           {p.language && (<div className="pcard__kv"><span className="pcard__kv-l">Language of study</span><span className="pcard__kv-v">{p.language}</span></div>)}
-          {p.studyPlan && (<a className="pcard__link" href={p.studyPlan} target="_blank" rel="noopener">Study plan ↗</a>)}
+          {p.studyPlan && (
+            <div className="pcard__kv">
+              <span className="pcard__kv-l">Study plan</span>
+              <a className="pcard__link" href={p.studyPlan} target="_blank" rel="noopener">study plan ↗</a>
+            </div>
+          )}
           {p.about && <p className="pcard__about">{p.about}</p>}
         </div>
 
@@ -279,7 +285,7 @@ function FocusProgram({ u, det, fmt, all, idx }) {
           <>
             <h3 className="uprof-progfocus__sim-h">Похожие программы</h3>
             <div className="pcards__grid">
-              {similar.slice(0, 4).map((s, i) => (
+              {similar.slice(0, 6).map((s, i) => (
                 <ProgramCardCompact
                   key={s.u.short + "-" + s.i}
                   p={s.p} u={s.u} det={(window.EA_UNI_DETAILS || {})[s.u.short]} fmt={fmt}
@@ -319,10 +325,12 @@ function ProgramCards({ u, det, fmt }) {
           </button>
         </div>
       )}
-      <div className="pcards__grid">
-        {shown.map((p, i) => (
-          <ProgramCardCompact key={i} p={p} u={u} det={det} fmt={fmt} onMore={() => setOpen(p)} />
-        ))}
+      <div className="pcards__scroll">
+        <div className="pcards__grid">
+          {shown.map((p, i) => (
+            <ProgramCardCompact key={i} p={p} u={u} det={det} fmt={fmt} onMore={() => setOpen(p)} />
+          ))}
+        </div>
       </div>
       <a href="#cta" className="btn btn--dark pcards__cta">Проверить свои шансы на поступление →</a>
       {open && <ProgramModal p={open} u={u} det={det} fmt={fmt} onClose={() => setOpen(null)} />}
@@ -463,11 +471,6 @@ function UniversityProfile() {
         </div>
       </section>
 
-      {/* ===== Focused program (arrived from catalog program card) ===== */}
-      {focusProgram !== null && (
-        <FocusProgram u={u} det={det} fmt={fmt} all={allPrograms} idx={focusProgram} />
-      )}
-
       {/* ===== About — stats LEFT, text RIGHT ===== */}
       <section className="section section--tight uprof-about">
         <div className="wrap">
@@ -513,6 +516,12 @@ function UniversityProfile() {
           </div>
         </div>
       </section>
+
+      {/* ===== Focused program (arrived from catalog program card):
+             photos → about → the program card → similar programs ===== */}
+      {focusProgram !== null && (
+        <FocusProgram u={u} det={det} fmt={fmt} all={allPrograms} idx={focusProgram} />
+      )}
 
       {/* ===== Admission requirements table ===== */}
       <section className="section section--tight uprof-req">

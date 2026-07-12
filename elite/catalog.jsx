@@ -1036,6 +1036,7 @@ function Universities() {
   const [selCountries,setCntrs]   = useState(_INIT_COUNTRY ? [_INIT_COUNTRY] : []);
   const [selLevel,    setLevel]   = useState(_INIT_LEVEL);
   const [selFields,   setFields]  = useState(_INIT_FIELD   ? [_INIT_FIELD]   : []);
+  const [openField,   setOpenField] = useState(null); // направление с раскрытым списком факультетов
   const [selIntakes,  setIntakes] = useState([]);
   const [selEngTests, setEngTests]= useState([]);
   const [selExams,    setExams]   = useState([]);
@@ -1077,7 +1078,7 @@ function Universities() {
   );
 
   const reset = () => {
-    setQ(""); setPrice(70000); setFields([]); setCntrs([]); setLevel("");
+    setQ(""); setPrice(70000); setFields([]); setOpenField(null); setCntrs([]); setLevel("");
     setIntakes([]); setEngTests([]); setExams([]); setGpa(""); setType("");
     setBools({});
   };
@@ -1183,26 +1184,42 @@ function Universities() {
             </FilterSection>
 
             <FilterSection label="Направление">
-              {chips(selFields, setFields, FIELDS)}
-              {selFields.length > 0 && (
-                <div className="filter__subgroup">
-                  {selFields.map(f => (
-                    <div className="filter__sublist" key={f}>
-                      <span className="filter__sublist-title">{f}</span>
-                      <div className="filter__subchips">
-                        {(FIELD_FACULTIES[f] || []).map((fac, i) => (
-                          <button
-                            type="button"
-                            key={i}
-                            className={"filter__subchip" + (q.toLowerCase() === fac.toLowerCase() ? " is-on" : "")}
-                            onClick={() => setQ(cur => cur.toLowerCase() === fac.toLowerCase() ? "" : fac)}
-                          >{fac}</button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              {/* Клик по направлению открывает под ним выпадающий список
+                  факультетов (как дропдаун в нав-баре) */}
+              <div className="filter__chips">
+                {FIELDS.map(f => {
+                  const on = selFields.includes(f);
+                  const open = on && openField === f;
+                  const facs = FIELD_FACULTIES[f] || [];
+                  return (
+                    <React.Fragment key={f}>
+                      <button
+                        className={"filter__chip filter__chip--dd" + (on ? " is-on" : "") + (open ? " is-open" : "")}
+                        onClick={() => {
+                          if (!on) { setFields([...selFields, f]); setOpenField(f); }
+                          else if (!open) { setOpenField(f); }
+                          else { setFields(selFields.filter(x => x !== f)); setOpenField(null); }
+                        }}
+                      >
+                        {f}
+                        <svg width="9" height="9" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </button>
+                      {open && facs.length > 0 && (
+                        <div className="filter__dd">
+                          {facs.map((fac, i) => (
+                            <button
+                              type="button"
+                              key={i}
+                              className={"filter__dd-item" + (q.toLowerCase() === fac.toLowerCase() ? " is-on" : "")}
+                              onClick={() => setQ(cur => cur.toLowerCase() === fac.toLowerCase() ? "" : fac)}
+                            >{fac}</button>
+                          ))}
+                        </div>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
             </FilterSection>
 
             <FilterSection label="Учебный год / семестр">
