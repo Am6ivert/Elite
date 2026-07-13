@@ -1159,8 +1159,8 @@ function Universities() {
     <section className="section unis" id="universities">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Каталог</span>
-          <h2>База университетов</h2>
+          <span className="eyebrow">{window.eaText("catalog.eyebrow")}</span>
+          <h2>{window.eaText("catalog.h2")}</h2>
           <p>В базе <b>{TOTAL_PROGRAMS}</b> программ в <b>{UNIS.length}</b> партнёрских вузах Elite Academy — отфильтруй под себя.</p>
         </div>
 

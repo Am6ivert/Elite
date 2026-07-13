@@ -143,9 +143,9 @@ function MediaFeed() {
     <section className="section section--tight mediafeed" id="videos">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Живые отзывы</span>
-          <h2>Они уже учатся за рубежом.<br/><span className="text-blue">Смотри и убеждайся.</span></h2>
-          <p>Реальные видео-отзывы наших студентов из Италии и США — без монтажа и сценариев.</p>
+          <span className="eyebrow">{window.eaText("reviews.eyebrow")}</span>
+          <h2>{window.eaText("reviews.h2a")}<br/><span className="text-blue">{window.eaText("reviews.h2b")}</span></h2>
+          <p>{window.eaText("reviews.sub")}</p>
         </div>
       </div>
       <div className="mediafeed__scroll-wrap" data-reveal data-delay="1">

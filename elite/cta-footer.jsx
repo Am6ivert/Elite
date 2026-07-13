@@ -75,8 +75,8 @@ function FinalCTA() {
       <div className="finalcta__mesh" aria-hidden="true"></div>
       <div className="wrap finalcta__inner">
         <div className="finalcta__head" data-reveal>
-          <span className="eyebrow eyebrow--light">Сделай первый шаг</span>
-          <h2>Через год ты можешь учиться за границей.<br/>Решение принимается сегодня.</h2>
+          <span className="eyebrow eyebrow--light">{window.eaText("cta.eyebrow")}</span>
+          <h2>{window.eaTextBr("cta.h2")}</h2>
         </div>
 
         <div className="finalcta__grid">
@@ -86,8 +86,8 @@ function FinalCTA() {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
               </div>
               <div>
-                <h3 className="pitch__t">Начни сейчас</h3>
-                <p>И уже через год ты в кампусе зарубежного университета — со стипендией и планом.</p>
+                <h3 className="pitch__t">{window.eaText("cta.pitch1t")}</h3>
+                <p>{window.eaText("cta.pitch1")}</p>
               </div>
             </div>
             <div className="pitch pitch--loss">
@@ -95,20 +95,20 @@ function FinalCTA() {
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
               <div>
-                <h3 className="pitch__t">Или потеряешь ещё год</h3>
-                <p>Каждый год студенты ждут «подходящего момента» и теряют год. Следующий набор открыт сейчас.</p>
+                <h3 className="pitch__t">{window.eaText("cta.pitch2t")}</h3>
+                <p>{window.eaText("cta.pitch2")}</p>
               </div>
             </div>
             <div className="finalcta__guarantee">
-              <span>✓</span> 1500+ студентов уже сделали этот выбор
+              <span>✓</span> {window.eaText("cta.guarantee")}
             </div>
           </div>
 
           <div className="finalcta__form-wrap card" data-reveal data-delay="1">
             {!sent ? (
               <>
-                <h3 className="finalcta__form-t">Бесплатная консультация</h3>
-                <p className="finalcta__form-sub">Оставь контакты — перезвоним и составим план поступления.</p>
+                <h3 className="finalcta__form-t">{window.eaText("cta.formT")}</h3>
+                <p className="finalcta__form-sub">{window.eaText("cta.formSub")}</p>
                 <form className="finalcta__form" onSubmit={handleSubmit}>
                   <input required placeholder="Имя" value={name} onChange={e => setName(e.target.value)} />
                   <input required placeholder="+996(___)-___-___" inputMode="tel" value={phone} onChange={handlePhone} />

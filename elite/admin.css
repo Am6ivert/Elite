@@ -256,6 +256,8 @@ body { background: var(--gray-100); }
 .mslot__status { padding: 0 12px 8px; font-size: 12px; font-weight: 600; }
 .mslot__ok  { color: #16a34a; }
 .mslot__err { color: #c0392b; word-break: break-word; }
+.mslot__warn { color: #b45309; word-break: break-word; }
+video.mslot__img { background: #000; object-fit: contain; }
 .mslot__hint { padding: 0 12px 10px; font-size: 11px; color: var(--muted); word-break: break-all; }
 
 /* ---------- Req table editor ---------- */

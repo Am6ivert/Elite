@@ -112,17 +112,32 @@ function fileToBase64(file) {
   });
 }
 
-function UploadSlot({ label, path, token, branch, accept = "image/jpeg,image/png,image/webp", hint, onSuccess }) {
+function UploadSlot({ label, path, token, branch, accept = "image/jpeg,image/png,image/webp", hint, onSuccess, video }) {
   const [file, setFile] = React.useState(null);
   const [preview, setPreview] = React.useState(null);
   const [st, setSt] = React.useState(null);
   const [err, setErr] = React.useState(null);
+  const [warn, setWarn] = React.useState(null);
   const [imgOk, setImgOk] = React.useState(true);
+  const fmtMB = (b) => (b / 1024 / 1024).toFixed(1) + " МБ";
 
   function onFile(e) {
     const f = e.target.files[0];
     if (!f) return;
-    setFile(f); setSt(null); setErr(null);
+    setSt(null); setErr(null); setWarn(null);
+    /* GitHub API не примет очень большие файлы; телефонные видео надо сжимать */
+    if (f.size > 45 * 1024 * 1024) {
+      setErr("Файл " + fmtMB(f.size) + " — слишком большой (макс. 45 МБ). Сожми видео перед загрузкой.");
+      e.target.value = "";
+      return;
+    }
+    if (video && f.size > 10 * 1024 * 1024) {
+      setWarn("Видео " + fmtMB(f.size) + " — тяжёлое. Лучше сжать до MP4 (H.264), иначе на сайте возможны лаги и рассинхрон звука.");
+    }
+    if (video && !/\.mp4$/i.test(f.name)) {
+      setWarn("Файл не .mp4 — на сайте может не воспроизвестись. Конвертируй в MP4 (H.264).");
+    }
+    setFile(f);
     const r = new FileReader();
     r.onload = () => setPreview(r.result);
     r.readAsDataURL(f);
@@ -147,16 +162,20 @@ function UploadSlot({ label, path, token, branch, accept = "image/jpeg,image/png
       <div className="mslot__code">{path}</div>
       <div className="mslot__thumb">
         {preview
-          ? <img src={preview} className="mslot__img" alt="" />
+          ? (video
+              ? <video src={preview} className="mslot__img" controls muted playsInline />
+              : <img src={preview} className="mslot__img" alt="" />)
           : imgOk
-            ? <img src={path} className="mslot__img" alt="" onError={() => setImgOk(false)} />
+            ? (video
+                ? <video src={path} className="mslot__img" controls muted playsInline preload="metadata" onError={() => setImgOk(false)} />
+                : <img src={path} className="mslot__img" alt="" onError={() => setImgOk(false)} />)
             : <div className="mslot__empty">нет файла</div>
         }
       </div>
       <div className="mslot__row">
         <label className="abtn mslot__pick">
           {file ? (file.name.length > 18 ? file.name.slice(0, 16) + "…" : file.name) : "Выбрать файл"}
-          <input type="file" accept={accept} onChange={onFile} style={{ display: "none" }} />
+          <input type="file" accept={video ? "video/mp4,video/quicktime,video/*" : accept} onChange={onFile} style={{ display: "none" }} />
         </label>
         {file && (
           <button className="abtn abtn--primary" onClick={upload} disabled={st === "busy"}>
@@ -164,6 +183,7 @@ function UploadSlot({ label, path, token, branch, accept = "image/jpeg,image/png
           </button>
         )}
       </div>
+      {warn && <div className="mslot__status mslot__warn">⚠ {warn}</div>}
       {st === "ok" && <div className="mslot__status mslot__ok">✓ Загружено</div>}
       {st === "err" && <div className="mslot__status mslot__err">{err}</div>}
       {hint && <div className="mslot__hint">{hint}</div>}
@@ -225,6 +245,7 @@ function buildInitial() {
     team: clone(window.EA_TEAM || { text: "", badges: [] }),
     office: clone(window.EA_OFFICE || {}),
     accreds: clone(window.EA_ACCREDS || []),
+    texts: clone((window.eaContent && window.eaContent("texts", {})) || {}),
   };
 }
 
@@ -258,6 +279,7 @@ function buildContent(s) {
     storyCards: s.storyCards, storyGrid: s.storyGrid,
     videos: s.videos, posts: s.posts,
     about: s.about, team: s.team, office: s.office, accreds: s.accreds,
+    texts: s.texts || {},
   };
 }
 
@@ -391,9 +413,9 @@ function UnisEditor({ list, setList, token, branch }) {
                   <UploadSlot key={idx} label={lbl} path={"images/unis/" + uSlug + "/" + (idx + 1) + ".jpg"} token={token} branch={branch} />
                 ))}
               </div>
-              <div className="ahint">
-                Видео-тур: загружай напрямую в GitHub →{" "}
-                <code>videos/unis/{uSlug}/tour.mp4</code>
+              <div className="ahint" style={{ marginBottom: 12 }}>Видео-тур по кампусу (MP4, H.264, до 45 МБ):</div>
+              <div className="mgrid">
+                <UploadSlot video label="Видео-тур" path={"videos/unis/" + uSlug + "/tour.mp4"} token={token} branch={branch} hint="Телефонное видео сначала сожми в MP4 (H.264)" />
               </div>
             </div>
           ) : (
@@ -801,9 +823,57 @@ function ProgramsEditor({ programs, onChange }) {
 }
 
 /* ============================================================
+   SITE TEXTS EDITOR — every heading/label registered in texts.js
+   ============================================================ */
+function TextsEditor({ texts, setTexts }) {
+  const schema = window.EA_TEXT_SCHEMA || [];
+  const DEF = window.EA_TEXT_DEFAULTS || {};
+  const upd = (k, v) => {
+    const next = { ...texts };
+    if (v === "" || v === DEF[k]) delete next[k];   // пусто/как стандарт — без правки
+    else next[k] = v;
+    setTexts(next);
+  };
+  const changed = Object.keys(texts || {}).length;
+  return (
+    <div className="aform" style={{ maxWidth: 900 }}>
+      <div className="aform__head">
+        <h3>📝 Тексты сайта</h3>
+        {changed > 0 && <span className="atop__draft">изменено: {changed}</span>}
+      </div>
+      <div className="ahint" style={{ marginBottom: 6 }}>
+        Здесь все заголовки и подписи разделов. Пустое поле = стандартный текст (показан серым).
+        Перенос строки в длинных полях = перенос строки на сайте.
+      </div>
+      {schema.map((g) => (
+        <div key={g.group}>
+          <div className="aform__divider">{g.group}</div>
+          <div className="aform__grid">
+            {g.items.map((it) => {
+              const cur = (texts || {})[it.k];
+              const val = cur !== undefined ? cur : "";
+              return it.area ? (
+                <F key={it.k} l={it.l} wide>
+                  <textarea rows={3} value={val} placeholder={DEF[it.k]} onChange={(e) => upd(it.k, e.target.value)} />
+                </F>
+              ) : (
+                <F key={it.k} l={it.l} wide>
+                  <input value={val} placeholder={DEF[it.k]} onChange={(e) => upd(it.k, e.target.value)} />
+                </F>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ============================================================
    MAIN APP
    ============================================================ */
 const SECTIONS = [
+  ["texts", "📝 Тексты"],
   ["unis", "🎓 Вузы"],
   ["countries", "🌍 Страны"],
   ["stories", "💬 Истории"],
@@ -912,7 +982,7 @@ function PublishSettings({ token, setToken, branch, setBranch, onExport }) {
 /* ============================================================
    MEDIA EDITOR — upload photos for all sections via GitHub API
    ============================================================ */
-function MediaEditor({ token, branch, state, setPosts, setSection }) {
+function MediaEditor({ token, branch, state, setPosts, setStoryGrid, setStoryCards, setVideos, setSection }) {
   const [tab, setTab] = React.useState("team");
   const [cSel, setCSel] = React.useState(0);
   const [uQ, setUQ] = React.useState("");
@@ -923,8 +993,11 @@ function MediaEditor({ token, branch, state, setPosts, setSection }) {
     ["countries", "Страны"],
     ["unis",      "Вузы"],
     ["students",  "Студенты"],
+    ["videos",    "Видео-отзывы"],
     ["blog",      "Блог"],
   ];
+  /* slug для имени файла: латиница/цифры из имени, кириллица как есть */
+  const nameSlug = (n) => String(n || "video").trim().toLowerCase().replace(/\s+/g, "-");
 
   const uSlug = (u) => u.short.toLowerCase().replace(/[^a-z0-9]+/g, "");
   const filteredUnis = React.useMemo(() => {
@@ -1070,19 +1143,90 @@ function MediaEditor({ token, branch, state, setPosts, setSection }) {
       {tab === "students" && (
         <div>
           <div className="ahint" style={{ marginBottom: 16 }}>
-            Превью-фото для карточек видео-отзывов студентов. Размер: 400 × 400 px (квадрат), JPG.<br />
-            Видео добавляй через раздел «Видео-отзывы», пути прописывай там же.
+            У каждого студента — превью-фото (400×400, JPG) и видео (MP4, H.264).
+            После загрузки путь к файлу сам записывается в карточку — нажми «💾 Сохранить» вверху.<br />
+            <b>Видео с телефона перед загрузкой сожми в MP4 (H.264)</b> — иначе на сайте будут лаги и звук разойдётся с картинкой.
           </div>
           <div className="mgrid">
-            {state.storyGrid.map((g, i) => (
-              <UploadSlot
-                key={i}
-                label={g.n}
-                path={g.poster || ("thumbs/" + g.n.toLowerCase() + ".jpg")}
-                token={token} branch={branch}
-                hint={g.video ? "Видео: " + g.video : undefined}
-              />
-            ))}
+            {state.storyGrid.map((g, i) => {
+              const posterPath = g.poster || ("thumbs/" + nameSlug(g.n) + ".jpg");
+              const videoPath = g.video || ("videos/" + nameSlug(g.n) + ".mp4");
+              return (
+                <React.Fragment key={i}>
+                  <UploadSlot
+                    label={g.n + " · фото"}
+                    path={posterPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setStoryGrid(state.storyGrid.map((x, j) => j === i ? { ...x, poster: p } : x))}
+                  />
+                  <UploadSlot
+                    video
+                    label={g.n + " · видео"}
+                    path={videoPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setStoryGrid(state.storyGrid.map((x, j) => j === i ? { ...x, video: p } : x))}
+                  />
+                </React.Fragment>
+              );
+            })}
+          </div>
+          <div className="aform__divider" style={{ marginTop: 24 }}>Карусель больших историй</div>
+          <div className="mgrid">
+            {state.storyCards.map((s, i) => {
+              const posterPath = s.poster || ("thumbs/" + nameSlug(s.name) + ".jpg");
+              const videoPath = s.videoSrc || ("videos/" + nameSlug(s.name) + ".mp4");
+              return (
+                <React.Fragment key={i}>
+                  <UploadSlot
+                    label={s.name + " · фото"}
+                    path={posterPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setStoryCards(state.storyCards.map((x, j) => j === i ? { ...x, poster: p } : x))}
+                  />
+                  <UploadSlot
+                    video
+                    label={s.name + " · видео"}
+                    path={videoPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setStoryCards(state.storyCards.map((x, j) => j === i ? { ...x, videoSrc: p } : x))}
+                  />
+                </React.Fragment>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Видео-отзывы (лента на главной) */}
+      {tab === "videos" && (
+        <div>
+          <div className="ahint" style={{ marginBottom: 16 }}>
+            Видео-отзывы из ленты на главной. Формат: MP4 (H.264), вертикальное 9:16, до 45 МБ.
+            Путь после загрузки сам записывается в карточку — нажми «💾 Сохранить» вверху.<br />
+            <b>Видео с телефона перед загрузкой сожми</b> — иначе возможны лаги и рассинхрон звука.
+          </div>
+          <div className="mgrid">
+            {state.videos.map((v, i) => {
+              const posterPath = v.poster || ("thumbs/" + nameSlug(v.name) + ".jpg");
+              const videoPath = v.src || ("videos/" + nameSlug(v.name) + ".mp4");
+              return (
+                <React.Fragment key={i}>
+                  <UploadSlot
+                    label={v.name + " · превью"}
+                    path={posterPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setVideos(state.videos.map((x, j) => j === i ? { ...x, poster: p } : x))}
+                  />
+                  <UploadSlot
+                    video
+                    label={v.name + " · видео"}
+                    path={videoPath}
+                    token={token} branch={branch}
+                    onSuccess={(p) => setVideos(state.videos.map((x, j) => j === i ? { ...x, src: p } : x))}
+                  />
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       )}
@@ -1231,6 +1375,7 @@ function AdminApp() {
         </nav>
 
         <main className="amain">
+          {section === "texts" && <TextsEditor texts={state.texts} setTexts={set("texts")} />}
           {section === "unis" && <UnisEditor list={state.unis} setList={set("unis")} token={ghToken} branch={ghBranch} />}
           {section === "countries" && <CountriesEditor list={state.countries} setList={setCountries} />}
           {section === "stories" && (
@@ -1279,7 +1424,11 @@ function AdminApp() {
             </>
           )}
           {section === "media" && (
-            <MediaEditor token={ghToken} branch={ghBranch} state={state} setPosts={set("posts")} setSection={setSection} />
+            <MediaEditor
+              token={ghToken} branch={ghBranch} state={state}
+              setPosts={set("posts")} setStoryGrid={set("storyGrid")} setStoryCards={set("storyCards")} setVideos={set("videos")}
+              setSection={setSection}
+            />
           )}
           {section === "publish" && (
             <PublishSettings token={ghToken} setToken={setGhToken} branch={ghBranch} setBranch={setGhBranch} onExport={exportFile} />

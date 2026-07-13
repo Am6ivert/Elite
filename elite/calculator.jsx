@@ -62,9 +62,9 @@ function SavingsCalculator() {
     <section className="section calc" id="calc">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Калькулятор</span>
-          <h2>Сколько реально стоит<br/>учёба за рубежом с Elite?</h2>
-          <p>Цифры по данным 1500+ студентов, поступивших с нашей помощью.</p>
+          <span className="eyebrow">{window.eaText("calc.eyebrow")}</span>
+          <h2>{window.eaTextBr("calc.h2")}</h2>
+          <p>{window.eaText("calc.sub")}</p>
         </div>
 
         <div className="calc__layout">

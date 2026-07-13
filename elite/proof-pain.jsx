@@ -101,8 +101,8 @@ function PainSolution() {
     <section className="section pain">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Почему Elite Academy</span>
-          <h2>Не просто агентство —<br/><span className="text-blue">твоя команда поступления</span></h2>
+          <span className="eyebrow">{window.eaText("pain.eyebrow")}</span>
+          <h2>{window.eaText("pain.h2a")}<br/><span className="text-blue">{window.eaText("pain.h2b")}</span></h2>
         </div>
 
         <div className="pain__accordion-wrap">
@@ -211,8 +211,8 @@ function Countries() {
     <section className="section countries" id="countries-section">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Направления</span>
-          <h2>Выбери страну<br/><span className="text-blue">своей мечты</span></h2>
+          <span className="eyebrow">{window.eaText("countries.eyebrow")}</span>
+          <h2>{window.eaText("countries.h2a")}<br/><span className="text-blue">{window.eaText("countries.h2b")}</span></h2>
         </div>
       </div>
       <div className="wrap">

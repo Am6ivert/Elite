@@ -139,11 +139,18 @@ function Counter({ to, suffix = "", duration = 1600 }) {
   return <span ref={ref}>{val}{suffix}</span>;
 }
 
+/* Числа статистики редактируются в админке («📝 Тексты»): "1500+" → счётчик до 1500 с суффиксом "+" */
+const _heroStat = (nKey, lKey) => {
+  const raw = String(window.eaText(nKey));
+  const m = raw.match(/^(\d[\d\s]*?)(\s*\D[\s\S]*)?$/);
+  const to = m ? parseInt(m[1].replace(/\s+/g, ""), 10) : 0;
+  return { to: isNaN(to) ? 0 : to, suffix: (m && m[2]) || "", label: window.eaText(lKey) };
+};
 const HERO_STATS = [
-  { to: 1500, suffix: "+", label: "студентов\nотправлено" },
-  { to: 500,  suffix: "+", label: "партнёрских\nвузов" },
-  { to: 7,    suffix: "",  label: "стран\nнаправлений" },
-  { to: 5,    suffix: " лет", label: "на рынке\nобразования" },
+  _heroStat("hero.stat1n", "hero.stat1l"),
+  _heroStat("hero.stat2n", "hero.stat2l"),
+  _heroStat("hero.stat3n", "hero.stat3l"),
+  _heroStat("hero.stat4n", "hero.stat4l"),
 ];
 
 function TeamPhoto() {
@@ -186,21 +193,20 @@ function Hero() {
         <div className="hero__left">
           <div className="hero__badge" data-reveal>
             <span className="hero__badge-dot"></span>
-            Аккредитовано ICEF · 1500+ студентов за рубежом
+            {window.eaText("hero.badge")}
           </div>
 
           <h1 className="hero__h1" data-reveal data-delay="1">
-            <span className="grad-gold">Твой путь</span><br/>к обучению за рубежом
+            <span className="grad-gold">{window.eaText("hero.h1a")}</span><br/>{window.eaText("hero.h1b")}
           </h1>
 
           <p className="hero__sub" data-reveal data-delay="2">
-            Помогаем студентам из Кыргызстана поступить в университеты США, Европы и Азии
-            с частичным или полным грантом. Действуй сегодня — улетай завтра.
+            {window.eaText("hero.sub")}
           </p>
 
           <div className="hero__cta" data-reveal data-delay="3">
-            <a href="#cta" className="btn btn--gold btn--lg">Получить консультацию бесплатно</a>
-            <a href="#quiz" className="btn btn--ghost-light btn--lg">Узнать свои шансы →</a>
+            <a href="#cta" className="btn btn--gold btn--lg">{window.eaText("hero.cta1")}</a>
+            <a href="#quiz" className="btn btn--ghost-light btn--lg">{window.eaText("hero.cta2")}</a>
           </div>
 
           <div className="hero__stats" data-reveal data-delay="5">

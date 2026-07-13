@@ -74,8 +74,8 @@ function Programs() {
     <section className="section section--tight programs" id="programs">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow">Программы обучения</span>
-          <h2>Найди формат под свою цель</h2>
+          <span className="eyebrow">{window.eaText("prog.eyebrow")}</span>
+          <h2>{window.eaText("prog.h2")}</h2>
         </div>
 
         <div className="programs__who" data-reveal>
@@ -162,8 +162,8 @@ function Exams() {
     <section className="section exams" id="exams">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow eyebrow--gold">Экзамены и тесты</span>
-          <h2>Какой тест нужен для поступления?</h2>
+          <span className="eyebrow eyebrow--gold">{window.eaText("exams.eyebrow")}</span>
+          <h2>{window.eaText("exams.h2")}</h2>
         </div>
 
         <div className="exams__hero card" data-reveal>
@@ -268,9 +268,9 @@ function EnglishLevelTest() {
     <section className="section section--tight elt" id="english-level">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow eyebrow--gold">Бесплатный тест</span>
-          <h2>Проверь свой уровень английского</h2>
-          <p className="section-sub">6 вопросов · 2 минуты · результат со списком программ</p>
+          <span className="eyebrow eyebrow--gold">{window.eaText("engtest.eyebrow")}</span>
+          <h2>{window.eaText("engtest.h2")}</h2>
+          <p className="section-sub">{window.eaText("engtest.sub")}</p>
         </div>
 
         <div className="elt__card card" data-reveal>

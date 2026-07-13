@@ -85,9 +85,9 @@ function Scholarships() {
     <section className="section scholar" id="scholarships">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow eyebrow--gold">Стипендии и гранты</span>
-          <h2>Учёба за границей может стоить дешевле,<br/>чем в Бишкеке</h2>
-          <p>Реальные суммы скидок и стипендий наших студентов:</p>
+          <span className="eyebrow eyebrow--gold">{window.eaText("schol.eyebrow")}</span>
+          <h2>{window.eaTextBr("schol.h2")}</h2>
+          <p>{window.eaText("schol.sub")}</p>
         </div>
 
         <div className="scholar__filters" data-reveal>
@@ -159,9 +159,9 @@ function HowWeWork() {
     <section className="section dark grain how" id="how">
       <div className="wrap">
         <div className="section-head" data-reveal>
-          <span className="eyebrow eyebrow--light">Как мы работаем</span>
-          <h2>Твой путь из Бишкека<br/>в зарубежный университет — 6 шагов</h2>
-          <p className="how__motto">Мы рядом на каждом этапе — от первой консультации до первого дня в кампусе.</p>
+          <span className="eyebrow eyebrow--light">{window.eaText("how.eyebrow")}</span>
+          <h2>{window.eaTextBr("how.h2")}</h2>
+          <p className="how__motto">{window.eaText("how.sub")}</p>
         </div>
 
         <div className="timeline">
