@@ -1026,6 +1026,23 @@ function ProgramUniCard({ p, u, idx }) {
   );
 }
 
+/* Faculties that actually match at least one program — used to hide
+   dead-end options from the "Направление" dropdown (computed once). */
+const FACULTY_HAS_PROGRAMS = (() => {
+  const set = new Set();
+  const allFacs = [...new Set(Object.values(FIELD_FACULTIES).flat())];
+  allFacs.forEach(fac => {
+    const qf = fac.toLowerCase();
+    const hit = UNIS.some(u => eaUniPrograms(u).some(p =>
+      (p.title || "").toLowerCase().includes(qf) ||
+      u.name.toLowerCase().includes(qf) ||
+      PROG_TAGS(p.tags).some(t => t.toLowerCase().includes(qf))
+    ));
+    if (hit) set.add(fac);
+  });
+  return set;
+})();
+
 /* ============================================================
    MAIN COMPONENT
    ============================================================ */
@@ -1189,16 +1206,15 @@ function Universities() {
               <div className="filter__chips">
                 {FIELDS.map(f => {
                   const on = selFields.includes(f);
-                  const open = on && openField === f;
-                  const facs = FIELD_FACULTIES[f] || [];
+                  const open = openField === f;
+                  const facs = (FIELD_FACULTIES[f] || []).filter(fac => FACULTY_HAS_PROGRAMS.has(fac));
                   return (
                     <React.Fragment key={f}>
                       <button
                         className={"filter__chip filter__chip--dd" + (on ? " is-on" : "") + (open ? " is-open" : "")}
                         onClick={() => {
-                          if (!on) { setFields([...selFields, f]); setOpenField(f); }
-                          else if (!open) { setOpenField(f); }
-                          else { setFields(selFields.filter(x => x !== f)); setOpenField(null); }
+                          if (on) { setFields(selFields.filter(x => x !== f)); setOpenField(null); }
+                          else { setFields([...selFields, f]); setOpenField(f); }
                         }}
                       >
                         {f}

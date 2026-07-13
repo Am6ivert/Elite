@@ -183,7 +183,6 @@ function ProgramCard({ p, u, det, fmt }) {
             </div>
           )}
           {!p.studyPlan && p.studyPlanLabel && (<div className="pcard__kv"><span className="pcard__kv-l">Study plan</span><span className="pcard__kv-v">{p.studyPlanLabel}</span></div>)}
-          {p.about && <p className="pcard__about">{p.about}</p>}
         </div>
 
         <div className="pcard__col">
@@ -225,6 +224,12 @@ function ProgramCard({ p, u, det, fmt }) {
             : <p className="pcard__about">To be announced</p>}
         </div>
       </div>
+
+      {p.about && (
+        <div className="pcard__features">
+          <span className="pcard__features-l">Program features:</span> {p.about}
+        </div>
+      )}
     </article>
   );
 }

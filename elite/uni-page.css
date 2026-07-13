@@ -483,6 +483,14 @@
 
 .pcard__about { font-size: 14.5px; line-height: 1.6; color: var(--text); margin: 0; }
 
+/* Full-width "Program features" footer (the program description) */
+.pcard__features {
+  margin-top: 22px; padding-top: 20px;
+  border-top: 2px solid var(--line);
+  font-size: 14.5px; line-height: 1.65; color: var(--text);
+}
+.pcard__features-l { font-weight: 800; color: var(--navy); }
+
 .pcard__entrance {
   display: inline-flex; align-items: center; gap: 9px;
   font-weight: 700; font-size: 15px; padding: 9px 16px; border-radius: 999px;

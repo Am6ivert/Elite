@@ -268,13 +268,14 @@
 .quiz__result-lead b { color: var(--navy); }
 .quiz__matches-label { font-family: var(--font-head); font-weight: 700; font-size: 14px; color: var(--muted); margin-bottom: 12px; }
 .quiz__matches { position: relative; display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px; }
-.quiz__match { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; filter: blur(3px); opacity: .8; position: relative; }
+/* Blurred matches stay locked until the lead form is filled — block text selection/copy so the names can't be lifted */
+.quiz__match { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: var(--r-md); border: 1px solid var(--line); background: #fff; filter: blur(3px); opacity: .8; position: relative; user-select: none; -webkit-user-select: none; -ms-user-select: none; }
 .quiz__match-lock { position: absolute; right: 16px; font-size: 16px; filter: none; }
 .quiz__match-logo { width: 40px; height: 40px; border-radius: 9px; flex: 0 0 auto; }
 .quiz__match-name { font-family: var(--font-head); font-weight: 700; font-size: 15px; }
 .quiz__match-loc { font-size: 13px; color: var(--muted); }
 .quiz__match .chip { margin-left: auto; }
-.quiz__matches-blur { text-align: center; font-family: var(--font-head); font-weight: 700; font-size: 14px; color: var(--muted); filter: blur(2px); }
+.quiz__matches-blur { text-align: center; font-family: var(--font-head); font-weight: 700; font-size: 14px; color: var(--muted); filter: blur(2px); user-select: none; -webkit-user-select: none; -ms-user-select: none; }
 .quiz__lead { background: var(--light-bg); border-radius: var(--r-md); padding: 22px; }
 .quiz__lead-t { font-size: 15px; margin-bottom: 16px; }
 .quiz__lead-t b { color: var(--blue); }
