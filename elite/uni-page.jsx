@@ -160,7 +160,7 @@ function ProgramCard({ p, u, det, fmt }) {
           </div>
         </div>
         <div className="pcard__meta">
-          <span className="pcard__badge">{p.levelLabel || programLevelLabel(level)}</span>
+          <span className="pcard__badge"><span className="pcard__badge-ic" aria-hidden="true">🎓</span>{p.levelLabel || programLevelLabel(level)}</span>
           {tuition && (<span className="pcard__fin"><span className="pcard__fin-ic" aria-hidden="true">💵</span>{tuition}</span>)}
           {p.funding && (<span className="pcard__fin"><span className="pcard__fin-ic" aria-hidden="true">💰</span>{p.funding}</span>)}
           {p.scholarship && (
@@ -252,7 +252,7 @@ function ProgramCardCompact({ p, u, det, fmt, onMore }) {
           <h3 className="pcard-c__title">{p.title}</h3>
           {p.location && <div className="pcard-c__loc">📍 {p.location}</div>}
         </div>
-        <span className="pcard__badge">{p.levelLabel || programLevelLabel(level)}</span>
+        <span className="pcard__badge"><span className="pcard__badge-ic" aria-hidden="true">🎓</span>{p.levelLabel || programLevelLabel(level)}</span>
       </div>
       {tags.length > 0 && (
         <div className="pcard__tags pcard-c__tags">{tags.slice(0, 3).map((t, i) => <span className="pcard__tag" key={i}>{t}</span>)}</div>
