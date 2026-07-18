@@ -773,7 +773,7 @@ function enrich(u) {
   const cyprus   = u.country === "Северный Кипр";
 
   const intake = u.intake ?? (
-    italy   ? ["Осень","Весна"] :
+    italy   ? ["Осень"] :
     usa     ? ["Осень","Весна","Лето"] :
     (austria || germany) ? ["Осень","Зима"] :
     (malaysia || cyprus) ? ["Осень","Зима","Весна"] :
@@ -909,7 +909,7 @@ const FIELDS   = ["IT","Business","Medicine","Law","Engineering","Design","Econo
 const LEVELS   = ["Колледж","Foundation","Бакалавр","Магистр","PhD"];
 const INTAKES  = ["Осень","Зима","Весна","Лето"];
 const ENG_TESTS= ["TOEFL","IELTS","DET"];
-const INT_EXAMS= ["SAT","Cent-s/Tolc","IMAT"];
+const INT_EXAMS = [...new Set(UNIS.flatMap(u => u.exams || []))].filter(Boolean).sort();
 const GPA_OPTS = ["4/4","3/4","2.5/4","2/4"];
 const TYPES    = ["Государственный","Частный"];
 const COUNTRY_FLAGS = { "Италия":"🇮🇹","США":"🇺🇸","Северный Кипр":"🇨🇾","Малайзия":"🇲🇾","Германия":"🇩🇪","Польша":"🇵🇱","Австрия":"🇦🇹" };
@@ -1057,7 +1057,7 @@ function Universities() {
   const [selIntakes,  setIntakes] = useState([]);
   const [selEngTests, setEngTests]= useState([]);
   const [selExams,    setExams]   = useState([]);
-  const [selGpa,      setGpa]     = useState("");
+  const [selGpa,      setGpa]     = useState(4);
   const [selType,     setType]    = useState("");
   const [bools,       setBools]   = useState({});
   const [sort,        setSort]    = useState("pop");
@@ -1096,7 +1096,7 @@ function Universities() {
 
   const reset = () => {
     setQ(""); setPrice(70000); setFields([]); setOpenField(null); setCntrs([]); setLevel("");
-    setIntakes([]); setEngTests([]); setExams([]); setGpa(""); setType("");
+    setIntakes([]); setEngTests([]); setExams([]); setGpa(4); setType("");
     setBools({});
   };
 
@@ -1114,7 +1114,7 @@ function Universities() {
     if (selIntakes.length   > 0 && !selIntakes.some(i  => u.intake.includes(i)))    return false;
     if (selEngTests.length  > 0 && !selEngTests.some(t  => u.engTests.includes(t))) return false;
     if (selExams.length     > 0 && !selExams.some(e    => u.exams.includes(e)))     return false;
-    if (selGpa && GPA_ORDER[u.gpaMin] > GPA_ORDER[selGpa]) return false;
+    if (selGpa < 4 && GPA_ORDER[u.gpaMin] > selGpa) return false;
     if (selType && u.type !== selType) return false;
     if (bools.needBased    && !u.needBased)    return false;
     if (bools.meritBased   && !u.meritBased)   return false;
@@ -1285,7 +1285,17 @@ function Universities() {
             </FilterSection>
 
             <FilterSection label="Минимальный GPA">
-              {chipsSingle(selGpa, setGpa, GPA_OPTS)}
+              <div className="filter__price-row">
+                <span className="filter__price-pre">мой GPA</span>
+                <span className="filter__price-input" style={{fontWeight:700,minWidth:36,textAlign:"center"}}>
+                  {selGpa >= 4 ? "—" : selGpa.toFixed(1)}
+                </span>
+                <span className="filter__price-yr">/4</span>
+              </div>
+              <input type="range" min="2" max="4" step="0.5" value={selGpa}
+                onChange={e => setGpa(+e.target.value)}
+                className="filter__range" />
+              <div className="filter__range-ends"><span>2.0</span><span>4.0 (все)</span></div>
             </FilterSection>
 
             <div className="filter filter--checks">

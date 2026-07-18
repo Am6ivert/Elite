@@ -439,6 +439,7 @@ function UniversityProfile() {
 
   /* ?p=N — a specific program picked in the catalog */
   const allPrograms = window.eaUniPrograms(u);
+
   const progIdx = parseInt(params.get("p"), 10);
   const focusProgram = Number.isInteger(progIdx) && allPrograms[progIdx] ? progIdx : null;
 
@@ -492,20 +493,6 @@ function UniversityProfile() {
             </div>
 
             <div className="uprof-hero__aside card">
-              <div className="uprof__price-l">Обучение в год</div>
-              <div className="uprof__price">{fmt(u.price)}</div>
-              {(u.meritBased || u.needBased) && (
-                <div className="uprof__schol">
-                  {u.meritBased && <span className="uprof__schol-tag">Стипендия</span>}
-                  {u.needBased && <span className="uprof__schol-tag uprof__schol-tag--grant">Грант</span>}
-                </div>
-              )}
-              {u.appFee > 0 && (
-                <div className="uprof__aside-micro" style={{marginBottom:6}}>Взнос за подачу: €{u.appFee}</div>
-              )}
-              {u.appFee === 0 && (
-                <div className="uprof__aside-micro" style={{marginBottom:6}}>Взнос за подачу: бесплатно</div>
-              )}
               <a href="#cta" className="btn btn--gold btn--block">Поступить с Elite →</a>
               <div className="uprof__aside-micro">Бесплатная консультация · план поступления</div>
             </div>
